@@ -1,0 +1,49 @@
+name: Publish testbed page
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency: publish-testbed-page
+
+jobs:
+  publish-testbed-page:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3
+
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+
+      - name: Install Project 📦
+        shell: bash
+        run: npm ci
+
+      - name: Install latest Green Core
+        run: npm install @sebgroup/green-core@latest
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Copy index.html to 404.html
+        run: cp dist/index.html dist/404.html # This is for GitHub Pages to work with client-side routing.
+
+      - name: Create green-version.json
+        run: |
+          echo "$(npm show @sebgroup/green-core version)" > dist/green-version.txt
+
+      - name: Deploy built storybooks to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.

@@ -1,0 +1,7 @@
+node_modules/*
+*.err
+*.log
+.env
+
+dist/*
+tmp/*

@@ -1,0 +1,49 @@
+name: WebdriverIO Browserstack Execution Workflow
+
+on:
+  workflow_dispatch:
+
+concurrency: wdio-bs-exec-workflow
+
+jobs:
+  wdio-browserstack-service-example-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v3
+
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+
+      - name: Install Project 📦
+        shell: bash
+        run: npm ci
+
+      - name: Store Green Core version in variable
+        id: green-core-version
+        run: |
+          echo "::set-output name=green-core-version::$(curl -s https://seb-oss.github.io/green-testbed/green-version.txt)"
+
+      - name: Run Tests Using WebdriverIO Browserstack Service
+        env:
+          ACTIONS_RUNNER_DEBUG: true
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          TESTBED_URL: "https://seb-oss.github.io/green-testbed"
+          BROWSERSTACK_BUILD_NAME: "Green Core v${{ steps.green-core-version.outputs.green-core-version }} Test Run"
+        run: |
+          npm run test
+
+      # If tests fail, save diffs to artifact
+      - name: Save Diffs to Artifact
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diffs
+          path: ./tmp/diff
+
+      - name: Print summary
+        run: echo 'Tests has been Executed' >> "$GITHUB_STEP_SUMMARY"
