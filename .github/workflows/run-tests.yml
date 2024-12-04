@@ -2,6 +2,7 @@ name: WebdriverIO Browserstack Execution Workflow
 
 on:
   workflow_dispatch:
+  deployment:
 
 concurrency: wdio-bs-exec-workflow
 
