@@ -4,7 +4,15 @@ on:
   push:
     branches:
       - main
+
   workflow_dispatch:
+    inputs:
+      npm_tag:
+        description: "NPM tag of @sebgroup/green-core to install"
+        default: "latest"
+
+  repository_dispatch:
+    types: [trigger-workflow]
 
 concurrency: publish-testbed-page
 
@@ -29,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Install latest Green Core
-        run: npm install @sebgroup/green-core@latest
+        run: npm install @sebgroup/green-core@${{ github.event.client_payload.npm_tag || github.event.inputs.npm_tag || 'latest' }}
 
       - name: Build Project
         run: npm run build
