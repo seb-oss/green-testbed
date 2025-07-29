@@ -154,8 +154,13 @@ export const config: WebdriverIO.Config = {
   services: [
     [
       "browserstack",
+      { browserstackLocal: true, opts: { forcelocal: false } },
       {
-        testObservability: false,
+        testObservabilityOptions: {
+          buildName: build_name,
+          projectName: "Green Design System - Core library",
+          //buildTag: 'Any build tag goes here. For e.g. ["Tag1","Tag2"]',
+        },
       },
     ],
     [
