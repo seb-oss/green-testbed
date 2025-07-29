@@ -20,6 +20,7 @@
   },
   "scripts": {
     "test": "wdio run ./wdio.conf.ts",
+    "test-update-baselines": "wdio run ./wdio.conf.ts --update-visual-baseline",
     "test-local": "wdio run ./wdio.local.conf.ts",
     "test-local-update-baselines": "wdio run ./wdio.local.conf.ts --update-visual-baseline",
     "dev": "vite",
