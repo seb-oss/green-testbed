@@ -31,15 +31,6 @@ jobs:
         run: |
           echo "::set-output name=green-core-version::$(curl -s https://seb-oss.github.io/green-testbed/green-version.txt)"
 
-      - name: Store PR number in variable
-        id: source-pr
-        run: |
-          if [ -f dist/source-pr.txt ]; then
-            echo "::set-output name=source-pr::$(cat dist/source-pr.txt)"
-          else
-            echo "::set-output name=source-pr::"
-          fi
-
       - name: Run Tests Using WebdriverIO Browserstack Service
         env:
           ACTIONS_RUNNER_DEBUG: true
@@ -60,16 +51,3 @@ jobs:
 
       - name: Print summary
         run: echo 'Tests has been Executed' >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Add comment on source PR on the seb-oss/green repo
-        if: github.event.workflow_run.conclusion == 'success' && steps.source-pr.outputs.source-pr != ''
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          issue-number: ${{ steps.source-pr.outputs.source-pr }}
-          body: |
-            Tests have been executed successfully on Browserstack for Green Core v${{ steps.green-core-version.outputs.green-core-version }}.
-            [View the results](https://github.com/seb-oss/green-testbed/actions/runs/${{ github.run_id }})
-          token: ${{ secrets.GITHUB_TOKEN }}
-          edit-mode: replace
-          reactions: true
-          repository: seb-oss/green
