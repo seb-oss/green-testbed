@@ -1,4 +1,4 @@
-name: WebdriverIO Browserstack Execution Workflow
+name: Visual Regression Tests on Browserstack
 
 on:
   workflow_dispatch:
