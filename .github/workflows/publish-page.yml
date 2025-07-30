@@ -10,6 +10,10 @@ on:
       npm_tag:
         description: "NPM tag of @sebgroup/green-core to install"
         default: "latest"
+      source_pr:
+        description: "The pull request on the green repo that triggered the workflow"
+        required: false
+        type: string
 
   repository_dispatch:
     types: [trigger-workflow]
@@ -45,9 +49,14 @@ jobs:
       - name: Copy index.html to 404.html
         run: cp dist/index.html dist/404.html # This is for GitHub Pages to work with client-side routing.
 
-      - name: Create green-version.json
+      - name: Create green-version.txt
         run: |
           echo "$(npm show @sebgroup/green-core version)" > dist/green-version.txt
+
+      - name: Create source-pr.txt
+        if: github.event.inputs.source_pr != ''
+        run: |
+          echo "${{ github.event.inputs.source_pr }}" > dist/source-pr.txt
 
       - name: Deploy built storybooks to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4.5.0
