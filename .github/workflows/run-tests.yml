@@ -2,7 +2,10 @@ name: WebdriverIO Browserstack Execution Workflow
 
 on:
   workflow_dispatch:
-  deployment:
+  workflow_run:
+    workflows: ["pages-build-deployment"]
+    types:
+      - completed
 
 concurrency: wdio-bs-exec-workflow
 
