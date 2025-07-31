@@ -10,7 +10,7 @@ on:
 concurrency: wdio-bs-exec-workflow
 
 jobs:
-  wdio-browserstack-service-example-job:
+  wdio-browserstack:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Project
