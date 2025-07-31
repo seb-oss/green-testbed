@@ -103,7 +103,7 @@ const config = {
   ],
   commonCapabilities: {
     "bstack:options": {
-      projectName: "Green Design System - Core library",
+      projectName: "Green Design System",
       buildName: build_name,
       debug: true,
       networkLogs: true,
@@ -158,7 +158,7 @@ const config = {
       {
         testObservabilityOptions: {
           buildName: build_name,
-          projectName: "Green Design System - Core library",
+          projectName: "Green Design System",
           //buildTag: 'Any build tag goes here. For e.g. ["Tag1","Tag2"]',
         },
       },
