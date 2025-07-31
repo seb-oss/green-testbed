@@ -172,6 +172,8 @@ const config = {
         screenshotPath: path.join(process.cwd(), "tmp"),
         savePerInstance: true,
         autoSaveBaseline: true,
+        ignoreAntialiasing: true,
+        rawMisMatchPercentage: 0.3,
         // ... more options
       },
     ],

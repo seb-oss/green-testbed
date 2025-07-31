@@ -12,7 +12,6 @@ import "@sebgroup/green-core/components/datepicker/index.js";
 import "@sebgroup/green-core/components/dialog/index.js";
 import "@sebgroup/green-core/components/divider/index.js";
 import "@sebgroup/green-core/components/dropdown/index.js";
-import "@sebgroup/green-core/components/fab/index.js";
 import "@sebgroup/green-core/components/filter-chips/index.js";
 import "@sebgroup/green-core/components/flex/index.js";
 import "@sebgroup/green-core/components/grid/index.js";
@@ -69,8 +68,6 @@ export class AllComponents extends LitElement {
         <gds-option value="1701-D-1">Enterprise 1701-D</gds-option>
         <gds-option value="falcon-1">Millenium Falcon</gds-option>
       </gds-dropdown>
-
-      <gds-fab inset="auto 40px 40px auto">Fab</gds-fab>
 
       <gds-filter-chips>
         <gds-filter-chip value="1">Item 1</gds-filter-chip>

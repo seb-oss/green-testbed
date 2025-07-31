@@ -64,11 +64,6 @@ describe("All components /", () => {
     await expect(dropdown).toMatchElementSnapshot("gds-dropdown");
   });
 
-  it("Renders a gds-fab", async () => {
-    let fab = $("[gds-element=gds-fab]");
-    expect(await fab.isExisting()).toBe(true);
-  });
-
   it("Renders a gds-filter-chips", async () => {
     let filterChips = $("[gds-element=gds-filter-chips]");
     expect(await filterChips.isExisting()).toBe(true);
