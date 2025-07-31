@@ -19,10 +19,10 @@
     "vite": "^7.0.6"
   },
   "scripts": {
-    "test": "wdio run ./wdio.conf.ts",
-    "test-update-baselines": "wdio run ./wdio.conf.ts --update-visual-baseline",
-    "test-local": "wdio run ./wdio.local.conf.ts",
-    "test-local-update-baselines": "wdio run ./wdio.local.conf.ts --update-visual-baseline",
+    "test": "wdio run ./wdio.conf.js",
+    "test-update-baselines": "wdio run ./wdio.conf.js --update-visual-baseline",
+    "test-local": "wdio run ./wdio.local.conf.js",
+    "test-local-update-baselines": "wdio run ./wdio.local.conf.js --update-visual-baseline",
     "dev": "vite",
     "build": "vite build"
   }

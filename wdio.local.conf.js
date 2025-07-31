@@ -1,9 +1,6 @@
 import * as path from "path";
-import { setGlobalDispatcher, ProxyAgent } from "undici";
 
-const build_name = process.env.BROWSERSTACK_BUILD_NAME || "Green Testbed";
-
-export const config: WebdriverIO.Config = {
+export const config = {
   //
   // ====================
   // Runner Configuration
@@ -20,14 +17,13 @@ export const config: WebdriverIO.Config = {
   // should work too though). These services define specific user and key (or access key)
   // values you need to put in here in order to connect to these services.
   //
-  user: process.env.BROWSERSTACK_USERNAME,
-  key: process.env.BROWSERSTACK_ACCESS_KEY,
   //
   // If you run your tests on Sauce Labs you can specify the region you want to run your tests
   // in via the `region` property. Available short handles for regions are `us` (default) and `eu`.
   // These regions are used for the Sauce Labs VM cloud and the Sauce Labs Real Device Cloud.
   // If you don't provide the region it will default for the `us`
 
+  //
   // ==================
   // Specify Test Files
   // ==================
@@ -43,12 +39,11 @@ export const config: WebdriverIO.Config = {
   // of the config file unless it's absolute.
   //
   specs: ["./test/specs/**/*.ts"],
-
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
   ],
-
+  //
   // ============
   // Capabilities
   // ============
@@ -73,42 +68,10 @@ export const config: WebdriverIO.Config = {
 
   capabilities: [
     {
-      "bstack:options": {
-        deviceName: "iPhone 13",
-        browserVersion: "15",
-        platformName: "ios",
-      },
-    },
-    {
-      "bstack:options": {
-        deviceName: "iPhone 14",
-        browserVersion: "16",
-        platformName: "ios",
-      },
-    },
-    {
-      "bstack:options": {
-        deviceName: "iPhone 15",
-        browserVersion: "17",
-        platformName: "ios",
-      },
-    },
-    {
-      "bstack:options": {
-        deviceName: "iPhone 16",
-        platformVersion: "18",
-        platformName: "ios",
-      },
+      browserName: "chrome", // or 'chromium'
+      browserVersion: "stable", // or '116.0.5845.96', 'stable', 'latest', 'dev', 'canary', 'beta'
     },
   ],
-  commonCapabilities: {
-    "bstack:options": {
-      projectName: "Green Design System - Core library",
-      buildName: build_name,
-      debug: true,
-      networkLogs: true,
-    },
-  },
 
   //
   // ===================
@@ -117,7 +80,7 @@ export const config: WebdriverIO.Config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "info",
+  logLevel: "error",
   //
   // Set specific log levels per logger
   // loggers:
@@ -132,37 +95,34 @@ export const config: WebdriverIO.Config = {
   //     webdriver: 'info',
   //     '@wdio/appium-service': 'info'
   // },
-
+  //
   // If you only want to run your tests until a specific amount of tests have failed use
   // bail (default is 0 - don't bail, run all tests).
   bail: 0,
+  //
+  // Set a base URL in order to shorten url command calls. If your `url` parameter starts
+  // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
+  // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
+  // gets prepended directly.
 
+  //baseUrl: "...",
+
+  //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
-
+  //
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
   connectionRetryTimeout: 120000,
-
+  //
   // Default request retries count
   connectionRetryCount: 3,
-
+  //
   // Test runner services
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
   services: [
-    [
-      "browserstack",
-      { browserstackLocal: true, opts: { forcelocal: false } },
-      {
-        testObservabilityOptions: {
-          buildName: build_name,
-          projectName: "Green Design System - Core library",
-          //buildTag: 'Any build tag goes here. For e.g. ["Tag1","Tag2"]',
-        },
-      },
-    ],
     [
       "visual",
       {
