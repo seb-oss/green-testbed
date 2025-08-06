@@ -1,4 +1,4 @@
-import{f as Gd,u as Yd,r as Va,a as oe,i as A,h as v,g as $,T as Vs,E as ge,x as xe,V as co,Z as jd,t as Ud}from"./index-BIN5EO55.js";/**
+import{f as Gd,u as Yd,r as Va,a as oe,i as A,h as v,g as $,T as Vs,E as ge,x as xe,V as co,Z as jd,t as Ud}from"./index-BNVW5lPn.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -3923,7 +3923,7 @@ div.gds-ripple-effect {
         <p>Rich text</p>
       </gds-rich-text>
 
-      <gds-segmented-control>
+      <gds-segmented-control value="1">
         <gds-segment value="1">Item 1</gds-segment>
         <gds-segment value="2">Item 2</gds-segment>
       </gds-segmented-control>
