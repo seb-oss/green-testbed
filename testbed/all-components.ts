@@ -114,7 +114,7 @@ export class AllComponents extends LitElement {
         <p>Rich text</p>
       </gds-rich-text>
 
-      <gds-segmented-control>
+      <gds-segmented-control value="1">
         <gds-segment value="1">Item 1</gds-segment>
         <gds-segment value="2">Item 2</gds-segment>
       </gds-segmented-control>
