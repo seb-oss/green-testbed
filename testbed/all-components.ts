@@ -6,6 +6,7 @@ import "@sebgroup/green-core/components/badge/index.js";
 import "@sebgroup/green-core/components/button/index.js";
 import "@sebgroup/green-core/components/calendar/index.js";
 import "@sebgroup/green-core/components/card/index.js";
+import "@sebgroup/green-core/components/checkbox/index.js";
 import "@sebgroup/green-core/components/container/index.js";
 import "@sebgroup/green-core/components/context-menu/index.js";
 import "@sebgroup/green-core/components/datepicker/index.js";
@@ -23,6 +24,7 @@ import "@sebgroup/green-core/components/link/index.js";
 import "@sebgroup/green-core/components/mask/index.js";
 import "@sebgroup/green-core/components/menu-button/index.js";
 import "@sebgroup/green-core/components/popover/index.js";
+import "@sebgroup/green-core/components/radio/index.js";
 import "@sebgroup/green-core/components/rich-text/index.js";
 import "@sebgroup/green-core/components/segmented-control/index.js";
 import "@sebgroup/green-core/components/signal/index.js";
@@ -128,6 +130,44 @@ export class AllComponents extends LitElement {
       <gds-theme></gds-theme>
 
       <gds-video></gds-video>
+
+      <gds-checkbox-group>
+        <gds-checkbox
+          label="Checkbox Option 1"
+          supporting-text="Supporting text"
+          value="1"
+        ></gds-checkbox>
+        <gds-checkbox
+          label="Checkbox Option 2"
+          supporting-text="Supporting text"
+          value="2"
+          checked
+        ></gds-checkbox>
+        <gds-checkbox
+          label="Checkbox Option 3"
+          supporting-text="Supporting text"
+          value="3"
+          indeterminate
+        ></gds-checkbox
+      ></gds-checkbox-group>
+
+      <gds-radio-group value="2">
+        <gds-radio
+          label="Radio Option 1"
+          supporting-text="Supporting text"
+          value="1"
+        ></gds-radio>
+        <gds-radio
+          label="Radio Option 2"
+          supporting-text="Supporting text"
+          value="2"
+        ></gds-radio>
+        <gds-radio
+          label="Radio Option 3"
+          supporting-text="Supporting text"
+          value="3"
+        ></gds-radio
+      ></gds-radio-group>
     </gds-flex>`;
   }
 }

@@ -169,4 +169,16 @@ describe("All components /", () => {
     let video = $("[gds-element=gds-video]");
     expect(await video.isExisting()).toBe(true);
   });
+
+  it("Renders a gds-checkbox-group", async () => {
+    let checkboxGroup = $("[gds-element=gds-checkbox-group]");
+    expect(await checkboxGroup.isExisting()).toBe(true);
+    await expect(checkboxGroup).toMatchElementSnapshot("gds-checkbox-group");
+  });
+
+  it("Renders a gds-radio-group", async () => {
+    let radioGroup = $("[gds-element=gds-radio-group]");
+    expect(await radioGroup.isExisting()).toBe(true);
+    await expect(radioGroup).toMatchElementSnapshot("gds-radio-group");
+  });
 });
