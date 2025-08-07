@@ -24,6 +24,13 @@ export class MyElement extends LitElement {
         await import("./all-components.js");
       }) as any,
     },
+    {
+      path: "/green-testbed/form",
+      render: () => html`<form-view></form-view>`,
+      enter: (async (params) => {
+        await import("./form.js");
+      }) as any,
+    },
   ]);
 
   render() {
