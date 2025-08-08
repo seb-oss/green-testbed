@@ -73,23 +73,63 @@ const config = {
 
   capabilities: [
     {
+      browserName: "Chrome",
+      browserVersion: "latest",
+      "bstack:options": {
+        os: "Windows",
+        osVersion: "10",
+      },
+    },
+    {
+      browserName: "Firefox",
+      browserVersion: "latest",
+      "bstack:options": {
+        os: "Windows",
+        osVersion: "10",
+      },
+    },
+    {
+      browserName: "Edge",
+      browserVersion: "latest",
+      "bstack:options": {
+        os: "Windows",
+        osVersion: "10",
+      },
+    },
+    {
+      browserName: "Safari",
+      browserVersion: "17.3",
+      "bstack:options": {
+        osVersion: "Sonoma",
+        os: "OS X",
+      },
+    },
+    {
+      browserName: "Chrome",
+      browserVersion: "latest",
+      "bstack:options": {
+        deviceName: "Samsung Galaxy S23",
+        osVersion: "13.0",
+      },
+    },
+    {
+      browserVersion: "15",
       "bstack:options": {
         deviceName: "iPhone 13",
-        browserVersion: "15",
         platformName: "ios",
       },
     },
     {
+      browserVersion: "16",
       "bstack:options": {
         deviceName: "iPhone 14",
-        browserVersion: "16",
         platformName: "ios",
       },
     },
     {
+      browserVersion: "17",
       "bstack:options": {
         deviceName: "iPhone 15",
-        browserVersion: "17",
         platformName: "ios",
       },
     },
@@ -168,7 +208,7 @@ const config = {
       {
         // Some options, see the docs for more
         baselineFolder: path.join(process.cwd(), "test", "baselines"),
-        formatImageName: "{tag}-{logName}",
+        formatImageName: "{platformName}-{tag}-{logName}",
         screenshotPath: path.join(process.cwd(), "tmp"),
         savePerInstance: true,
         autoSaveBaseline: true,
