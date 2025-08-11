@@ -135,6 +135,14 @@ export const config = {
         // ... more options
       },
     ],
+    [
+      "ocr",
+      {
+        contrast: 0.25,
+        imagesFolder: ".tmp/",
+        language: "eng",
+      },
+    ],
   ],
 
   // Framework you want to run your specs with.
