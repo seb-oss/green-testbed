@@ -25,7 +25,11 @@ export class FormView extends LitElement {
     return html`<gds-flex flex-direction="column" gap="xl" max-width="400px">
       <gds-text tag="h1">Form</gds-text>
 
-      <form>
+      <form
+        @submit=${(e: SubmitEvent) => {
+          e.preventDefault();
+        }}
+      >
         <gds-card variant="secondary" border-color="primary">
           <gds-flex flex-direction="column" gap="l" id="form-controls">
             <gds-input
