@@ -1,4 +1,4 @@
-import{f as qd,u as Zd,i as Xd,V as fs,r as re,a as z,h as v,g as S,T as Ps,E as fe,x as Ce,Z as Kd}from"./index-DtsadRW2.js";/**
+import{f as qd,u as Zd,i as Xd,V as fs,r as re,a as z,h as v,g as S,T as Ps,E as fe,x as Ce,Z as Kd}from"./index-B2GSmbJq.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -1535,12 +1535,12 @@ div.gds-ripple-effect {
 
     :host(:focus-visible) {
       outline: none;
+    }
 
-      div::before {
-        inset: var(--gds-sys-space-2xs);
-        opacity: 1;
-        visivility: visible;
-      }
+    :host(:focus-visible) div::before {
+      inset: var(--gds-sys-space-2xs);
+      opacity: 1;
+      visivility: visible;
     }
 
     :host([inert]) {
