@@ -128,10 +128,12 @@ export const config = {
       {
         // Some options, see the docs for more
         baselineFolder: path.join(process.cwd(), "test", "baselines"),
-        formatImageName: "{tag}-{logName}",
+        formatImageName: "{platformName}-{tag}-{logName}",
         screenshotPath: path.join(process.cwd(), "tmp"),
         savePerInstance: true,
         autoSaveBaseline: true,
+        ignoreAntialiasing: true,
+        rawMisMatchPercentage: 0.3,
         // ... more options
       },
     ],
