@@ -68,7 +68,7 @@ export class FormView extends LitElement {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </span>
-              <gds-option value=""> Select a country... </gds-option>
+              <gds-option>Select a country...</gds-option>
               <gds-option value="sweden">Sweden</gds-option>
               <gds-option value="norway">Norway</gds-option>
               <gds-option value="finland">Finland</gds-option>
