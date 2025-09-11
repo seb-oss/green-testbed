@@ -71,6 +71,9 @@ export const config = {
       browserName: "chrome", // or 'chromium'
       browserVersion: "stable", // or '116.0.5845.96', 'stable', 'latest', 'dev', 'canary', 'beta'
     },
+    {
+      browserName: "safari",
+    },
   ],
 
   //
