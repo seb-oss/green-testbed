@@ -1,4 +1,4 @@
-import{i as r,h as l,t as p}from"./index-DEa68_aL.js";import{G as a}from"./video-CBDyiN6A.js";a.define();var u=Object.getOwnPropertyDescriptor,c=(d,t,n,s)=>{for(var e=s>1?void 0:s?u(t,n):t,g=d.length-1,i;g>=0;g--)(i=d[g])&&(e=i(e)||e);return e};let o=class extends r{createRenderRoot(){return this}render(){return l`<gds-flex flex-direction="column" gap="xl" max-width="800px">
+import{i as r,h as l,t as p}from"./index-C_1TO10B.js";import"./video-xs9UHEUj.js";var a=Object.getOwnPropertyDescriptor,u=(t,d,n,s)=>{for(var e=s>1?void 0:s?a(d,n):d,g=t.length-1,i;g>=0;g--)(i=t[g])&&(e=i(e)||e);return e};let o=class extends r{createRenderRoot(){return this}render(){return l`<gds-flex flex-direction="column" gap="xl" max-width="800px">
       <gds-badge>Badge</gds-badge>
 
       <gds-button>Button</gds-button>
@@ -123,4 +123,4 @@ import{i as r,h as l,t as p}from"./index-DEa68_aL.js";import{G as a}from"./video
           value="3"
         ></gds-radio
       ></gds-radio-group>
-    </gds-flex>`}};o=c([p("all-components")],o);export{o as AllComponents};
+    </gds-flex>`}};o=u([p("all-components")],o);export{o as AllComponents};
