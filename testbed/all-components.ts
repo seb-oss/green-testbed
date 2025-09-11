@@ -2,36 +2,7 @@ import { LitElement, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { html } from "@sebgroup/green-core/scoping";
 
-import "@sebgroup/green-core/components/badge/index.js";
-import "@sebgroup/green-core/components/button/index.js";
-import "@sebgroup/green-core/components/calendar/index.js";
-import "@sebgroup/green-core/components/card/index.js";
-import "@sebgroup/green-core/components/checkbox/index.js";
-import "@sebgroup/green-core/components/context-menu/index.js";
-import "@sebgroup/green-core/components/datepicker/index.js";
-import "@sebgroup/green-core/components/dialog/index.js";
-import "@sebgroup/green-core/components/divider/index.js";
-import "@sebgroup/green-core/components/div/index.js";
-import "@sebgroup/green-core/components/dropdown/index.js";
-import "@sebgroup/green-core/components/filter-chips/index.js";
-import "@sebgroup/green-core/components/flex/index.js";
-import "@sebgroup/green-core/components/grid/index.js";
-import "@sebgroup/green-core/components/grouped-list/index.js";
-import "@sebgroup/green-core/components/icon/icons/bank.js";
-import "@sebgroup/green-core/components/img/index.js";
-import "@sebgroup/green-core/components/input/index.js";
-import "@sebgroup/green-core/components/link/index.js";
-import "@sebgroup/green-core/components/mask/index.js";
-import "@sebgroup/green-core/components/menu-button/index.js";
-import "@sebgroup/green-core/components/popover/index.js";
-import "@sebgroup/green-core/components/radio/index.js";
-import "@sebgroup/green-core/components/rich-text/index.js";
-import "@sebgroup/green-core/components/segmented-control/index.js";
-import "@sebgroup/green-core/components/signal/index.js";
-import "@sebgroup/green-core/components/text/index.js";
-import "@sebgroup/green-core/components/textarea/index.js";
-import "@sebgroup/green-core/components/theme/index.js";
-import "@sebgroup/green-core/components/video/index.js";
+import "@sebgroup/green-core/everything";
 
 @customElement("all-components")
 export class AllComponents extends LitElement {
