@@ -2,8 +2,11 @@ import { LitElement, css } from "lit";
 import { Router, Routes } from "@lit-labs/router";
 import { customElement, property } from "lit/decorators.js";
 import { html } from "@sebgroup/green-core/scoping";
+import { GdsTheme } from "@sebgroup/green-core/pure";
 
 import "@sebgroup/fonts/scss/gds-fonts.scss";
+
+GdsTheme.define();
 
 if (!(globalThis as any).URLPattern) {
   await import("urlpattern-polyfill");
