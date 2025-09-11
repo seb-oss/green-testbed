@@ -30,10 +30,10 @@ describe("All components /", () => {
     await expect(card).toMatchElementSnapshot("gds-card");
   });
 
-  it("Renders a gds-container", async () => {
-    let container = $("[gds-element=gds-container]");
-    expect(await container.isExisting()).toBe(true);
-    await expect(container).toMatchElementSnapshot("gds-container");
+  it("Renders a gds-div", async () => {
+    let div = $("[gds-element=gds-div]");
+    expect(await div.isExisting()).toBe(true);
+    await expect(div).toMatchElementSnapshot("gds-div");
   });
 
   it("Renders a gds-context-menu", async () => {
@@ -141,11 +141,6 @@ describe("All components /", () => {
   it("Renders a gds-signal", async () => {
     let signal = $("[gds-element=gds-signal]");
     expect(await signal.isExisting()).toBe(true);
-  });
-
-  it("Renders a gds-spacer", async () => {
-    let spacer = $("[gds-element=gds-spacer]");
-    expect(await spacer.isExisting()).toBe(true);
   });
 
   it("Renders a gds-text", async () => {
