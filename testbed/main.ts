@@ -34,6 +34,6 @@ export class MyElement extends LitElement {
   ]);
 
   render() {
-    return html`<main>${this._router.outlet()}</main>`;
+    return html`<gds-theme><main>${this._router.outlet()}</main></gds-theme>`;
   }
 }
