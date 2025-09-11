@@ -1,4 +1,4 @@
-import{i as r,h as l,t as p}from"./index-8t_kj7-N.js";import{G as a}from"./video-bF5lPH9L.js";a.define();var u=Object.getOwnPropertyDescriptor,c=(t,d,n,s)=>{for(var e=s>1?void 0:s?u(d,n):d,g=t.length-1,o;g>=0;g--)(o=t[g])&&(e=o(e)||e);return e};let i=class extends r{createRenderRoot(){return this}render(){return l`<gds-flex flex-direction="column" gap="xl" max-width="800px">
+import{i as r,h as l,t as p}from"./index-DCr2rRyY.js";import{G as a}from"./video-Bq1mCmFW.js";a.define();var u=Object.getOwnPropertyDescriptor,c=(d,t,n,s)=>{for(var e=s>1?void 0:s?u(t,n):t,g=d.length-1,i;g>=0;g--)(i=d[g])&&(e=i(e)||e);return e};let o=class extends r{createRenderRoot(){return this}render(){return l`<gds-flex flex-direction="column" gap="xl" max-width="800px">
       <gds-badge>Badge</gds-badge>
 
       <gds-button>Button</gds-button>
@@ -7,7 +7,7 @@ import{i as r,h as l,t as p}from"./index-8t_kj7-N.js";import{G as a}from"./video
 
       <gds-card>Card</gds-card>
 
-      <gds-container>Container</gds-container>
+      <gds-div>Container</gds-div>
 
       <gds-context-menu>
         <gds-menu-item>Action 1</gds-menu-item>
@@ -78,8 +78,6 @@ import{i as r,h as l,t as p}from"./index-8t_kj7-N.js";import{G as a}from"./video
 
       <gds-signal></gds-signal>
 
-      <gds-spacer></gds-spacer>
-
       <gds-text>Text</gds-text>
 
       <gds-textarea label="Textarea"></gds-textarea>
@@ -125,4 +123,4 @@ import{i as r,h as l,t as p}from"./index-8t_kj7-N.js";import{G as a}from"./video
           value="3"
         ></gds-radio
       ></gds-radio-group>
-    </gds-flex>`}};i=c([p("all-components")],i);export{i as AllComponents};
+    </gds-flex>`}};o=c([p("all-components")],o);export{o as AllComponents};
