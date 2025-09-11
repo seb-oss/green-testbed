@@ -6,6 +6,8 @@ import { GdsTheme } from "@sebgroup/green-core/pure";
 
 import "@sebgroup/fonts/scss/gds-fonts.scss";
 
+import "@sebgroup/green-core/components/icon/icons/minus-small.js";
+
 GdsTheme.define();
 
 if (!(globalThis as any).URLPattern) {
