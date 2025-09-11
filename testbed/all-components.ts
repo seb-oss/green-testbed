@@ -7,11 +7,11 @@ import "@sebgroup/green-core/components/button/index.js";
 import "@sebgroup/green-core/components/calendar/index.js";
 import "@sebgroup/green-core/components/card/index.js";
 import "@sebgroup/green-core/components/checkbox/index.js";
-import "@sebgroup/green-core/components/container/index.js";
 import "@sebgroup/green-core/components/context-menu/index.js";
 import "@sebgroup/green-core/components/datepicker/index.js";
 import "@sebgroup/green-core/components/dialog/index.js";
 import "@sebgroup/green-core/components/divider/index.js";
+import "@sebgroup/green-core/components/div/index.js";
 import "@sebgroup/green-core/components/dropdown/index.js";
 import "@sebgroup/green-core/components/filter-chips/index.js";
 import "@sebgroup/green-core/components/flex/index.js";
@@ -50,7 +50,7 @@ export class AllComponents extends LitElement {
 
       <gds-card>Card</gds-card>
 
-      <gds-container>Container</gds-container>
+      <gds-div>Container</gds-div>
 
       <gds-context-menu>
         <gds-menu-item>Action 1</gds-menu-item>
