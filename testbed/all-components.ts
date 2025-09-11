@@ -28,7 +28,6 @@ import "@sebgroup/green-core/components/radio/index.js";
 import "@sebgroup/green-core/components/rich-text/index.js";
 import "@sebgroup/green-core/components/segmented-control/index.js";
 import "@sebgroup/green-core/components/signal/index.js";
-import "@sebgroup/green-core/components/spacer/index.js";
 import "@sebgroup/green-core/components/text/index.js";
 import "@sebgroup/green-core/components/textarea/index.js";
 import "@sebgroup/green-core/components/theme/index.js";
@@ -120,8 +119,6 @@ export class AllComponents extends LitElement {
       </gds-segmented-control>
 
       <gds-signal></gds-signal>
-
-      <gds-spacer></gds-spacer>
 
       <gds-text>Text</gds-text>
 
