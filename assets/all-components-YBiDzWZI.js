@@ -1,4 +1,4 @@
-import{i as r,h as l,t as p}from"./index-BEgeFkI2.js";import"./video-C6UMxxCa.js";var a=Object.getOwnPropertyDescriptor,u=(t,d,n,s)=>{for(var e=s>1?void 0:s?a(d,n):d,g=t.length-1,i;g>=0;g--)(i=t[g])&&(e=i(e)||e);return e};let o=class extends r{createRenderRoot(){return this}render(){return l`<gds-flex flex-direction="column" gap="xl" max-width="800px">
+import{i as r,h as l,t as p}from"./index-x9USIig5.js";import"./video-D8uIHllm.js";var a=Object.getOwnPropertyDescriptor,u=(t,d,n,s)=>{for(var e=s>1?void 0:s?a(d,n):d,g=t.length-1,i;g>=0;g--)(i=t[g])&&(e=i(e)||e);return e};let o=class extends r{createRenderRoot(){return this}render(){return l`<gds-flex flex-direction="column" gap="xl" max-width="800px">
       <gds-badge>Badge</gds-badge>
 
       <gds-button>Button</gds-button>
