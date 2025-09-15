@@ -16,7 +16,7 @@ export class AllComponents extends LitElement {
 
       <gds-button>Button</gds-button>
 
-      <gds-calendar .value=${new Date("2024-01-01")}></gds-calendar>
+      <gds-calendar .value=${new Date("2024-01-01T12:00")}></gds-calendar>
 
       <gds-card>Card</gds-card>
 
