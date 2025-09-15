@@ -212,8 +212,14 @@ const config = {
         screenshotPath: path.join(process.cwd(), "tmp"),
         savePerInstance: true,
         autoSaveBaseline: true,
-        ignoreAntialiasing: true,
-        rawMisMatchPercentage: 0.3,
+        tolerance: 0.5, // Set the accepted tolerance (0.5% threshold)
+        failedThreshold: 0.01, // The percentage of pixels allowed to differ
+        failedThresholdType: "percent",
+        compareOptions: {
+          ignoreAntialiasing: true,
+          rawMisMatchPercentage: true,
+          misMatchTolerance: 0.005,
+        },
         // ... more options
       },
     ],
