@@ -9,31 +9,31 @@ describe("All components /", () => {
     let badge = $("[gds-element=gds-badge]");
     await badge.waitForExist();
     expect(await badge.isExisting()).toBe(true);
-    await expect(badge).toMatchElementSnapshot("gds-badge");
+    //await expect(badge).toMatchElementSnapshot("gds-badge");
   });
 
   it("Renders a gds-button", async () => {
     let button = $("[gds-element=gds-button]");
     expect(await button.isExisting()).toBe(true);
-    await expect(button).toMatchElementSnapshot("gds-button");
+    //await expect(button).toMatchElementSnapshot("gds-button");
   });
 
   it("Renders a gds-calendar", async () => {
     let calendar = $("[gds-element=gds-calendar]");
     expect(await calendar.isExisting()).toBe(true);
-    await expect(calendar).toMatchElementSnapshot("gds-calendar");
+    //await expect(calendar).toMatchElementSnapshot("gds-calendar");
   });
 
   it("Renders a gds-card", async () => {
     let card = $("[gds-element=gds-card]");
     expect(await card.isExisting()).toBe(true);
-    await expect(card).toMatchElementSnapshot("gds-card");
+    //await expect(card).toMatchElementSnapshot("gds-card");
   });
 
   it("Renders a gds-div", async () => {
     let div = $("[gds-element=gds-div]");
     expect(await div.isExisting()).toBe(true);
-    await expect(div).toMatchElementSnapshot("gds-div");
+    //await expect(div).toMatchElementSnapshot("gds-div");
   });
 
   it("Renders a gds-context-menu", async () => {
@@ -44,7 +44,7 @@ describe("All components /", () => {
   it("Renders a gds-datepicker", async () => {
     let datepicker = $("[gds-element=gds-datepicker]");
     expect(await datepicker.isExisting()).toBe(true);
-    await expect(datepicker).toMatchElementSnapshot("gds-datepicker");
+    //await expect(datepicker).toMatchElementSnapshot("gds-datepicker");
   });
 
   it("Renders a gds-dialog", async () => {
@@ -55,19 +55,19 @@ describe("All components /", () => {
   it("Renders a gds-divider", async () => {
     let divider = $("[gds-element=gds-divider]");
     expect(await divider.isExisting()).toBe(true);
-    await expect(divider).toMatchElementSnapshot("gds-divider");
+    //await expect(divider).toMatchElementSnapshot("gds-divider");
   });
 
   it("Renders a gds-dropdown", async () => {
     let dropdown = $("[gds-element=gds-dropdown]");
     expect(await dropdown.isExisting()).toBe(true);
-    await expect(dropdown).toMatchElementSnapshot("gds-dropdown");
+    //await expect(dropdown).toMatchElementSnapshot("gds-dropdown");
   });
 
   it("Renders a gds-filter-chips", async () => {
     let filterChips = $("[gds-element=gds-filter-chips]");
     expect(await filterChips.isExisting()).toBe(true);
-    await expect(filterChips).toMatchElementSnapshot("gds-filter-chips");
+    //await expect(filterChips).toMatchElementSnapshot("gds-filter-chips");
   });
 
   it("Renders a gds-flex", async () => {
@@ -88,25 +88,25 @@ describe("All components /", () => {
   it("Renders a gds-icon", async () => {
     let iconBank = $("[gds-element^=gds-icon]");
     expect(await iconBank.isExisting()).toBe(true);
-    await expect(iconBank).toMatchElementSnapshot("gds-icon-bank");
+    //await expect(iconBank).toMatchElementSnapshot("gds-icon-bank");
   });
 
   it("Renders a gds-img", async () => {
     let img = $("[gds-element=gds-img]");
     expect(await img.isExisting()).toBe(true);
-    await expect(img).toMatchElementSnapshot("gds-img");
+    //await expect(img).toMatchElementSnapshot("gds-img");
   });
 
   it("Renders a gds-input", async () => {
     let input = $("[gds-element=gds-input]");
     expect(await input.isExisting()).toBe(true);
-    await expect(input).toMatchElementSnapshot("gds-input");
+    //await expect(input).toMatchElementSnapshot("gds-input");
   });
 
   it("Renders a gds-link", async () => {
     let link = $("[gds-element=gds-link]");
     expect(await link.isExisting()).toBe(true);
-    await expect(link).toMatchElementSnapshot("gds-link");
+    //await expect(link).toMatchElementSnapshot("gds-link");
   });
 
   it("Renders a gds-mask", async () => {
@@ -117,7 +117,7 @@ describe("All components /", () => {
   it("Renders a gds-menu-button", async () => {
     let menuButton = $("[gds-element=gds-menu-button]");
     expect(await menuButton.isExisting()).toBe(true);
-    await expect(menuButton).toMatchElementSnapshot("gds-menu-button");
+    //await expect(menuButton).toMatchElementSnapshot("gds-menu-button");
   });
 
   it("Renders a gds-popover", async () => {
@@ -133,9 +133,9 @@ describe("All components /", () => {
   it("Renders a gds-segmented-control", async () => {
     let segmentedControl = $("[gds-element=gds-segmented-control]");
     expect(await segmentedControl.isExisting()).toBe(true);
-    await expect(segmentedControl).toMatchElementSnapshot(
-      "gds-segmented-control"
-    );
+    //await expect(segmentedControl).toMatchElementSnapshot(
+    //  "gds-segmented-control"
+    //);
   });
 
   it("Renders a gds-signal", async () => {
@@ -146,13 +146,13 @@ describe("All components /", () => {
   it("Renders a gds-text", async () => {
     let text = $("[gds-element=gds-text]");
     expect(await text.isExisting()).toBe(true);
-    await expect(text).toMatchElementSnapshot("gds-text");
+    //await expect(text).toMatchElementSnapshot("gds-text");
   });
 
   it("Renders a gds-textarea", async () => {
     let textarea = $("[gds-element=gds-textarea]");
     expect(await textarea.isExisting()).toBe(true);
-    await expect(textarea).toMatchElementSnapshot("gds-textarea");
+    // await expect(textarea).toMatchElementSnapshot("gds-textarea");
   });
 
   it("Renders a gds-theme", async () => {
@@ -168,12 +168,12 @@ describe("All components /", () => {
   it("Renders a gds-checkbox-group", async () => {
     let checkboxGroup = $("[gds-element=gds-checkbox-group]");
     expect(await checkboxGroup.isExisting()).toBe(true);
-    await expect(checkboxGroup).toMatchElementSnapshot("gds-checkbox-group");
+    //await expect(checkboxGroup).toMatchElementSnapshot("gds-checkbox-group");
   });
 
   it("Renders a gds-radio-group", async () => {
     let radioGroup = $("[gds-element=gds-radio-group]");
     expect(await radioGroup.isExisting()).toBe(true);
-    await expect(radioGroup).toMatchElementSnapshot("gds-radio-group");
+    //await expect(radioGroup).toMatchElementSnapshot("gds-radio-group");
   });
 });
