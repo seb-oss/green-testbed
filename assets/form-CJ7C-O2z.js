@@ -1,4 +1,4 @@
-import{i as n,h as p,t as u}from"./index-DP_ZGOi4.js";import"./video-CuOJ1Vx7.js";var c=Object.getOwnPropertyDescriptor,g=(e,r,l,s)=>{for(var o=s>1?void 0:s?c(r,l):r,a=e.length-1,i;a>=0;a--)(i=e[a])&&(o=i(o)||o);return o};const t={validate:e=>{if(e.value===void 0||e.value.length===0)return[{...e.validity,valid:!1,customError:!0},"This field cannot be empty."]}};let d=class extends n{createRenderRoot(){return this}render(){return p` <gds-theme
+import{i as n,h as p,t as u}from"./index-B_8XrX9J.js";import"./video-Df37lM-D.js";var c=Object.getOwnPropertyDescriptor,g=(e,r,l,s)=>{for(var o=s>1?void 0:s?c(r,l):r,a=e.length-1,i;a>=0;a--)(i=e[a])&&(o=i(o)||o);return o};const t={validate:e=>{if(e.value===void 0||e.value.length===0)return[{...e.validity,valid:!1,customError:!0},"This field cannot be empty."]}};let d=class extends n{createRenderRoot(){return this}render(){return p` <gds-theme
       ><gds-flex flex-direction="column" gap="xl" max-width="400px">
         <gds-text tag="h1">Form</gds-text>
 
