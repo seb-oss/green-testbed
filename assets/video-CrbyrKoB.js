@@ -1,4 +1,4 @@
-import{G as n,_ as o,g as i,a as H,e as O9,b as Bt,c as It,T as gt,h as f,d as ao,f as g,j as h,k as a,l as x,m as h1,n as $,o as E,p as d,w as A,x as g1,Z as Ms,E as K,q as r1,r as d1,s as s1,u as b,v as Et,y as Co,z as R9,A as W9,B as co,C as f0,D as Vs,F as Yt,H as F,I as ms,J as Ls,K as bs,L as ks,M as Hs,N as ws}from"./index-D7K_N2M0.js";/**
+import{G as n,_ as o,g as i,a as H,e as O9,b as Bt,c as It,T as gt,h as f,d as ao,f as g,j as h,k as a,l as x,m as h1,n as $,o as E,p as d,w as A,x as g1,Z as Ms,E as K,q as r1,r as d1,s as s1,u as b,v as Et,y as Co,z as R9,A as W9,B as co,C as f0,D as Vs,F as Yt,H as F,I as ms,J as Ls,K as bs,L as ks,M as Hs,N as ws}from"./index-Dq-UNMtM.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -530,8 +530,8 @@ import{G as n,_ as o,g as i,a as H,e as O9,b as Bt,c as It,T as gt,h as f,d as a
 
   @layer sizes {
     :host([size='xs']) .button {
-      --_block-size: var(--gds-sys-space-l);
-      gap: var(--gds-sys-space-4xs);
+      --_block-size: var(--gds-sys-space-xl);
+      gap: var(--gds-sys-space-3xs);
       font: var(--gds-sys-text-detail-book-xs);
       padding-inline: var(--gds-sys-space-s);
     }
@@ -3353,7 +3353,7 @@ import{G as n,_ as o,g as i,a as H,e as O9,b as Bt,c as It,T as gt,h as f,d as a
         slot="action"
       >
         <gds-icon-cross-small></gds-icon-cross-small>
-      </gds-button>`:K};Pr=function(){return this.maxlength<Number.MAX_SAFE_INTEGER};q.styles=[E,q9,Sl];o([d({attribute:"supporting-text"})],q.prototype,"supportingText",2);o([d({attribute:"show-extended-supporting-text",type:Boolean,reflect:!0})],q.prototype,"showExtendedSupportingText",2);o([d({type:Boolean})],q.prototype,"clearable",2);o([d({type:Number})],q.prototype,"maxlength",2);o([d({type:String})],q.prototype,"size",2);o([d({type:Boolean})],q.prototype,"plain",2);o([d({reflect:!0})],q.prototype,"type",2);o([d()],q.prototype,"min",2);o([d()],q.prototype,"max",2);o([d()],q.prototype,"step",2);o([d()],q.prototype,"autocapitalize",2);o([d({type:Boolean})],q.prototype,"autocorrect",2);o([d()],q.prototype,"autocomplete",2);o([d({type:Boolean})],q.prototype,"autofocus",2);o([d()],q.prototype,"enterkeyhint",2);o([d({type:Boolean,converter:{fromAttribute:e=>!(!e||e==="false"),toAttribute:e=>e?"true":"false"}})],q.prototype,"spellcheck",2);o([d()],q.prototype,"inputmode",2);o([d2("input")],q.prototype,"elInputAsync",2);o([T("input")],q.prototype,"elInput",2);q=o([Q()],q);let e0=class extends r1(d1(s1(q))){};e0=o([i("gds-input",{dependsOn:[x1,y1,a1,Q1,v1,p1]})],e0);const $l=H`
+      </gds-button>`:K};Pr=function(){return this.maxlength<Number.MAX_SAFE_INTEGER};q.styles=[E,q9,Sl];o([d({attribute:"supporting-text"})],q.prototype,"supportingText",2);o([d({attribute:"show-extended-supporting-text",type:Boolean,reflect:!0})],q.prototype,"showExtendedSupportingText",2);o([d({type:Boolean})],q.prototype,"clearable",2);o([d({type:Number})],q.prototype,"maxlength",2);o([d({reflect:!0})],q.prototype,"size",2);o([d({type:Boolean})],q.prototype,"plain",2);o([d({reflect:!0})],q.prototype,"type",2);o([d()],q.prototype,"min",2);o([d()],q.prototype,"max",2);o([d()],q.prototype,"step",2);o([d()],q.prototype,"autocapitalize",2);o([d({type:Boolean})],q.prototype,"autocorrect",2);o([d()],q.prototype,"autocomplete",2);o([d({type:Boolean})],q.prototype,"autofocus",2);o([d()],q.prototype,"enterkeyhint",2);o([d({type:Boolean,converter:{fromAttribute:e=>!(!e||e==="false"),toAttribute:e=>e?"true":"false"}})],q.prototype,"spellcheck",2);o([d()],q.prototype,"inputmode",2);o([d2("input")],q.prototype,"elInputAsync",2);o([T("input")],q.prototype,"elInput",2);q=o([Q()],q);let e0=class extends r1(d1(s1(q))){};e0=o([i("gds-input",{dependsOn:[x1,y1,a1,Q1,v1,p1]})],e0);const $l=H`
   @layer core, link;
 
   @layer core {
