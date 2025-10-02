@@ -1,4 +1,4 @@
-import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as Co,f as u,j as h,k as a,l as x,m as h1,n as $,o as j,p as d,w as I,x as g1,Z as Vs,E as X,q as r1,r as d1,s as s1,u as b,v as jt,y as co,z as P9,A as N9,B as ho,C as _0,D as ms,F as Ut,H as F,I as Ls,J as bs,K as ks,L as Hs,M as ws,N as ys}from"./index-C8aAKbAT.js";/**
+import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as Co,f as u,j as h,k as a,l as x,m as h1,n as $,o as j,p as d,w as I,x as g1,Z as Vs,E as X,q as r1,r as d1,s as s1,u as b,v as jt,y as co,z as P9,A as N9,B as ho,C as _0,D as ms,F as Ut,H as F,I as Ls,J as bs,K as ks,L as Hs,M as ws,N as ys}from"./index-kshocT13.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -1414,9 +1414,14 @@ import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as C
     :host {
       display: flex;
       justify-content: center;
+      --columns: 7;
     }
 
-    :host table {
+    table {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: repeat(var(--columns), 1fr);
+      gap: var(--gds-sys-space-xs);
       border-spacing: var(--gds-sys-space-xs);
       flex-grow: 1;
       width: 100%;
@@ -1441,127 +1446,135 @@ import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as C
           border-spacing: var(--gds-sys-space-xs) var(--gds-sys-space-l);
         }
       }
-    }
 
-    thead {
-      th {
-        height: var(--gds-sys-space-2xl);
-        width: var(--gds-sys-space-2xl);
-        box-sizing: border-box;
-        text-align: center;
-        font-weight: normal;
+      &.show-week-numbers {
+        --columns: 8;
       }
     }
 
+    tr,
+    thead,
     tbody {
-      td {
-        position: relative;
-        width: var(--gds-sys-space-2xl);
-        height: var(--gds-sys-space-2xl);
-        box-sizing: border-box;
-        text-align: center;
-        user-select: none;
-        border-width: var(--gds-sys-space-4xs);
-        border-style: solid;
-        border-color: transparent;
-        border-radius: var(--gds-sys-radius-max);
-        transition: background 0.2s;
-        outline-style: solid;
-        outline-color: transparent;
-        outline-width: 0px;
-        outline-offset: var(--gds-sys-space-4xs);
+      display: contents;
+    }
+
+    th,
+    td {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: var(--gds-sys-space-2xl);
+      width: var(--gds-sys-space-2xl);
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    th {
+      font-weight: normal;
+    }
+
+    td {
+      position: relative;
+      border-width: var(--gds-sys-space-4xs);
+      border-style: solid;
+      border-color: transparent;
+      border-radius: var(--gds-sys-radius-max);
+      transition: background 0.2s;
+      outline-style: solid;
+      outline-color: transparent;
+      outline-width: 0px;
+      outline-offset: var(--gds-sys-space-4xs);
+
+      &.short {
+        width: var(--gds-sys-space-4xl);
+      }
+
+      &.wide {
+        width: var(--gds-sys-space-5xl);
+      }
+
+      &.long {
+        width: var(--gds-sys-space-7xl);
+      }
+
+      &:not(.disabled):hover,
+      &[aria-selected='true'] {
+        cursor: pointer;
+      }
+
+      &[aria-selected='true'] {
+        color: var(--gds-sys-color-content-neutral-03);
+        background: var(--gds-sys-color-l3-neutral-01);
+      }
+
+      &:not(.disabled):hover {
+        background: color-mix(
+          in srgb,
+          transparent,
+          var(--gds-sys-color-state-neutral-05)
+        );
+      }
+
+      &[aria-selected='true']:not(.disabled):hover {
+        background: color-mix(
+          in srgb,
+          var(--gds-sys-color-l3-neutral-01),
+          var(--gds-sys-color-state-neutral-01)
+        );
+      }
+
+      &.today {
+        border-color: var(--gds-sys-color-border-strong);
+      }
+
+      &.disabled:not(.week-number) {
+        background: var(--gds-sys-color-l3-disabled-01);
+        color: var(--gds-sys-color-content-disabled-01);
+        cursor: not-allowed;
+      }
+
+      &.disabled.week-number {
+        color: var(--gds-sys-color-content-neutral-02);
+        cursor: default;
+      }
+
+      &[aria-selected='false']:active:not(.disabled) {
+        background: color-mix(
+          in srgb,
+          transparent,
+          var(--gds-sys-color-state-neutral-06)
+        );
+      }
+
+      &[aria-selected='true']:active:not(.disabled) {
+        background: color-mix(
+          in srgb,
+          var(--gds-sys-color-l3-neutral-01),
+          var(--gds-sys-color-state-neutral-02)
+        );
+      }
+
+      &:focus-visible {
+        outline-color: var(--gds-sys-color-content-neutral-01);
+        outline-width: var(--gds-sys-space-4xs);
+      }
+
+      &.small {
+        width: var(--gds-sys-space-xl);
+        height: var(--gds-sys-space-xl);
+        font: var(--gds-sys-text-body-book-s);
+        line-height: var(--gds-sys-text-line-height-detail-s);
 
         &.short {
-          width: var(--gds-sys-space-4xl);
+          width: var(--gds-sys-space-2xl);
         }
 
         &.wide {
-          width: var(--gds-sys-space-5xl);
+          width: var(--gds-sys-space-3xl);
         }
 
         &.long {
-          width: var(--gds-sys-space-7xl);
-        }
-
-        &:not(.disabled):hover,
-        &[aria-selected='true'] {
-          cursor: pointer;
-        }
-
-        &[aria-selected='true'] {
-          color: var(--gds-sys-color-content-neutral-03);
-          background: var(--gds-sys-color-l3-neutral-01);
-        }
-
-        &:not(.disabled):hover {
-          background: color-mix(
-            in srgb,
-            transparent,
-            var(--gds-sys-color-state-neutral-05)
-          );
-        }
-
-        &[aria-selected='true']:not(.disabled):hover {
-          background: color-mix(
-            in srgb,
-            var(--gds-sys-color-l3-neutral-01),
-            var(--gds-sys-color-state-neutral-01)
-          );
-        }
-
-        &.today {
-          border-color: var(--gds-sys-color-border-strong);
-        }
-
-        &.disabled:not(.week-number) {
-          background: var(--gds-sys-color-l3-disabled-01);
-          color: var(--gds-sys-color-content-disabled-01);
-          cursor: not-allowed;
-        }
-
-        &.disabled.week-number {
-          color: var(--gds-sys-color-content-neutral-02);
-          cursor: default;
-        }
-
-        &[aria-selected='false']:active:not(.disabled) {
-          background: color-mix(
-            in srgb,
-            transparent,
-            var(--gds-sys-color-state-neutral-06)
-          );
-        }
-
-        &[aria-selected='true']:active:not(.disabled) {
-          background: color-mix(
-            in srgb,
-            var(--gds-sys-color-l3-neutral-01),
-            var(--gds-sys-color-state-neutral-02)
-          );
-        }
-
-        &:focus-visible {
-          outline-color: var(--gds-sys-color-content-neutral-01);
-          outline-width: var(--gds-sys-space-4xs);
-        }
-
-        &.small {
-          width: var(--gds-sys-space-xl);
-          height: var(--gds-sys-space-xl);
-          font: var(--gds-sys-text-body-book-s);
-          line-height: var(--gds-sys-text-line-height-detail-s);
-
-          &.short {
-            width: var(--gds-sys-space-2xl);
-          }
-
-          &.wide {
-            width: var(--gds-sys-space-3xl);
-          }
-
-          &.long {
-            width: var(--gds-sys-space-6xl);
-          }
+          width: var(--gds-sys-space-6xl);
         }
       }
 
@@ -1580,7 +1593,7 @@ import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as C
 `;var Oi=Di;function Ri(e,t){const r=$i(e),s=xi(e),l=Si({start:r,end:s},{weekStartsOn:1});for(;l.length<6;)l.push(B6(l[l.length-1],7));return g1`${t(l.map(C=>({days:Zi({start:C,end:B6(C,6)})})))}`}var Z9,k0,Eo;let N=class extends ${constructor(){super(...arguments),u(this,Z9),this.min=new Date(new Date().getFullYear()-10,0,1),this.max=new Date(new Date().getFullYear()+10,0,1),this.focusedDate=new Date,this.disabledWeekends=!1,this.size="large",this.showWeekNumbers=!1,this.hideExtraneousDays=!1,this.hideDayNames=!1,this.dateLabelTemplate=e=>e.toLocaleDateString(this._currentLocale,{weekday:"long",year:"numeric",month:"long",day:"numeric"}),this._currentLocale=navigator.language}get focusedMonth(){return this.focusedDate.getMonth()}set focusedMonth(e){const t=ji(new Date(this.focusedYear,e,1)),r=new Date(this.focusedDate);r.setDate(Math.min(this.focusedDate.getDate(),t.getDate())),r.setMonth(e),r.setHours(12,0,0,0),this.focusedDate=r}get focusedYear(){return this.focusedDate.getFullYear()}set focusedYear(e){this.focusedDate=new Date(this.focusedDate.setFullYear(e))}getDateCell(e){return this.shadowRoot?.querySelector(`#dateCell-${e}`)}connectedCallback(){super.connectedCallback(),h1.instance.apply(this,"gds-calendar"),this.addEventListener("keydown",h(this,Z9,Eo)),window.addEventListener("lit-localize-status",e=>{e.detail.status==="ready"&&(this._currentLocale=e.detail.readyLocale)})}focus(){super.focus(),this._elFocusedCell?.focus()}render(){const e=new Date;return g1`<table
       role="grid"
       aria-label="${A(this.label)}"
-      class="${Y({small:this.size==="small",indicators:!!this.customizedDates})}"
+      class="${Y({small:this.size==="small",indicators:!!this.customizedDates,"show-week-numbers":!!this.showWeekNumbers})}"
     >
       ${y(!this.hideDayNames,()=>g1`<thead role="rowgroup">
             <tr role="row">
@@ -2035,7 +2048,6 @@ import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as C
     :host([open]) dialog {
       opacity: 1;
       box-sizing: border-box;
-      /*transform: translate3d(0, 0, 0);*/
       visibility: visible;
     }
 
@@ -2069,7 +2081,6 @@ import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as C
         bottom: 0;
         left: 0;
 
-        max-height: 50svh;
         padding-bottom: 0;
 
         transform: translateY(0);
@@ -2784,8 +2795,8 @@ import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as C
           <gds-flex
             align-items="center"
             justify-content="space-between"
-            gap="s"
-            padding="m m 0 m"
+            gap="xs; xs { s }"
+            padding="m xs 0 xs; xs { m m 0 m }"
           >
             <gds-button
               @click=${a(this,D8)}
@@ -2870,7 +2881,7 @@ import{G as n,_ as o,g as i,a as H,e as F9,b as It,c as Et,T as vt,h as f,d as C
                 ${vr(h(this,D,Sr).call(this),X)}
                 ${y(!this.hideTodayButton,()=>f` <gds-button
                       id="today-button"
-                      rank="primary"
+                      rank="tertiary"
                       size="small"
                       @click=${e=>{e.stopPropagation(),h(this,D,St).call(this,new Date)}}
                       aria-label=${k("Select today's date")}
