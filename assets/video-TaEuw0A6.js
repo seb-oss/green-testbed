@@ -1,4 +1,4 @@
-import{G as n,_ as o,g as i,a as H,e as N9,b as jt,c as At,T as Vt,h as f,d as ho,f as u,j as h,k as a,l as x,m as h1,n as S,o as A,p as d,w as E,x as g1,Z as xs,E as Y,q as r1,r as d1,s as s1,u as b,v as Tt,y as uo,z as q9,A as Y9,B as po,C as M0,D as Zs,F as Kt,H as F,I as Ss,J as $s,K as Gs,L as Bs,M as Is,N as Es}from"./index-CE43JY7w.js";/**
+import{G as n,_ as o,g as i,a as H,e as N9,b as jt,c as At,T as Vt,h as f,d as ho,f as u,j as h,k as a,l as x,m as h1,n as S,o as A,p as d,w as E,x as g1,Z as xs,E as Y,q as r1,r as d1,s as s1,u as b,v as Tt,y as uo,z as q9,A as Y9,B as po,C as M0,D as Zs,F as Kt,H as F,I as Ss,J as $s,K as Gs,L as Bs,M as Is,N as Es}from"./index-D7AYfqbS.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -3171,6 +3171,7 @@ import{G as n,_ as o,g as i,a as H,e as N9,b as jt,c as At,T as Vt,h as f,d as h
               box-shadow="xl"
               border-radius="m"
               max-width="100%"
+              border-width="0"
               @mousedown=${()=>x(this,k9,!0)}
             >
               <slot name="dialog">
