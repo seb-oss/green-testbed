@@ -1,4 +1,4 @@
-import{G as n,_ as o,g as i,a as H,e as N9,b as zt,c as Dt,T as Lt,h as f,d as go,f as u,j as h,k as a,l as y,m as h1,n as $,o as A,p as d,w as I,x as g1,Z as Ss,E as Y,q as J,r as e1,s as t1,u as b,v as Ot,y as fo,z as q9,A as Y9,B as _o,C as L0,D as $s,F as e8,H as P,I as Gs,J as Bs,K as Is,L as Es,M as js,N as As}from"./index-DgbssvLT.js";/**
+import{G as n,_ as o,g as i,a as H,e as N9,b as zt,c as Dt,T as Lt,h as f,d as go,f as u,j as h,k as a,l as y,m as h1,n as $,o as A,p as d,w as I,x as g1,Z as Ss,E as Y,q as J,r as e1,s as t1,u as b,v as Ot,y as fo,z as q9,A as Y9,B as _o,C as L0,D as $s,F as e8,H as P,I as Gs,J as Bs,K as Is,L as Es,M as js,N as As}from"./index-Dqvqm9Hn.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -1457,12 +1457,11 @@ import{G as n,_ as o,g as i,a as H,e as N9,b as zt,c as Dt,T as Lt,h as f,d as g
 
     p,
     li {
-      font: var(--gds-sys-text-body-book-m);
+      font: var(--gds-sys-text-body-regular-m);
     }
 
     strong {
-      font: var(--gds-sys-text-body-book-m);
-      font-weight: var(--gds-sys-text-weight-medium);
+      font: var(--gds-sys-text-body-medium-m);
     }
   }
 `,Ti=H`
