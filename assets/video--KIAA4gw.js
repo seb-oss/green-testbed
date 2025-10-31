@@ -1,4 +1,4 @@
-import{G as n,_ as o,g as i,a as k,e as tt,b as Yt,c as Ut,T as $t,h as f,d as wo,f as u,j as h,k as a,l as y,m as h1,n as $,o as j,p as d,w as B,x as g1,Z as Ws,E as Y,q as J,r as e1,s as t1,u as L,v as Xt,y as yo,z as ot,A as rt,B as xo,C as G0,D as Fs,F as no,H as P,I as Ps,J as Ns,K as qs,L as Ys,M as Us,N as Xs}from"./index-DbN71CVJ.js";/**
+import{G as n,_ as o,g as i,a as k,e as tt,b as Yt,c as Ut,T as $t,h as f,d as wo,f as u,j as h,k as a,l as y,m as h1,n as $,o as j,p as d,w as B,x as g1,Z as Ws,E as Y,q as J,r as e1,s as t1,u as L,v as Xt,y as yo,z as ot,A as rt,B as xo,C as G0,D as Fs,F as no,H as P,I as Ps,J as Ns,K as qs,L as Ys,M as Us,N as Xs}from"./index-CWjuyTUu.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -243,7 +243,7 @@ import{G as n,_ as o,g as i,a as k,e as tt,b as Yt,c as Ut,T as $t,h as f,d as w
     }
 
     :host([highlighted]) {
-      background-color: var(--gds-sys-color-l3-neutral-01);
+      background-color: var(--gds-sys-color-l2-neutral-03);
       color: var(--gds-sys-color-content-inversed);
     }
 
