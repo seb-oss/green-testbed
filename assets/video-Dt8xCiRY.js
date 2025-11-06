@@ -1,4 +1,4 @@
-import{G as n,_ as o,g as i,a as k,e as ot,b as Yt,c as Ut,T as Gt,h as f,d as yo,f as u,j as h,k as a,l as y,m as h1,n as $,o as E,p as d,w as B,x as g1,Z as Fs,E as Y,q as J,r as e1,s as t1,u as L,v as Xt,y as xo,z as rt,A as st,B as Zo,C as B0,D as Ps,F as lo,H as P,I as Ns,J as qs,K as Ys,L as Us,M as Xs,N as Ks}from"./index-B5VdiWFc.js";/**
+import{G as n,_ as o,g as i,a as k,e as ot,b as Yt,c as Ut,T as Gt,h as f,d as yo,f as u,j as h,k as a,l as y,m as h1,n as $,o as E,p as d,w as B,x as g1,Z as Fs,E as Y,q as J,r as e1,s as t1,u as L,v as Xt,y as xo,z as rt,A as st,B as Zo,C as B0,D as Ps,F as lo,H as P,I as Ns,J as qs,K as Ys,L as Us,M as Xs,N as Ks}from"./index-BSnVHjjN.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -1387,17 +1387,24 @@ import{G as n,_ as o,g as i,a as k,e as ot,b as Yt,c as Ut,T as Gt,h as f,d as y
       text-decoration: none;
       text-underline-offset: 0.2lh;
       color: currentColor;
-      outline-offset: 4px;
+      cursor: pointer;
+      border-radius: var(--gds-sys-radius-3xs);
+      outline-offset: var(--gds-sys-space-3xs);
       outline-color: currentColor;
       font-weight: var(--gds-sys-text-weight-book);
-      transition: all 0.2s ease-in-out;
+      will-change: text-underline-offset;
+      transition-property: text-underline-offset;
+      transition-duration: var(--gds-sys-motion-duration-fastest);
+      transition-timing-function: var(--gds-sys-motion-easing-ease-in-out);
 
-      &:hover {
-        text-decoration: underline;
-        text-underline-offset: 0.16lh;
+      @media (pointer: fine) {
+        &:hover {
+          text-decoration: underline;
+          text-underline-offset: 0.16lh;
 
-        &:active {
-          text-underline-offset: 0.08lh;
+          &:active {
+            text-underline-offset: 0.08lh;
+          }
         }
       }
     }
