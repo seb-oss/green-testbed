@@ -1,4 +1,4 @@
-import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as xo,f as u,j as h,k as a,l as y,m as h1,n as $,o as E,p as d,w as B,x as g1,Z as Ps,E as Y,q as J,r as e1,s as t1,u as L,v as Kt,y as Zo,z as rt,A as st,B as So,C as I0,D as Ns,F as ao,H as P,I as qs,J as Ys,K as Us,L as Xs,M as Ks,N as Js}from"./index-SjpzM8Qa.js";/**
+import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as xo,f as u,j as h,k as a,l as y,m as h1,n as $,o as E,p as d,w as B,x as g1,Z as Ps,E as Y,q as J,r as e1,s as t1,u as L,v as Kt,y as Zo,z as rt,A as st,B as So,C as I0,D as Ns,F as ao,H as P,I as qs,J as Ys,K as Us,L as Xs,M as Ks,N as Js}from"./index-45t78b5x.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -4238,7 +4238,7 @@ import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as x
       background: transparent;
       border-radius: var(--gds-sys-radius-max);
       border-width: 0;
-      color: var(--gds-sys-color-content-neutral-01);
+      color: var(--gds-sys-color-content-neutral-02);
       cursor: pointer;
       flex-grow: 1;
       flex-shrink: 0;
@@ -4252,9 +4252,9 @@ import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as x
       white-space: nowrap;
       width: 100%;
       transition:
-        background-color var(--gds-sys-motion-fast),
-        border-color var(--gds-sys-motion-fast),
-        color var(--gds-sys-motion-fast);
+        background-color var(--gds-sys-motion-duration-fast),
+        border-color var(--gds-sys-motion-duration-fast),
+        color var(--gds-sys-motion-duration-fast);
       outline-width: var(--gds-sys-space-4xs);
       outline-style: solid;
       outline-offset: -2px;
@@ -4264,6 +4264,10 @@ import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as x
         cursor: not-allowed;
         opacity: 0.5;
       }
+    }
+
+    :host([selected]) button {
+      color: var(--gds-sys-color-content-neutral-01);
     }
 
     @media (pointer: fine) {
