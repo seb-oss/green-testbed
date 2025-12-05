@@ -1,4 +1,4 @@
-import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as xo,f as u,j as h,k as a,l as y,m as h1,n as $,o as E,p as d,w as B,x as g1,Z as Fs,E as Y,q as J,r as e1,s as t1,u as L,v as Kt,y as Zo,z as rt,A as st,B as So,C as I0,D as Ps,F as ao,H as P,I as Ns,J as qs,K as Ys,L as Us,M as Xs,N as Ks}from"./index-DoCc8u5B.js";/**
+import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as xo,f as u,j as h,k as a,l as y,m as h1,n as $,o as E,p as d,w as B,x as g1,Z as Fs,E as Y,q as J,r as e1,s as t1,u as L,v as Kt,y as Zo,z as rt,A as st,B as So,C as I0,D as Ps,F as ao,H as P,I as Ns,J as qs,K as Ys,L as Us,M as Xs,N as Ks}from"./index-Bu8IB28e.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -1369,7 +1369,7 @@ import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as x
           <slot @slotchange=${this.handleSlotChange}></slot>
         </div>
       </nav>
-    `}};a9.styles=[E,Ui];o([d({type:String})],a9.prototype,"size",2);o([d({type:String})],a9.prototype,"label",2);a9=o([i("gds-breadcrumbs",{dependsOn:[w1]}),o1()],a9);function Jo(e){var t;class r extends e{constructor(){super(...arguments),u(this,t)}get rel(){return a(this,t)?a(this,t):this.target==="_blank"?"noreferrer noopener":void 0}set rel(l){y(this,t,l)}}return t=new WeakMap,o([d()],r.prototype,"href",2),o([d()],r.prototype,"target",2),o([d()],r.prototype,"rel",1),o([d({type:String})],r.prototype,"download",2),r}const Xi=k`
+    `}};a9.styles=[E,Ui];o([d({type:String})],a9.prototype,"size",2);o([d({type:String})],a9.prototype,"label",2);a9=o([i("gds-breadcrumbs",{dependsOn:[w1]}),o1()],a9);function Jo(e){var t;class r extends e{constructor(){super(...arguments),u(this,t)}get rel(){return a(this,t)?a(this,t):this.target==="_blank"?"noreferrer noopener":void 0}set rel(l){y(this,t,l)}}return t=new WeakMap,o([d()],r.prototype,"href",2),o([d()],r.prototype,"target",2),o([d()],r.prototype,"rel",1),o([d({type:String})],r.prototype,"download",2),o([d()],r.prototype,"ping",2),r}const Xi=k`
   @layer core, link;
 
   @layer core {
@@ -1415,6 +1415,7 @@ import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as x
         target=${w(this.target)}
         rel=${w(this.rel||a(this,M8,Qo))}
         download=${w(this.download)}
+        ping=${w(this.ping)}
         aria-label=${this.label||Y}
       >
         <slot name="lead"></slot>
@@ -1827,6 +1828,7 @@ import{G as n,_ as o,g as i,a as k,e as ot,b as Ut,c as Xt,T as Bt,h as f,d as x
       href=${w(this.href)}
       target=${w(this.target)}
       rel=${w(this.rel)}
+      ping=${w(this.ping)}
       download=${w(this.download)}
       tabindex="0"
     >
