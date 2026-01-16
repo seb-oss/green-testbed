@@ -1,4 +1,4 @@
-import{G as n,_ as r,g as i,a as w,e as H6,b as b9,c as M9,T as n9,h as u,d as Qr,f as g,j as C,k as a,l as Z,m as m1,n as B,o as j,p as d,w as I,x as V1,Z as cn,E as Q,q as e1,r as o1,s as s1,u as L,v as u8,y as Jr,z as V9,A as y9,B as eo,C as J0,D as Cn,F as Br,H as T,I as hn,J as to,K as un,L as pn,M as gn,N as fn,O as vn}from"./index-C42fz7y_.js";/**
+import{G as n,_ as r,g as i,a as w,e as H6,b as b9,c as M9,T as n9,h as u,d as Qr,f as g,j as C,k as a,l as Z,m as m1,n as B,o as j,p as d,w as I,x as V1,Z as cn,E as Q,q as e1,r as o1,s as s1,u as L,v as u8,y as Jr,z as V9,A as y9,B as eo,C as J0,D as Cn,F as Br,H as T,I as hn,J as to,K as un,L as pn,M as gn,N as fn,O as vn}from"./index-DZbEgs25.js";/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
@@ -5151,7 +5151,6 @@ import{G as n,_ as r,g as i,a as w,e as H6,b as b9,c as M9,T as n9,h as u,d as Q
 
   thead tr th {
     padding-block: var(--gds-sys-space-3xs);
-    /*  background: var(--gds-sys-color-l2-neutral-01); */
     background: var(--_table-header-bg);
   }
 
@@ -5252,12 +5251,10 @@ import{G as n,_ as r,g as i,a as w,e as H6,b as b9,c as M9,T as n9,h as u,d as Q
 
   @media (hover: hover) and (min-width: 768px) {
     tbody tr.selected:hover {
-      /*     background-color: var(--gds-sys-color-l3-neutral-03); */
       background-color: var(--_table-row-selected-hover);
     }
 
     tbody tr:hover:not(.selected) {
-      /*       background-color: var(--gds-sys-color-l2-neutral-01); */
       background-color: var(--_table-row-hover);
     }
   }
@@ -5623,24 +5620,6 @@ import{G as n,_ as r,g as i,a as w,e as H6,b as b9,c as M9,T as n9,h as u,d as Q
         }
       }
 
-      /* tbody td .cell-content,
-    thead th .column-header { 
-      animation-name: CELL_ANIMATION_HORIZONTAL, CELL_ANIMATION_HORIZONTAL;
-      animation-fill-mode: both;
-      animation-timing-function: ease-in-out;
-      animation-direction: normal, reverse;
-      animation-timeline: view(inline);
-      animation-range: entry, exit;
-    }
-
-    @keyframes CELL_ANIMATION_HORIZONTAL {
-      0% {
-        opacity: 0.8;
-        filter: blur(12px);
-        translate: 4px 0px;
-      }
-    } */
-
       thead {
         position: sticky;
         top: 4px;
@@ -5674,46 +5653,46 @@ import{G as n,_ as r,g as i,a as w,e as H6,b as b9,c as M9,T as n9,h as u,d as Q
       }
 
       /* Horizontal scroll */
-      @property --_inline-start-fade {
+      @property --_start-fade {
         syntax: '<length>';
         inherits: false;
         initial-value: 0;
       }
 
-      @property --_inline-end-fade {
+      @property --_end-fade {
         syntax: '<length>';
         inherits: false;
         initial-value: 0;
       }
 
-      @keyframes table-scroll-inline-fade {
+      @keyframes scroll-fade {
         0% {
-          --_inline-start-fade: 0;
+          --_start-fade: 0;
         }
         10%,
         100% {
-          --_inline-start-fade: var(--gds-sys-space-4xl);
+          --_start-fade: var(--gds-sys-space-4xl);
         }
         0%,
         90% {
-          --_inline-end-fade: var(--gds-sys-space-4xl);
+          --_end-fade: var(--gds-sys-space-4xl);
         }
         100% {
-          --_inline-end-fade: 0;
+          --_end-fade: 0;
         }
       }
 
       .data {
-        overflow-x: scroll;
+        overflow-x: auto;
         mask: linear-gradient(
           to right,
           #0000,
-          #ffff var(--_inline-start-fade) calc(100% - var(--_inline-end-fade)),
+          #ffff var(--_start-fade) calc(100% - var(--_end-fade)),
           #0000
         );
-        animation: table-scroll-inline-fade;
-        animation-timeline: --table-scroll-inline-fade;
-        scroll-timeline: --table-scroll-inline-fade x;
+        animation: scroll-fade;
+        animation-timeline: --scroll-fade;
+        scroll-timeline: --scroll-fade x;
       }
     }
   }
@@ -5740,7 +5719,7 @@ import{G as n,_ as r,g as i,a as w,e as H6,b as b9,c as M9,T as n9,h as u,d as Q
 
   /* Scrollbar */
   .data {
-    --_scrollbar-color-thumb: var(--gds-sys-color-l3-neutral-01);
+    --_scrollbar-color-thumb: var(--gds-sys-color-content-neutral-02);
     --_scrollbar-color-track: var(--gds-sys-color-l3-neutral-02);
     --_scrollbar-width: var(--gds-sys-space-2xs);
   }
