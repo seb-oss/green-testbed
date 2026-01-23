@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "Green Core MCP": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["./node_modules/@sebgroup/green-core/bin/mcp-server"]
+    }
+  }
+}
