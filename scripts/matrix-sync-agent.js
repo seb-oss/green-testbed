@@ -1,5 +1,5 @@
 import { CopilotClient } from "@github/copilot-sdk";
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { readMatrix, writeMatrix } from "./matrix-utils.js";
 
@@ -8,6 +8,8 @@ function parseArgs(argv) {
     apply: false,
     prune: false,
     print: false,
+    generateReport: false,
+    verbose: false,
     maxResults: 200,
   };
 
@@ -16,6 +18,8 @@ function parseArgs(argv) {
     if (a === "--apply") args.apply = true;
     if (a === "--prune") args.prune = true;
     if (a === "--print") args.print = true;
+    if (a === "--generate-report") args.generateReport = true;
+    if (a === "--verbose") args.verbose = true;
     if (a === "--max-results" && argv[i + 1])
       args.maxResults = Number(argv[++i]);
   }
@@ -37,6 +41,37 @@ function setIfChanged(target, key, nextValue) {
     return true;
   }
   return false;
+}
+
+function normalizeVersion(versionRange) {
+  if (typeof versionRange !== "string") return "";
+  const trimmed = versionRange.trim();
+  const stripped = trimmed.replace(/^[^0-9]*/, "");
+  return stripped || trimmed;
+}
+
+async function readGreenCoreVersionFromPackageJson() {
+  const raw = await readFile(
+    new URL("../package.json", import.meta.url),
+    "utf8",
+  );
+  const pkg = JSON.parse(raw);
+  const v =
+    pkg?.dependencies?.["@sebgroup/green-core"] ||
+    pkg?.devDependencies?.["@sebgroup/green-core"];
+  return normalizeVersion(v);
+}
+
+async function writeReportJson(report) {
+  const logsDir = new URL("../logs", import.meta.url);
+  await mkdir(logsDir, { recursive: true });
+
+  const reportPath = new URL(
+    "../logs/matrix-sync-report.json",
+    import.meta.url,
+  );
+  await writeFile(reportPath, stableJson(report), "utf8");
+  return reportPath.pathname;
 }
 
 async function loadGreenMcpServerConfig() {
@@ -115,18 +150,31 @@ async function scanRepoForComponentArtifacts() {
   return { root, guessTestbedPage, guessSpec };
 }
 
-async function fetchComponentInventoryViaCopilotMcp({ maxResults }) {
+async function fetchComponentInventoryViaCopilotMcp({ maxResults, verbose }) {
   const greenMcp = await loadGreenMcpServerConfig();
 
   const client = new CopilotClient();
   try {
     const session = await client.createSession({
       model: "sonnet-4.5",
-      streaming: false,
+      streaming: !!verbose,
       mcpServers: {
         green: greenMcp,
       },
     });
+
+    let streamed = "";
+    if (verbose) {
+      session.on((event) => {
+        if (event.type === "tool.call_start") {
+          process.stdout.write(`\n[tool] ${event.data.toolName}\n`);
+        }
+        if (event.type === "assistant.message_delta") {
+          streamed += event.data.deltaContent;
+          process.stdout.write(event.data.deltaContent);
+        }
+      });
+    }
 
     const prompt = `Use the Green MCP tool green.search_components to list all Green web components.
 
@@ -144,7 +192,7 @@ Requirements:
 `;
 
     const response = await session.sendAndWait({ prompt });
-    const content = response?.data?.content;
+    const content = (verbose ? streamed : response?.data?.content) ?? "";
     if (typeof content !== "string" || !content.trim()) {
       throw new Error("No content returned from Copilot session");
     }
@@ -192,21 +240,56 @@ function createDefaultEntry(componentName) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
+  const runStartedAt = new Date().toISOString();
+  const now = isoDate();
+  const desiredGreenCoreVersion = await readGreenCoreVersionFromPackageJson();
+
   const matrix = await readMatrix();
   const before = stableJson(matrix);
 
+  const beforeComponentCount = Object.keys(matrix.components ?? {}).length;
+  const greenCoreBefore = matrix.greenCoreVersion;
+
+  if (args.verbose) {
+    console.log("Matrix sync: starting");
+    console.log(`- apply: ${args.apply}`);
+    console.log(`- prune: ${args.prune}`);
+    console.log(`- maxResults: ${args.maxResults}`);
+    console.log(
+      `- desired greenCoreVersion: ${desiredGreenCoreVersion || "(unknown)"}`,
+    );
+  }
+
   const inventory = await fetchComponentInventoryViaCopilotMcp({
     maxResults: args.maxResults,
+    verbose: args.verbose,
   });
 
   const { guessTestbedPage, guessSpec } = await scanRepoForComponentArtifacts();
 
-  const now = isoDate();
   let changed = false;
+  let added = 0;
+  let updatedTestbedPage = 0;
+  let updatedTestSpec = 0;
+  let pruned = 0;
+  let updatedGreenCoreVersion = false;
 
   if (!matrix.components || typeof matrix.components !== "object") {
     matrix.components = {};
     changed = true;
+  }
+
+  // Always refresh greenCoreVersion when applying (even if no other changes).
+  if (args.apply && desiredGreenCoreVersion) {
+    const didChange = setIfChanged(
+      matrix,
+      "greenCoreVersion",
+      desiredGreenCoreVersion,
+    );
+    if (didChange) {
+      updatedGreenCoreVersion = true;
+      changed = true;
+    }
   }
 
   // Add/update entries for inventory.
@@ -214,6 +297,7 @@ async function main() {
     if (!matrix.components[componentName]) {
       matrix.components[componentName] = createDefaultEntry(componentName);
       changed = true;
+      added += 1;
     }
 
     const entry = matrix.components[componentName];
@@ -235,10 +319,16 @@ async function main() {
     const nextTestbed = guessTestbedPage(componentName);
     const nextSpec = guessSpec(componentName);
 
-    if (nextTestbed)
-      changed = setIfChanged(entry, "testbedPage", nextTestbed) || changed;
-    if (nextSpec)
-      changed = setIfChanged(entry, "testSpec", nextSpec) || changed;
+    if (nextTestbed) {
+      const didChange = setIfChanged(entry, "testbedPage", nextTestbed);
+      if (didChange) updatedTestbedPage += 1;
+      changed = didChange || changed;
+    }
+    if (nextSpec) {
+      const didChange = setIfChanged(entry, "testSpec", nextSpec);
+      if (didChange) updatedTestSpec += 1;
+      changed = didChange || changed;
+    }
 
     if (changed) entry.lastUpdated = now;
   }
@@ -249,6 +339,7 @@ async function main() {
       if (!inventory.includes(name)) {
         delete matrix.components[name];
         changed = true;
+        pruned += 1;
       }
     }
   }
@@ -259,13 +350,43 @@ async function main() {
 
   const after = stableJson(matrix);
 
+  const report = {
+    workflow: "matrix-sync",
+    startedAt: runStartedAt,
+    finishedAt: new Date().toISOString(),
+    apply: args.apply,
+    prune: args.prune,
+    verbose: args.verbose,
+    maxResults: args.maxResults,
+    desiredGreenCoreVersion: desiredGreenCoreVersion || null,
+    greenCoreVersionBefore: greenCoreBefore || null,
+    greenCoreVersionAfter: matrix.greenCoreVersion || null,
+    updatedGreenCoreVersion,
+    inventoryCount: inventory.length,
+    matrixComponentsBefore: beforeComponentCount,
+    matrixComponentsAfter: Object.keys(matrix.components ?? {}).length,
+    added,
+    updatedTestbedPage,
+    updatedTestSpec,
+    pruned,
+    changed,
+  };
+
   if (args.print) {
     process.stdout.write(after);
+    if (args.generateReport) {
+      const reportPath = await writeReportJson(report);
+      if (args.verbose) console.log(`Matrix sync: wrote report ${reportPath}`);
+    }
     return;
   }
 
   if (!changed) {
     console.log("Matrix sync: no changes needed");
+    if (args.generateReport) {
+      const reportPath = await writeReportJson(report);
+      if (args.verbose) console.log(`Matrix sync: wrote report ${reportPath}`);
+    }
     return;
   }
 
@@ -275,12 +396,21 @@ async function main() {
     console.log(
       `- Matrix components (after sync): ${Object.keys(matrix.components).length}`,
     );
+    if (args.generateReport) {
+      const reportPath = await writeReportJson(report);
+      if (args.verbose) console.log(`Matrix sync: wrote report ${reportPath}`);
+    }
     process.exitCode = 2;
     return;
   }
 
   await writeMatrix(matrix);
   console.log("Matrix sync: wrote updates to test/coverage-matrix.json");
+
+  if (args.generateReport) {
+    const reportPath = await writeReportJson({ ...report, wroteMatrix: true });
+    if (args.verbose) console.log(`Matrix sync: wrote report ${reportPath}`);
+  }
 
   // Basic sanity: ensure the file actually changed.
   if (before === after) {
