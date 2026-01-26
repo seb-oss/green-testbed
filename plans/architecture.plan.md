@@ -35,7 +35,8 @@ This repo consists of four cooperating layers:
 
 ## Data Flow (high level)
 
-- Green MCP + installed `@sebgroup/green-core` → component inventory + API metadata
+- Green MCP (authoritative) → component inventory + API metadata
+- Optional: installed `@sebgroup/green-core` exports → sanity check only
 - Agent(s) → propose/update `test/coverage-matrix.json`
 - Agent(s) → generate/maintain `testbed/components/*` and `test/specs/components/*`
 - WDIO → executes tests → diffs/artifacts (visual diffs, logs)

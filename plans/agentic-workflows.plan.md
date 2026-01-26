@@ -39,8 +39,9 @@ Human-in-loop:
 
 Open questions:
 
-- Is MCP the authoritative inventory, or should we cross-check installed `@sebgroup/green-core` exports?
-- Should this run on a schedule, or be manual-only initially?
+- Inventory source of truth: **Green MCP is authoritative**.
+- Optional: installed `@sebgroup/green-core` exports may be used as a sanity check, but must not override MCP.
+- Invocation: start manual-first; add scheduling when stable.
 
 ### 2) Generator agent (matrix → scaffolds + tests + execution)
 
@@ -52,7 +53,8 @@ Objective:
 
 Verification:
 
-- Execute tests after generation (local or CI) and report pass/fail.
+- Execute tests after generation and report pass/fail.
+- Test execution must be supported as **optional** (workflow can run with or without it).
 
 Human-in-loop:
 
@@ -60,8 +62,8 @@ Human-in-loop:
 
 Open questions:
 
-- Canonical component-page URL format to use in generated tests.
-- Whether test execution is default or opt-in.
+- Canonical component-page URL for tests and generation:
+  - `${TESTBED_URL}/green-testbed/component/<name>`
 
 ### 3) Test review agent (quality gate)
 
@@ -79,8 +81,8 @@ Output:
 
 Open questions:
 
-- Should it be CI-blocking or advisory-only?
-- Where should reports live (stdout, markdown file, PR comments)?
+- This agent is **advisory only** (must not block CI).
+- Report location is TBD (stdout vs markdown vs PR comments).
 
 ## Maintenance automation (CI)
 

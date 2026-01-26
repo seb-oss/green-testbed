@@ -47,4 +47,5 @@ Create a modular testbed structure that scales with the component library and en
 
 ## Open decisions
 
-- Canonical component route format used by tests and generators (must be decided and documented once).
+- Canonical component route format used by tests and generators:
+  - `${TESTBED_URL}/green-testbed/component/<name>`

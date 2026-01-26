@@ -15,7 +15,7 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 **Remaining**
 
 - Expand component pages beyond the current small subset (start from a component inventory source)
-- Decide and document the canonical route format for component pages (see Open questions)
+- Canonical component-page URL is decided: `${TESTBED_URL}/green-testbed/component/<name>`
 
 ## Coverage matrix
 
@@ -31,6 +31,7 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 - Add schema validation (plan calls for `test/schemas/coverage-matrix.schema.json`)
 - Add higher-value validations mentioned in the plan (e.g., staleness / category consistency / green-core version alignment)
 - Add audit tooling that compares “matrix requirements” vs “what tests actually cover”
+- Update matrix structure to reflect the new policy: Interaction + Accessibility required; Visual optional
 
 ## Agentic workflow implementation
 
@@ -48,7 +49,7 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 **Remaining**
 
 - Decide how the workflow is invoked (manual CLI vs CI schedule vs both)
-- Define what “in sync” means (source of truth: MCP vs repo vs hybrid)
+- Define what “in sync” means (source of truth: Green MCP + repo state)
 
 ### B) Scaffolds + tests generator agent (matrix → pages/tests)
 
@@ -64,6 +65,7 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 - Create/verify scaffolds (component pages) in addition to tests (if required)
 - Execute tests after generation and report pass/fail
 - Ensure generated spec naming/path matches the matrix `testSpec` convention
+- Support optional verification by running `npm run test-local` (opt-in)
 
 ### C) Test review agent (quality gate)
 
@@ -76,7 +78,7 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 **Remaining**
 
 - Decide output format (console report vs markdown report vs PR review comments)
-- Decide whether it should be blocking (CI fail) or advisory
+- Confirmed: advisory-only (must not block CI)
 
 ## Docs
 
@@ -88,11 +90,9 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 
 - Add short usage + maintenance docs for human maintainers (see `docs/maintenance.md`)
 
-## Open questions (need answers to avoid guessing)
+## Decisions (resolved)
 
-- What should be treated as the canonical component-page URL in tests?
-  - Option A: `${TESTBED_URL}/green-testbed/component/<name>` (matches current router)
-  - Option B: `${TESTBED_URL}/component/<name>` (matches the plan text)
-- For the “matrix sync agent”: is Green MCP the authoritative inventory, or should we cross-check installed `@sebgroup/green-core` exports too?
-- For the generator agent: should it be allowed to run `npm run test-local` as part of its workflow (and fail fast), or only generate and leave execution to humans/CI?
-- For the review agent: do you want it to be CI-blocking, or purely advisory?
+- Canonical component-page URL in tests: `${TESTBED_URL}/green-testbed/component/<name>`
+- Inventory authority for matrix sync: Green MCP is authoritative
+- Generator may optionally run `npm run test-local` (opt-in)
+- Review agent is advisory-only

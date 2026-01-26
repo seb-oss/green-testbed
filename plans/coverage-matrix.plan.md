@@ -24,13 +24,19 @@ Use `test/coverage-matrix.json` as the single source of truth for:
 
 ## Test categories (summary)
 
-- Interaction tests: user interaction, keyboard navigation, events, and behavior/state validation.
-- Accessibility tests: semantic roles/ARIA, focus handling, and other a11y checks.
-- Visual tests: baseline-backed visual comparisons using the visual regression tooling.
+- Interaction tests (required): user interaction, keyboard navigation, events, and behavior/state validation.
+- Accessibility tests (required): semantic roles/ARIA, focus handling, and other a11y checks.
+- Visual tests (optional): baseline-backed visual comparisons using the visual regression tooling.
+
+Policy:
+
+- Every component must have Interaction + Accessibility coverage requirements and track their status.
+- Visual coverage requirements/status may be omitted or kept `pending` depending on adoption.
 
 ## Validation rules
 
 - Required fields exist and have correct types.
+- Interaction and Accessibility sections must exist for every component.
 - File references: referenced pages/specs exist.
 - Category consistency checks (e.g. form controls must include validation-related requirements under Interaction tests).
 - Staleness checks (flag entries not updated recently).
