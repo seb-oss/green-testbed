@@ -1,0 +1,137 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-26",
+  "greenCoreVersion": "2.26.1",
+  "components": {
+    "gds-button": {
+      "tier": 1,
+      "category": "interactive",
+      "testStatus": "partial",
+      "testbedPage": "testbed/components/button.ts",
+      "testSpec": "test/specs/components/button.spec.ts",
+      "tier1": {
+        "rendering": true,
+        "basicProps": ["rank", "disabled"],
+        "visualSnapshot": false,
+        "status": "pending"
+      },
+      "tier2": {
+        "interactions": ["click", "focus"],
+        "events": ["click", "focus", "blur"],
+        "states": ["disabled"],
+        "keyboardNav": ["Enter", "Space"],
+        "status": "pending"
+      },
+      "tier3": {
+        "accessibility": ["focus-visible"],
+        "edgeCases": ["long-text"],
+        "responsive": ["mobile", "desktop"],
+        "status": "pending"
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-dropdown": {
+      "tier": 1,
+      "category": "form-control",
+      "testStatus": "partial",
+      "testbedPage": "testbed/components/dropdown.ts",
+      "testSpec": "test/specs/components/dropdown.spec.ts",
+      "tier1": {
+        "rendering": true,
+        "basicProps": ["label", "disabled", "clearable"],
+        "visualSnapshot": false,
+        "status": "pending"
+      },
+      "tier2": {
+        "interactions": ["open", "select-option", "clear"],
+        "events": ["change", "focus", "blur"],
+        "states": ["disabled"],
+        "keyboardNav": ["ArrowDown", "ArrowUp", "Enter", "Escape", "Tab"],
+        "validation": ["required", "custom-validator"],
+        "status": "pending"
+      },
+      "tier3": {
+        "accessibility": ["aria-expanded"],
+        "edgeCases": ["empty-options", "many-options"],
+        "responsive": ["mobile", "desktop"],
+        "status": "pending"
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-input": {
+      "tier": 1,
+      "category": "form-control",
+      "testStatus": "partial",
+      "testbedPage": "testbed/components/input.ts",
+      "testSpec": "test/specs/components/input.spec.ts",
+      "tier1": {
+        "rendering": true,
+        "basicProps": ["label", "disabled", "value", "clearable"],
+        "visualSnapshot": false,
+        "status": "pending"
+      },
+      "tier2": {
+        "interactions": ["type", "clear"],
+        "events": ["input", "change", "focus", "blur"],
+        "states": ["disabled"],
+        "keyboardNav": ["Tab"],
+        "validation": ["required", "custom-validator"],
+        "status": "pending"
+      },
+      "tier3": {
+        "accessibility": ["aria-label"],
+        "edgeCases": ["long-text"],
+        "responsive": ["mobile", "desktop"],
+        "status": "pending"
+      },
+      "lastUpdated": "2026-01-26"
+    }
+  },
+  "categories": {
+    "interactive": {
+      "description": "Clickable components (buttons, links)",
+      "requiredTier2Tests": ["click", "hover", "focus", "keyboard"]
+    },
+    "form-control": {
+      "description": "Form input components",
+      "requiredTier2Tests": [
+        "value-change",
+        "validation",
+        "clear",
+        "keyboard",
+        "error-states"
+      ],
+      "requiredTier3Tests": ["form-submission", "validation-messages"]
+    },
+    "container": {
+      "description": "Layout components (flex, grid, card)",
+      "requiredTier1Tests": ["slot-content", "nested-components"]
+    },
+    "display": {
+      "description": "Display-only components (text, image, badge)",
+      "tier2Optional": true
+    }
+  },
+  "testTiers": {
+    "tier1": {
+      "name": "Foundation Tests",
+      "required": true,
+      "description": "Basic rendering, props, visual snapshots",
+      "estimatedTime": "15-30 min per component"
+    },
+    "tier2": {
+      "name": "Interaction Tests",
+      "required": true,
+      "description": "User interactions, events, states, keyboard navigation",
+      "estimatedTime": "45-90 min per component",
+      "prerequisite": "tier1"
+    },
+    "tier3": {
+      "name": "Advanced Tests",
+      "required": false,
+      "description": "Accessibility, edge cases, responsive behavior",
+      "estimatedTime": "60-120 min per component",
+      "prerequisite": "tier2"
+    }
+  }
+}
