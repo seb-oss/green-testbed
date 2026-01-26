@@ -3,6 +3,15 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { readMatrix, writeMatrix } from "./matrix-utils.js";
 
+function nowTime() {
+  return new Date().toISOString().slice(11, 19);
+}
+
+function vprintln(verbose, message) {
+  if (!verbose) return;
+  console.log(`[${nowTime()}] ${message}`);
+}
+
 function parseArgs(argv) {
   const args = {
     apply: false,
@@ -10,6 +19,7 @@ function parseArgs(argv) {
     print: false,
     generateReport: false,
     verbose: false,
+    forceExit: true,
     maxResults: 200,
   };
 
@@ -20,12 +30,16 @@ function parseArgs(argv) {
     if (a === "--print") args.print = true;
     if (a === "--generate-report") args.generateReport = true;
     if (a === "--verbose") args.verbose = true;
+    if (a === "--force-exit") args.forceExit = true;
+    if (a === "--no-force-exit") args.forceExit = false;
     if (a === "--max-results" && argv[i + 1])
       args.maxResults = Number(argv[++i]);
   }
 
   return args;
 }
+
+const cliArgs = parseArgs(process.argv.slice(2));
 
 function isoDate() {
   return new Date().toISOString().slice(0, 10);
@@ -151,10 +165,15 @@ async function scanRepoForComponentArtifacts() {
 }
 
 async function fetchComponentInventoryViaCopilotMcp({ maxResults, verbose }) {
+  const t0 = Date.now();
+  vprintln(verbose, "Loading Green MCP server config");
   const greenMcp = await loadGreenMcpServerConfig();
+  vprintln(verbose, `Green MCP config loaded (${Date.now() - t0}ms)`);
 
+  vprintln(verbose, "Starting Copilot client and creating session");
   const client = new CopilotClient();
   try {
+    const tSessionStart = Date.now();
     const session = await client.createSession({
       model: "sonnet-4.5",
       streaming: !!verbose,
@@ -162,16 +181,38 @@ async function fetchComponentInventoryViaCopilotMcp({ maxResults, verbose }) {
         green: greenMcp,
       },
     });
+    vprintln(verbose, `Session created (${Date.now() - tSessionStart}ms)`);
 
     let streamed = "";
+    let lastEventAt = Date.now();
     if (verbose) {
       session.on((event) => {
+        lastEventAt = Date.now();
         if (event.type === "tool.call_start") {
-          process.stdout.write(`\n[tool] ${event.data.toolName}\n`);
+          process.stdout.write(`\n[tool.start] ${event.data.toolName}\n`);
+        }
+        if (event.type === "tool.call_done") {
+          process.stdout.write(`\n[tool.done] ${event.data.toolName}\n`);
+          try {
+            process.stdout.write(
+              `${JSON.stringify(event.data.result, null, 2)}\n`,
+            );
+          } catch {
+            process.stdout.write(`${String(event.data.result)}\n`);
+          }
         }
         if (event.type === "assistant.message_delta") {
           streamed += event.data.deltaContent;
           process.stdout.write(event.data.deltaContent);
+        }
+        if (event.type === "assistant.message_done") {
+          process.stdout.write("\n[assistant.done]\n");
+        }
+        if (event.type === "session.idle") {
+          process.stdout.write("\n[session.idle]\n");
+        }
+        if (event.type === "session.error") {
+          process.stdout.write(`\n[session.error] ${event.data.error}\n`);
         }
       });
     }
@@ -191,7 +232,10 @@ Requirements:
 - Sort the components alphabetically.
 `;
 
+    vprintln(verbose, "Requesting component inventory (sendAndWait)");
     const response = await session.sendAndWait({ prompt });
+    vprintln(verbose, `Inventory response received (${Date.now() - t0}ms)`);
+
     const content = (verbose ? streamed : response?.data?.content) ?? "";
     if (typeof content !== "string" || !content.trim()) {
       throw new Error("No content returned from Copilot session");
@@ -211,9 +255,14 @@ Requirements:
       throw new Error("Invalid inventory JSON: components must be string[]");
     }
 
+    vprintln(verbose, `Parsed inventory: ${list.length} components`);
+
     return Array.from(new Set(list.filter((c) => c.startsWith("gds-")))).sort();
   } finally {
+    vprintln(verbose, "Stopping Copilot client");
+    const tStop = Date.now();
     await client.stop();
+    vprintln(verbose, `Copilot client stopped (${Date.now() - tStop}ms)`);
   }
 }
 
@@ -237,9 +286,7 @@ function createDefaultEntry(componentName) {
   };
 }
 
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
-
+async function main(args) {
   const runStartedAt = new Date().toISOString();
   const now = isoDate();
   const desiredGreenCoreVersion = await readGreenCoreVersionFromPackageJson();
@@ -375,6 +422,7 @@ async function main() {
   if (args.print) {
     process.stdout.write(after);
     if (args.generateReport) {
+      vprintln(args.verbose, "Writing report (print mode)");
       const reportPath = await writeReportJson(report);
       if (args.verbose) console.log(`Matrix sync: wrote report ${reportPath}`);
     }
@@ -384,6 +432,7 @@ async function main() {
   if (!changed) {
     console.log("Matrix sync: no changes needed");
     if (args.generateReport) {
+      vprintln(args.verbose, "Writing report (no-change mode)");
       const reportPath = await writeReportJson(report);
       if (args.verbose) console.log(`Matrix sync: wrote report ${reportPath}`);
     }
@@ -397,6 +446,7 @@ async function main() {
       `- Matrix components (after sync): ${Object.keys(matrix.components).length}`,
     );
     if (args.generateReport) {
+      vprintln(args.verbose, "Writing report (check mode)");
       const reportPath = await writeReportJson(report);
       if (args.verbose) console.log(`Matrix sync: wrote report ${reportPath}`);
     }
@@ -408,6 +458,7 @@ async function main() {
   console.log("Matrix sync: wrote updates to test/coverage-matrix.json");
 
   if (args.generateReport) {
+    vprintln(args.verbose, "Writing report (apply mode)");
     const reportPath = await writeReportJson({ ...report, wroteMatrix: true });
     if (args.verbose) console.log(`Matrix sync: wrote report ${reportPath}`);
   }
@@ -418,7 +469,14 @@ async function main() {
   }
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exitCode = 1;
-});
+main(cliArgs)
+  .then(() => {
+    if (!cliArgs.forceExit) return;
+    setImmediate(() => process.exit(process.exitCode ?? 0));
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exitCode = 1;
+    if (!cliArgs.forceExit) return;
+    setImmediate(() => process.exit(1));
+  });
