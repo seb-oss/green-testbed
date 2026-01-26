@@ -1,5 +1,6 @@
 import { expect, browser } from "@wdio/globals";
 import { ComponentPage } from "../../helpers/component-page";
+import { testbedUrl } from "../../helpers/testbed-url";
 
 class InputPage extends ComponentPage {
   constructor() {
@@ -7,11 +8,9 @@ class InputPage extends ComponentPage {
   }
 }
 
-describe("gds-input Tier1 /", () => {
+describe("gds-input Interaction /", () => {
   before(async () => {
-    await browser.url(
-      `${process.env.TESTBED_URL as string}/component/gds-input`,
-    );
+    await browser.url(testbedUrl("/component/gds-input"));
   });
 
   it("should render", async () => {

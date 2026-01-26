@@ -21,7 +21,7 @@ This is a short guide for keeping the testbed healthy.
 
 Until the matrix-sync agent exists, treat `test/coverage-matrix.json` as the source of truth for:
 
-- what each component must cover (tier requirements)
+- what each component must cover (interaction + accessibility required; visual optional)
 - where the testbed page and spec live
 - status tracking (pending / in-progress / review / complete)
 
@@ -32,7 +32,7 @@ After edits:
 
 ### 2) Generate tests (current state)
 
-There is a generator script: `npm run generate-tests <gds-component> --tier <1|2|3>`.
+There is a generator script: `npm run generate-tests <gds-component> --category <interaction|accessibility|visual>`.
 
 Important:
 

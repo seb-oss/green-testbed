@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 
-function countStatuses(components, tierKey) {
+function countStatuses(components, key) {
   const counts = {
     complete: 0,
     review: 0,
@@ -10,7 +10,7 @@ function countStatuses(components, tierKey) {
   };
 
   for (const entry of Object.values(components)) {
-    const status = entry?.[tierKey]?.status ?? "unknown";
+    const status = entry?.[key]?.status ?? "unknown";
     if (status in counts) counts[status] += 1;
     else counts.unknown += 1;
   }
@@ -43,16 +43,20 @@ async function main() {
   const components = matrix.components ?? {};
   const total = Object.keys(components).length;
 
-  const tier1 = countStatuses(components, "tier1");
-  const tier2 = countStatuses(components, "tier2");
-  const tier3 = countStatuses(components, "tier3");
+  const interaction = countStatuses(components, "interaction");
+  const accessibility = countStatuses(components, "accessibility");
+  const visual = countStatuses(components, "visual");
 
   console.log("Component Coverage Report");
   console.log("═════════════════════════════════════");
   console.log(`Total Components: ${total}`);
-  console.log(`Tier 1: ${formatCounts(tier1)} (total ${sumCounts(tier1)})`);
-  console.log(`Tier 2: ${formatCounts(tier2)} (total ${sumCounts(tier2)})`);
-  console.log(`Tier 3: ${formatCounts(tier3)} (total ${sumCounts(tier3)})`);
+  console.log(
+    `Interaction: ${formatCounts(interaction)} (total ${sumCounts(interaction)})`,
+  );
+  console.log(
+    `Accessibility: ${formatCounts(accessibility)} (total ${sumCounts(accessibility)})`,
+  );
+  console.log(`Visual: ${formatCounts(visual)} (total ${sumCounts(visual)})`);
 }
 
 main().catch((err) => {

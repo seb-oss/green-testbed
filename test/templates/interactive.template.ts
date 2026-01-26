@@ -1,13 +1,12 @@
 import { expect, browser, $ } from "@wdio/globals";
+import { testbedUrl } from "../helpers/testbed-url";
 
 // Example patterns for interactive components (buttons, links, etc.).
 // This file is agent context only; it is not executed by WDIO.
 
 describe("Interactive Template /", () => {
   before(async () => {
-    await browser.url(
-      `${process.env.TESTBED_URL as string}/component/gds-button`,
-    );
+    await browser.url(testbedUrl("/component/gds-button"));
   });
 
   it("should render", async () => {

@@ -1,8 +1,9 @@
 import { expect, browser, $ } from "@wdio/globals";
+import { testbedUrl } from "../helpers/testbed-url";
 
 describe("All components /", () => {
   before(async () => {
-    await browser.url(`${process.env.TESTBED_URL as string}/all-components`);
+    await browser.url(testbedUrl("/all-components"));
   });
 
   it("Renders a gds-badge", async () => {

@@ -1,5 +1,6 @@
 import { expect, browser } from "@wdio/globals";
 import { ComponentPage } from "../../helpers/component-page";
+import { testbedUrl } from "../../helpers/testbed-url";
 
 class DropdownPage extends ComponentPage {
   constructor() {
@@ -7,11 +8,9 @@ class DropdownPage extends ComponentPage {
   }
 }
 
-describe("gds-dropdown Tier1 /", () => {
+describe("gds-dropdown Interaction /", () => {
   before(async () => {
-    await browser.url(
-      `${process.env.TESTBED_URL as string}/component/gds-dropdown`,
-    );
+    await browser.url(testbedUrl("/component/gds-dropdown"));
   });
 
   it("should render", async () => {

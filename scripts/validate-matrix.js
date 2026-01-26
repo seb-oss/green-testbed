@@ -1,6 +1,6 @@
 import { access, readFile } from "node:fs/promises";
 
-const VALID_TIER_STATUSES = new Set([
+const VALID_STATUSES = new Set([
   "pending",
   "in-progress",
   "review",
@@ -24,12 +24,19 @@ function fail(errors, message) {
   errors.push(message);
 }
 
-function validateTierStatus(errors, componentName, tierKey, status) {
-  if (!VALID_TIER_STATUSES.has(status)) {
+function validateStatus(errors, componentName, key, status) {
+  if (!VALID_STATUSES.has(status)) {
     fail(
       errors,
-      `${componentName}: ${tierKey}.status must be one of ${Array.from(VALID_TIER_STATUSES).join(", ")}`,
+      `${componentName}: ${key}.status must be one of ${Array.from(VALID_STATUSES).join(", ")}`,
     );
+  }
+}
+
+function validateStringArray(errors, componentName, key, value) {
+  if (value === undefined) return;
+  if (!Array.isArray(value) || value.some((v) => typeof v !== "string")) {
+    fail(errors, `${componentName}: ${key} must be an array of strings`);
   }
 }
 
@@ -56,42 +63,92 @@ async function main() {
       fail(errors, `${name}: category is required`);
     }
 
-    if (!entry.tier || ![1, 2, 3].includes(entry.tier)) {
-      fail(errors, `${name}: tier must be 1, 2, or 3`);
-    }
+    // required test categories
+    if (!entry.interaction) {
+      fail(errors, `${name}: interaction is required`);
+    } else {
+      if (!isNonEmptyString(entry.interaction.status)) {
+        fail(errors, `${name}: interaction.status is required`);
+      } else {
+        validateStatus(errors, name, "interaction", entry.interaction.status);
+      }
 
-    if (!entry.tier1) {
-      fail(errors, `${name}: tier1 is required`);
-      continue;
-    }
-
-    if (entry.tier1.rendering !== true) {
-      fail(errors, `${name}: tier1.rendering must be true`);
-    }
-
-    if (!Array.isArray(entry.tier1.basicProps)) {
-      fail(errors, `${name}: tier1.basicProps must be an array`);
-    }
-
-    if (typeof entry.tier1.visualSnapshot !== "boolean") {
-      fail(errors, `${name}: tier1.visualSnapshot must be boolean`);
-    }
-
-    validateTierStatus(errors, name, "tier1", entry.tier1.status);
-
-    if (entry.tier2?.status)
-      validateTierStatus(errors, name, "tier2", entry.tier2.status);
-    if (entry.tier3?.status)
-      validateTierStatus(errors, name, "tier3", entry.tier3.status);
-
-    // sequencing rule
-    if (
-      entry.tier2?.status === "complete" &&
-      entry.tier1.status !== "complete"
-    ) {
-      fail(
+      validateStringArray(
         errors,
-        `${name}: tier2 cannot be complete unless tier1 is complete`,
+        name,
+        "interaction.interactions",
+        entry.interaction.interactions,
+      );
+      validateStringArray(
+        errors,
+        name,
+        "interaction.events",
+        entry.interaction.events,
+      );
+      validateStringArray(
+        errors,
+        name,
+        "interaction.states",
+        entry.interaction.states,
+      );
+      validateStringArray(
+        errors,
+        name,
+        "interaction.keyboardNav",
+        entry.interaction.keyboardNav,
+      );
+      validateStringArray(
+        errors,
+        name,
+        "interaction.validation",
+        entry.interaction.validation,
+      );
+      validateStringArray(
+        errors,
+        name,
+        "interaction.edgeCases",
+        entry.interaction.edgeCases,
+      );
+    }
+
+    if (!entry.accessibility) {
+      fail(errors, `${name}: accessibility is required`);
+    } else {
+      if (!isNonEmptyString(entry.accessibility.status)) {
+        fail(errors, `${name}: accessibility.status is required`);
+      } else {
+        validateStatus(
+          errors,
+          name,
+          "accessibility",
+          entry.accessibility.status,
+        );
+      }
+
+      validateStringArray(
+        errors,
+        name,
+        "accessibility.checks",
+        entry.accessibility.checks,
+      );
+    }
+
+    // optional: visual
+    if (entry.visual) {
+      if (!isNonEmptyString(entry.visual.status)) {
+        fail(
+          errors,
+          `${name}: visual.status is required when visual is present`,
+        );
+      } else {
+        validateStatus(errors, name, "visual", entry.visual.status);
+      }
+
+      validateStringArray(
+        errors,
+        name,
+        "visual.snapshots",
+        entry.visual.snapshots,
       );
     }
 

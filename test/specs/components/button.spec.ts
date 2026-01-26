@@ -1,5 +1,6 @@
 import { expect, browser } from "@wdio/globals";
 import { ComponentPage } from "../../helpers/component-page";
+import { testbedUrl } from "../../helpers/testbed-url";
 
 class ButtonPage extends ComponentPage {
   constructor() {
@@ -7,11 +8,9 @@ class ButtonPage extends ComponentPage {
   }
 }
 
-describe("gds-button Tier1 /", () => {
+describe("gds-button Interaction /", () => {
   before(async () => {
-    await browser.url(
-      `${process.env.TESTBED_URL as string}/component/gds-button`,
-    );
+    await browser.url(testbedUrl("/component/gds-button"));
   });
 
   it("should render", async () => {

@@ -1,8 +1,9 @@
 import { expect, browser, $, $$ } from "@wdio/globals";
+import { testbedUrl } from "../helpers/testbed-url";
 
 describe("Form /", () => {
   before(async () => {
-    await browser.url(`${process.env.TESTBED_URL as string}/form`);
+    await browser.url(testbedUrl("/form"));
   });
 
   it("should display the form", async () => {
@@ -35,10 +36,10 @@ describe("Form /", () => {
 
     for (const element of formElements) {
       const isInvalid = (await element.execute(
-        (el: any) => el.invalid
+        (el: any) => el.invalid,
       )) as boolean;
       const errorMessage = (await element.execute(
-        (el: any) => el.errorMessage
+        (el: any) => el.errorMessage,
       )) as string;
 
       expect(isInvalid).toBe(true);

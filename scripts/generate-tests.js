@@ -4,7 +4,7 @@ import { readMatrix, getMatrixEntry, writeMatrix } from "./matrix-utils.js";
 import { fetchComponentDocs } from "./green-mcp-client.js";
 
 function parseArgs(argv) {
-  const args = { component: null, tier: null, force: false };
+  const args = { component: null, category: null, force: false };
 
   const positional = argv.filter((a) => !a.startsWith("--"));
   if (positional[0]) args.component = positional[0];
@@ -12,14 +12,24 @@ function parseArgs(argv) {
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--component" && argv[i + 1]) args.component = argv[++i];
-    if (a === "--tier" && argv[i + 1]) args.tier = Number(argv[++i]);
+    if (a === "--category" && argv[i + 1]) args.category = argv[++i];
+    if (a === "--tier") {
+      throw new Error(
+        "--tier is no longer supported. Use --category <interaction|accessibility|visual>.",
+      );
+    }
     if (a === "--force") args.force = true;
   }
 
   return args;
 }
 
-function buildAgentPrompt({ componentName, tier }) {
+function titleCase(word) {
+  if (!word) return word;
+  return word[0].toUpperCase() + word.slice(1);
+}
+
+function buildAgentPrompt({ componentName, category }) {
   return `You are an expert test engineer for the Green Design System testbed.
 Your task is to generate comprehensive WebDriverIO tests for the ${componentName} component.
 
@@ -27,10 +37,11 @@ Follow project conventions:
 - Use WebDriverIO v9 syntax
 - Import from '@wdio/globals'
 - Prefer selectors: tag name (e.g. gds-button) OR [gds-element='gds-button']
-- Navigate to: \`${process.env.TESTBED_URL}/component/${componentName}\`
+- Navigate using: \`testbedUrl('/component/${componentName}')\`
 - Output ONLY TypeScript code for the spec file.
 
 When possible, use helpers from 'test/helpers' (ComponentPage, waitForState, Keys, snapshotWithRetry).
+Always use the shared helper 'test/helpers/testbed-url' for navigation.
 
 You MUST call the provided tools to fetch requirements and examples before writing code.`;
 }
@@ -59,17 +70,28 @@ async function ensureDirExistsFor(pathUrl) {
   void pathUrl;
 }
 
-async function generateTests({ componentName, tier, force }) {
+async function generateTests({ componentName, category, force }) {
   if (!componentName) throw new Error("Missing component name");
-  if (![1, 2, 3].includes(tier)) throw new Error("--tier must be 1, 2, or 3");
+  if (!category) throw new Error("Missing --category");
+  if (!["interaction", "accessibility", "visual"].includes(category)) {
+    throw new Error("--category must be interaction, accessibility, or visual");
+  }
 
   const matrix = await readMatrix();
   const entry = getMatrixEntry(matrix, componentName);
-  const tierKey = `tier${tier}`;
+  const categoryKey = category;
+  const categoryLabel = titleCase(category);
 
-  if (entry?.[tierKey]?.status === "complete" && !force) {
+  if (!entry) throw new Error(`${componentName} not found in coverage matrix`);
+  if (!entry[categoryKey]) {
+    throw new Error(
+      `${componentName} missing '${categoryKey}' section in matrix`,
+    );
+  }
+
+  if (entry[categoryKey].status === "complete" && !force) {
     console.log(
-      `${componentName} ${tierKey} already complete (use --force to regenerate)`,
+      `${componentName} ${categoryKey} already complete (use --force to regenerate)`,
     );
     return;
   }
@@ -80,19 +102,22 @@ async function generateTests({ componentName, tier, force }) {
   const tools = [
     defineTool("get_coverage_requirements", {
       description:
-        "Get test coverage requirements for a component tier from coverage-matrix.json",
+        "Get test coverage requirements for a component category from coverage-matrix.json",
       parameters: {
         type: "object",
         properties: {
           componentName: { type: "string" },
-          tier: { type: "number", enum: [1, 2, 3] },
+          category: {
+            type: "string",
+            enum: ["interaction", "accessibility", "visual"],
+          },
         },
-        required: ["componentName", "tier"],
+        required: ["componentName", "category"],
       },
-      handler: async ({ componentName: c, tier: t }) => {
+      handler: async ({ componentName: c, category: cat }) => {
         const m = await readMatrix();
         const e = getMatrixEntry(m, c);
-        return e[`tier${t}`];
+        return e?.[cat];
       },
     }),
     defineTool("get_component_docs", {
@@ -121,7 +146,7 @@ async function generateTests({ componentName, tier, force }) {
         name: "test-generator",
         displayName: "Test Generator",
         description: "Generates WebDriverIO tests for Green components",
-        prompt: buildAgentPrompt({ componentName, tier }),
+        prompt: buildAgentPrompt({ componentName, category }),
       },
     ],
   });
@@ -139,7 +164,7 @@ async function generateTests({ componentName, tier, force }) {
     }
   });
 
-  const prompt = `Generate Tier ${tier} tests for ${componentName}.
+  const prompt = `Generate ${categoryLabel} tests for ${componentName}.
 
 Context:
 - Coverage requirements: call get_coverage_requirements
@@ -148,8 +173,8 @@ Context:
 
 Output requirements:
 - Output ONLY TypeScript code
-- Use a single describe() for '${componentName} Tier${tier} /'
-- Include a before() hook navigating to \`${process.env.TESTBED_URL}/component/${componentName}\`
+- Use a single describe() for '${componentName} ${categoryLabel} /'
+- Include a before() hook navigating to testbedUrl('/component/${componentName}')
 - Use async/await
 - Prefer stable selectors (ids in testbed pages when present)
 
@@ -159,7 +184,7 @@ Component docs (cached):\n${JSON.stringify(componentDocs, null, 2)}\n`;
   await client.stop();
 
   const outPath = new URL(
-    `../test/specs/components/${componentName.replace(/^gds-/, "")}.tier${tier}.generated.spec.ts`,
+    `../test/specs/components/${componentName.replace(/^gds-/, "")}.${category}.generated.spec.ts`,
     import.meta.url,
   );
 
@@ -167,7 +192,7 @@ Component docs (cached):\n${JSON.stringify(componentDocs, null, 2)}\n`;
   await writeFile(outPath, generated, "utf8");
 
   // mark as review (human-in-the-loop)
-  entry[tierKey].status = "review";
+  entry[categoryKey].status = "review";
   entry.lastUpdated = new Date().toISOString().slice(0, 10);
   matrix.lastUpdated = entry.lastUpdated;
   await writeMatrix(matrix);
@@ -177,9 +202,9 @@ Component docs (cached):\n${JSON.stringify(componentDocs, null, 2)}\n`;
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  if (!args.component || !args.tier) {
+  if (!args.component || !args.category) {
     console.error(
-      "Usage: node scripts/generate-tests.js <gds-component> --tier <1|2|3> [--force]",
+      "Usage: node scripts/generate-tests.js <gds-component> --category <interaction|accessibility|visual> [--force]",
     );
     process.exitCode = 1;
     return;
@@ -187,7 +212,7 @@ async function main() {
 
   await generateTests({
     componentName: args.component,
-    tier: args.tier,
+    category: args.category,
     force: args.force,
   });
 }

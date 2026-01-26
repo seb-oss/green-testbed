@@ -1,13 +1,12 @@
 import { expect, browser, $ } from "@wdio/globals";
+import { testbedUrl } from "../helpers/testbed-url";
 
 // Example patterns for form controls (input, dropdown, etc.).
 // This file is agent context only; it is not executed by WDIO.
 
 describe("Form Control Template /", () => {
   before(async () => {
-    await browser.url(
-      `${process.env.TESTBED_URL as string}/component/gds-input`,
-    );
+    await browser.url(testbedUrl("/component/gds-input"));
   });
 
   it("should render", async () => {
