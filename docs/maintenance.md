@@ -36,7 +36,7 @@ There is a generator script: `npm run generate-tests <gds-component> --category 
 
 Important:
 
-- The generator currently uses cached docs (see `scripts/green-mcp-client.js`); it does not yet fetch live docs from Green MCP.
+- The generator should fetch live docs from Green MCP via Copilot SDK MCP integration (`mcpServers`).
 - Always run the generated tests locally (`npm run test-local`) and review them before merging.
 
 ### 3) Review test changes

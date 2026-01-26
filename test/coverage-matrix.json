@@ -9,15 +9,31 @@
       "testbedPage": "testbed/components/button.ts",
       "testSpec": "test/specs/components/button.spec.ts",
       "interaction": {
-        "interactions": ["click", "focus"],
-        "events": ["click", "focus", "blur"],
-        "states": ["disabled"],
-        "keyboardNav": ["Enter", "Space"],
-        "edgeCases": ["long-text"],
+        "interactions": [
+          "click",
+          "focus"
+        ],
+        "events": [
+          "click",
+          "focus",
+          "blur"
+        ],
+        "states": [
+          "disabled"
+        ],
+        "keyboardNav": [
+          "Enter",
+          "Space"
+        ],
+        "edgeCases": [
+          "long-text"
+        ],
         "status": "pending"
       },
       "accessibility": {
-        "checks": ["focus-visible"],
+        "checks": [
+          "focus-visible"
+        ],
         "status": "pending"
       },
       "visual": {
@@ -32,16 +48,40 @@
       "testbedPage": "testbed/components/dropdown.ts",
       "testSpec": "test/specs/components/dropdown.spec.ts",
       "interaction": {
-        "interactions": ["open", "select-option", "clear"],
-        "events": ["change", "focus", "blur"],
-        "states": ["disabled"],
-        "keyboardNav": ["ArrowDown", "ArrowUp", "Enter", "Escape", "Tab"],
-        "validation": ["required", "custom-validator"],
-        "edgeCases": ["empty-options", "many-options"],
+        "interactions": [
+          "open",
+          "select-option",
+          "clear"
+        ],
+        "events": [
+          "change",
+          "focus",
+          "blur"
+        ],
+        "states": [
+          "disabled"
+        ],
+        "keyboardNav": [
+          "ArrowDown",
+          "ArrowUp",
+          "Enter",
+          "Escape",
+          "Tab"
+        ],
+        "validation": [
+          "required",
+          "custom-validator"
+        ],
+        "edgeCases": [
+          "empty-options",
+          "many-options"
+        ],
         "status": "pending"
       },
       "accessibility": {
-        "checks": ["aria-expanded"],
+        "checks": [
+          "aria-expanded"
+        ],
         "status": "pending"
       },
       "visual": {
@@ -56,16 +96,35 @@
       "testbedPage": "testbed/components/input.ts",
       "testSpec": "test/specs/components/input.spec.ts",
       "interaction": {
-        "interactions": ["type", "clear"],
-        "events": ["input", "change", "focus", "blur"],
-        "states": ["disabled"],
-        "keyboardNav": ["Tab"],
-        "validation": ["required", "custom-validator"],
-        "edgeCases": ["long-text"],
+        "interactions": [
+          "type",
+          "clear"
+        ],
+        "events": [
+          "input",
+          "change",
+          "focus",
+          "blur"
+        ],
+        "states": [
+          "disabled"
+        ],
+        "keyboardNav": [
+          "Tab"
+        ],
+        "validation": [
+          "required",
+          "custom-validator"
+        ],
+        "edgeCases": [
+          "long-text"
+        ],
         "status": "pending"
       },
       "accessibility": {
-        "checks": ["aria-label"],
+        "checks": [
+          "aria-label"
+        ],
         "status": "pending"
       },
       "visual": {
@@ -73,12 +132,816 @@
         "status": "pending"
       },
       "lastUpdated": "2026-01-26"
+    },
+    "gds-alert": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-backdrop": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-badge": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-blur": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-breadcrumb": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-breadcrumbs": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-calendar": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-card": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-card-linked": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-card-pattern-01": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-checkbox": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-checkbox-group": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-coachmark": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-context-menu": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-datepicker": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-details": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-dialog": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-div": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-divider": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-fab": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-filter-chip": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-filter-chips": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-flex": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-form-summary": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-formatted-account": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-formatted-date": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-formatted-number": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-grid": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-grouped-list": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-icon-details": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-img": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-link": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-list-item": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-mask": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-menu-button": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-menu-heading": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-option": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-pagination": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-popover": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-radio": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-radio-group": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-rich-text": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-segment": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-segmented-control": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-select": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-sensitive-account": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
+    },
+    "gds-sensitive-date": {
+      "category": "unknown",
+      "testStatus": "missing",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending"
+      },
+      "accessibility": {
+        "status": "pending"
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      },
+      "lastUpdated": "2026-01-26"
     }
   },
   "categories": {
     "interactive": {
       "description": "Clickable components (buttons, links)",
-      "requiredInteractionTests": ["click", "hover", "focus", "keyboard"]
+      "requiredInteractionTests": [
+        "click",
+        "hover",
+        "focus",
+        "keyboard"
+      ]
     },
     "form-control": {
       "description": "Form input components",
@@ -89,11 +952,16 @@
         "keyboard",
         "error-states"
       ],
-      "requiredAccessibilityTests": ["validation-messages"]
+      "requiredAccessibilityTests": [
+        "validation-messages"
+      ]
     },
     "container": {
       "description": "Layout components (flex, grid, card)",
-      "requiredInteractionTests": ["slot-content", "nested-components"]
+      "requiredInteractionTests": [
+        "slot-content",
+        "nested-components"
+      ]
     },
     "display": {
       "description": "Display-only components (text, image, badge)",

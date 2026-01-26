@@ -61,7 +61,7 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 
 **Gaps to close**
 
-- Use Green MCP as reference (current doc fetch is cached placeholder)
+- Use Green MCP as reference by connecting via Copilot SDK `mcpServers` (no cached/placeholder doc fetch)
 - Create/verify scaffolds (component pages) in addition to tests (if required)
 - Execute tests after generation and report pass/fail
 - Ensure generated spec naming/path matches the matrix `testSpec` convention

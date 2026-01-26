@@ -168,19 +168,19 @@ const readComponentMatrix = defineTool("read_component_matrix", {
         type: "string",
         description: "Component name (e.g., 'gds-button')",
       },
-      tier: {
-        type: "number",
-        description: "Test tier (1, 2, or 3)",
-        enum: [1, 2, 3],
+      category: {
+        type: "string",
+        description: "Test category (interaction, accessibility, visual)",
+        enum: ["interaction", "accessibility", "visual"],
       },
     },
-    required: ["componentName", "tier"],
+    required: ["componentName", "category"],
   },
-  handler: async (args: { componentName: string; tier: number }) => {
+  handler: async (args: { componentName: string; category: string }) => {
     // Your implementation
     const matrix = await readMatrix();
     const component = matrix.components[args.componentName];
-    return component[`tier${args.tier}`];
+    return component[args.category];
   },
 });
 ```
@@ -190,7 +190,15 @@ const readComponentMatrix = defineTool("read_component_matrix", {
 ```typescript
 const session = await client.createSession({
   model: "gpt-4.1",
-  tools: [readComponentMatrix, fetchComponentDocs, generateTestFile],
+  tools: [readComponentMatrix, generateTestFile],
+  mcpServers: {
+    green: {
+      type: "stdio",
+      command: "node",
+      args: ["./node_modules/@sebgroup/green-core/bin/mcp-server"],
+      tools: ["*"],
+    },
+  },
 });
 ```
 

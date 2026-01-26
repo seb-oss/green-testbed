@@ -1,7 +1,35 @@
 import { CopilotClient, defineTool } from "@github/copilot-sdk";
 import { readFile, writeFile } from "node:fs/promises";
 import { readMatrix, getMatrixEntry, writeMatrix } from "./matrix-utils.js";
-import { fetchComponentDocs } from "./green-mcp-client.js";
+
+async function loadGreenMcpServerConfig() {
+  const raw = await readFile(
+    new URL("../.vscode/mcp.json", import.meta.url),
+    "utf8",
+  );
+  const cfg = JSON.parse(raw);
+  const servers = cfg?.servers;
+  if (!servers || typeof servers !== "object") {
+    throw new Error(".vscode/mcp.json missing 'servers'");
+  }
+
+  const firstKey = Object.keys(servers)[0];
+  const server = servers[firstKey];
+  if (!server) throw new Error(".vscode/mcp.json has no servers");
+  if (server.type !== "stdio") {
+    throw new Error(
+      `Unsupported MCP server type in .vscode/mcp.json: ${String(server.type)}`,
+    );
+  }
+  if (!server.command) throw new Error("MCP server missing command");
+
+  return {
+    tools: ["*"],
+    type: "stdio",
+    command: server.command,
+    args: Array.isArray(server.args) ? server.args : [],
+  };
+}
 
 function parseArgs(argv) {
   const args = { component: null, category: null, force: false };
@@ -42,6 +70,9 @@ Follow project conventions:
 
 When possible, use helpers from 'test/helpers' (ComponentPage, waitForState, Keys, snapshotWithRetry).
 Always use the shared helper 'test/helpers/testbed-url' for navigation.
+
+You have access to Green MCP tools via the MCP server named 'green'. Use them to get up-to-date component docs.
+You MUST call green.get_component_docs with framework 'web-component' before writing tests.
 
 You MUST call the provided tools to fetch requirements and examples before writing code.`;
 }
@@ -96,7 +127,6 @@ async function generateTests({ componentName, category, force }) {
     return;
   }
 
-  const componentDocs = await fetchComponentDocs(componentName);
   const templates = await loadTemplates();
 
   const tools = [
@@ -120,15 +150,6 @@ async function generateTests({ componentName, category, force }) {
         return e?.[cat];
       },
     }),
-    defineTool("get_component_docs", {
-      description: "Get component documentation (cached) for a Green component",
-      parameters: {
-        type: "object",
-        properties: { componentName: { type: "string" } },
-        required: ["componentName"],
-      },
-      handler: async ({ componentName: c }) => fetchComponentDocs(c),
-    }),
     defineTool("get_test_patterns", {
       description: "Get example test patterns used in this repo",
       parameters: { type: "object", properties: {} },
@@ -137,10 +158,14 @@ async function generateTests({ componentName, category, force }) {
   ];
 
   const client = new CopilotClient();
+  const greenMcp = await loadGreenMcpServerConfig();
   const session = await client.createSession({
     model: "sonnet-4.5",
     streaming: true,
     tools,
+    mcpServers: {
+      green: greenMcp,
+    },
     customAgents: [
       {
         name: "test-generator",
@@ -168,7 +193,7 @@ async function generateTests({ componentName, category, force }) {
 
 Context:
 - Coverage requirements: call get_coverage_requirements
-- Component docs: call get_component_docs
+- Component docs: call green.get_component_docs
 - Test patterns: call get_test_patterns
 
 Output requirements:
@@ -177,8 +202,7 @@ Output requirements:
 - Include a before() hook navigating to testbedUrl('/component/${componentName}')
 - Use async/await
 - Prefer stable selectors (ids in testbed pages when present)
-
-Component docs (cached):\n${JSON.stringify(componentDocs, null, 2)}\n`;
+`;
 
   await session.sendAndWait({ prompt });
   await client.stop();

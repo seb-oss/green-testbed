@@ -36,6 +36,7 @@ This repo consists of four cooperating layers:
 ## Data Flow (high level)
 
 - Green MCP (authoritative) → component inventory + API metadata
+- Copilot SDK connects to Green MCP via `mcpServers` (no bespoke MCP client wrapper)
 - Optional: installed `@sebgroup/green-core` exports → sanity check only
 - Agent(s) → propose/update `test/coverage-matrix.json`
 - Agent(s) → generate/maintain `testbed/components/*` and `test/specs/components/*`

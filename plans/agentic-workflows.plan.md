@@ -14,7 +14,7 @@ Use GitHub Copilot SDK agents (with Green MCP as primary knowledge source) to:
 ## Dependencies
 
 - Copilot SDK is the runtime for agentic workflows.
-- Green MCP provides component docs and metadata.
+- Green MCP provides component docs and metadata (accessed directly via Copilot SDK `mcpServers`).
 
 ## Workflows
 
@@ -41,6 +41,7 @@ Open questions:
 
 - Inventory source of truth: **Green MCP is authoritative**.
 - Optional: installed `@sebgroup/green-core` exports may be used as a sanity check, but must not override MCP.
+- MCP integration approach: use Copilot SDK `mcpServers` to connect to Green MCP tools (no bespoke Green MCP client wrapper).
 - Invocation: start manual-first; add scheduling when stable.
 
 ### 2) Generator agent (matrix → scaffolds + tests + execution)
