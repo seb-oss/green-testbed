@@ -45,7 +45,7 @@ This repo consists of four cooperating layers:
 - **Matrix as source of truth** for coverage requirements and status.
 - **Stable automation surfaces**: component pages expose stable IDs/attributes for selectors.
 - **Human-in-the-loop**: generated changes move statuses to `review` until confirmed.
-- **Incremental rollout**: enable heavier checks (visual, tier2/3, more platforms) gradually.
+- **Incremental rollout**: enable heavier checks (visual + accessibility + more platforms) gradually.
 
 ## Interfaces (contracts)
 

@@ -43,7 +43,7 @@ Create a modular testbed structure that scales with the component library and en
 - Each component has:
   - a showcase page
   - a stable route
-  - at least Tier 1 tests (see coverage matrix module)
+  - at least Interaction tests (see coverage matrix module)
 
 ## Open decisions
 

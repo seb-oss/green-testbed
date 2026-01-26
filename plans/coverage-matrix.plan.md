@@ -7,7 +7,7 @@ Status: Active (living document)
 
 Use `test/coverage-matrix.json` as the single source of truth for:
 
-- what to test (requirements per tier)
+- what to test (requirements per test category)
 - where the testbed page and spec live
 - progress/status tracking
 
@@ -17,23 +17,22 @@ Use `test/coverage-matrix.json` as the single source of truth for:
   - `greenCoreVersion`
   - a component inventory (all supported `gds-*` components)
   - per-component:
-    - category and tiering
+    - component classification (e.g. interactive, form-control, container, display)
     - `testbedPage` and `testSpec` references
-    - tier requirements (tier1 required; tier2 required; tier3 optional)
-    - tier statuses (`pending | in-progress | review | complete`)
+    - test category requirements (what must be validated)
+    - test category statuses (`pending | in-progress | review | complete`)
 
-## Tiers (summary)
+## Test categories (summary)
 
-- Tier 1 (required): renders + basic props + optional visual snapshot
-- Tier 2 (required): interactions + events + states + keyboard + validation (for form controls)
-- Tier 3 (optional): accessibility + edge cases + responsiveness
+- Interaction tests: user interaction, keyboard navigation, events, and behavior/state validation.
+- Accessibility tests: semantic roles/ARIA, focus handling, and other a11y checks.
+- Visual tests: baseline-backed visual comparisons using the visual regression tooling.
 
 ## Validation rules
 
-- Tier sequencing: tier2 cannot be `complete` unless tier1 is `complete`.
-- Required tier1 fields exist and have correct types.
+- Required fields exist and have correct types.
 - File references: referenced pages/specs exist.
-- Category consistency checks (e.g. form controls must include validation requirements in tier2).
+- Category consistency checks (e.g. form controls must include validation-related requirements under Interaction tests).
 - Staleness checks (flag entries not updated recently).
 
 ## Tooling
@@ -42,7 +41,7 @@ Use `test/coverage-matrix.json` as the single source of truth for:
   - validates matrix integrity (and later JSON schema)
 
 - `npm run coverage-report`
-  - prints status summary (counts per tier/status)
+  - prints status summary (counts per test category/status)
 
 ## Update process
 

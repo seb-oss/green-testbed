@@ -48,7 +48,7 @@ Objective:
 
 - Read the matrix entry and produce missing/updated:
   - component showcase pages (scaffolds)
-  - WDIO specs (Tier 1/2/3)
+  - WDIO specs (Interaction / Accessibility / Visual)
 
 Verification:
 
