@@ -239,9 +239,14 @@ Your task is to generate comprehensive WebDriverIO tests for the ${componentName
 Follow project conventions:
 - Use WebDriverIO v9 syntax
 - Import from '@wdio/globals'
-- Prefer selectors: tag name (e.g. gds-button) OR [gds-element='gds-button']
+- Prefer selectors: stable #ids in the showcase scaffolds when present, otherwise tag name (e.g. gds-button) OR [gds-element='gds-button']
 - Navigate using: \`testbedUrl('/component/${componentName}')\`
-- Output ONLY TypeScript code for the spec file.
+- Output ONLY TypeScript code for the spec file (no markdown fences).
+
+Repo conventions for spec imports:
+- Specs under 'test/specs/components/' import helpers like:
+  - import { ComponentPage } from '../../helpers/component-page'
+  - import { testbedUrl } from '../../helpers/testbed-url'
 
 When possible, use helpers from 'test/helpers' (ComponentPage, waitForState, Keys, snapshotWithRetry).
 Always use the shared helper 'test/helpers/testbed-url' for navigation.
@@ -250,6 +255,37 @@ You have access to Green MCP tools via the MCP server named 'green'. Use them to
 You MUST call green.get_component_docs with framework 'web-component' before writing tests.
 
 You MUST call the provided tools to fetch requirements and examples before writing code.`;
+}
+
+function normalizeGeneratedSpecSource({ source, outPathUrl }) {
+  let next = String(source ?? "");
+  const pathname = String(outPathUrl?.pathname ?? "").replaceAll("\\", "/");
+
+  // Some models sometimes include a short natural-language preamble.
+  // Strip everything before the first line that looks like TS code.
+  const lines = next.split(/\r?\n/);
+  const firstCodeLineIdx = lines.findIndex((line) =>
+    /^\s*(import\b|export\b|describe\s*\(|const\b|let\b|var\b|function\b|\/\*|\/\/|type\b|interface\b)/.test(
+      line,
+    ),
+  );
+  if (firstCodeLineIdx > 0) {
+    next = lines.slice(firstCodeLineIdx).join("\n");
+  }
+
+  // Specs under test/specs/components must import helpers from ../../helpers.
+  if (pathname.includes("/test/specs/components/")) {
+    next = next.replaceAll(
+      /from\s+(["'])\.\.\/helpers\//g,
+      "from $1../../helpers/",
+    );
+    next = next.replaceAll(
+      /from\s+(["'])\.\/helpers\//g,
+      "from $1../../helpers/",
+    );
+  }
+
+  return next;
 }
 
 async function loadTemplates() {
@@ -337,7 +373,6 @@ async function generateTests({ componentName, category, force }) {
   try {
     const greenMcp = await loadGreenMcpServerConfig();
     const session = await client.createSession({
-      model: "gpt-5.2",
       streaming: true,
       tools,
       mcpServers: {
@@ -377,9 +412,12 @@ Output requirements:
 - Include a before() hook navigating to testbedUrl('/component/${componentName}')
 - Use async/await
 - Prefer stable selectors (ids in testbed pages when present)
+- Add a short goal comment above each test, e.g.:
+  /** Goal: verify that rank attribute accepts all valid values */
+- Do NOT output markdown code fences
 `;
 
-    await session.sendAndWait({ prompt });
+    await session.sendAndWait({ prompt }, 180_000);
   } finally {
     await client.stop();
   }
@@ -390,7 +428,11 @@ Output requirements:
   );
 
   await ensureDirExistsFor(outPath);
-  await writeFile(outPath, generated, "utf8");
+  const normalized = normalizeGeneratedSpecSource({
+    source: generated,
+    outPathUrl: outPath,
+  });
+  await writeFile(outPath, normalized, "utf8");
 
   // mark as review (human-in-the-loop)
   entry[categoryKey].status = "review";
@@ -549,7 +591,6 @@ Output:
 `;
 
     const session = await client.createSession({
-      model: "gpt-5.2",
       streaming: true,
       tools,
       mcpServers: { green: greenMcp },
@@ -571,9 +612,12 @@ Output:
         process.stdout.write(`\n[tool] ${event.data.toolName}\n`);
     });
 
-    await session.sendAndWait({
-      prompt: `Create or update the showcase scaffold for ${componentName} covering categories: ${categories.join(", ")}.`,
-    });
+    await session.sendAndWait(
+      {
+        prompt: `Create or update the showcase scaffold for ${componentName} covering categories: ${categories.join(", ")}.`,
+      },
+      180_000,
+    );
   } finally {
     await client.stop();
   }

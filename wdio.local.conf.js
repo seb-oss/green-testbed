@@ -1,4 +1,50 @@
 import * as path from "path";
+import { spawnSync } from "node:child_process";
+
+function envFlag(name, defaultValue) {
+  const raw = process.env[name];
+  if (raw == null) return defaultValue;
+  const v = String(raw).trim().toLowerCase();
+  if (["1", "true", "yes", "y", "on"].includes(v)) return true;
+  if (["0", "false", "no", "n", "off"].includes(v)) return false;
+  return defaultValue;
+}
+
+function hasCommand(command) {
+  try {
+    const res = spawnSync(command, ["--version"], { stdio: "ignore" });
+    return res.status === 0;
+  } catch {
+    return false;
+  }
+}
+
+const browsers = (process.env.WDIO_BROWSERS ?? "chrome")
+  .split(",")
+  .map((s) => s.trim().toLowerCase())
+  .filter(Boolean);
+
+const capabilities = browsers
+  .map((b) => {
+    if (b === "chrome" || b === "chromium") {
+      return {
+        browserName: "chrome",
+        browserVersion: "stable",
+      };
+    }
+    if (b === "safari") {
+      return { browserName: "safari" };
+    }
+    if (b === "firefox") {
+      return { browserName: "firefox" };
+    }
+    return null;
+  })
+  .filter(Boolean);
+
+const enableVisual = envFlag("WDIO_VISUAL", true);
+const ocrRequested = envFlag("WDIO_OCR", false);
+const enableOcr = ocrRequested && hasCommand("tesseract");
 
 export const config = {
   //
@@ -59,22 +105,14 @@ export const config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 10,
+  maxInstances: Number(process.env.WDIO_MAX_INSTANCES ?? 1),
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://saucelabs.com/platform/platform-configurator
   //
 
-  capabilities: [
-    {
-      browserName: "chrome", // or 'chromium'
-      browserVersion: "stable", // or '116.0.5845.96', 'stable', 'latest', 'dev', 'canary', 'beta'
-    },
-    {
-      browserName: "safari",
-    },
-  ],
+  capabilities,
 
   //
   // ===================
@@ -126,28 +164,36 @@ export const config = {
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
   services: [
-    [
-      "visual",
-      {
-        // Some options, see the docs for more
-        baselineFolder: path.join(process.cwd(), "test", "baselines"),
-        formatImageName: "{platformName}-{tag}-{logName}",
-        screenshotPath: path.join(process.cwd(), "tmp"),
-        savePerInstance: true,
-        autoSaveBaseline: true,
-        ignoreAntialiasing: true,
-        rawMisMatchPercentage: 0.3,
-        // ... more options
-      },
-    ],
-    [
-      "ocr",
-      {
-        contrast: 0.25,
-        imagesFolder: ".tmp/",
-        language: "eng",
-      },
-    ],
+    ...(enableVisual
+      ? [
+          [
+            "visual",
+            {
+              // Some options, see the docs for more
+              baselineFolder: path.join(process.cwd(), "test", "baselines"),
+              formatImageName: "{platformName}-{tag}-{logName}",
+              screenshotPath: path.join(process.cwd(), "tmp"),
+              savePerInstance: true,
+              autoSaveBaseline: true,
+              ignoreAntialiasing: true,
+              rawMisMatchPercentage: 0.3,
+              // ... more options
+            },
+          ],
+        ]
+      : []),
+    ...(enableOcr
+      ? [
+          [
+            "ocr",
+            {
+              contrast: 0.25,
+              imagesFolder: ".tmp/",
+              language: "eng",
+            },
+          ],
+        ]
+      : []),
   ],
 
   // Framework you want to run your specs with.

@@ -29,6 +29,7 @@
     "validate-matrix": "node scripts/validate-matrix.js",
     "coverage-report": "node scripts/coverage-report.js",
     "generate-tests": "node scripts/generate-tests.js",
+    "orchestrate-tests-local": "node scripts/orchestrate-tests.local.js",
     "matrix-sync": "node scripts/matrix-sync-agent.js",
     "dev": "vite",
     "build": "vite build"

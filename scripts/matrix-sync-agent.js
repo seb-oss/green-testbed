@@ -175,7 +175,6 @@ async function fetchComponentInventoryViaCopilotMcp({ maxResults, verbose }) {
   try {
     const tSessionStart = Date.now();
     const session = await client.createSession({
-      model: "sonnet-4.5",
       streaming: !!verbose,
       mcpServers: {
         green: greenMcp,
