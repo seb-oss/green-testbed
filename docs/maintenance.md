@@ -32,12 +32,35 @@ After edits:
 
 ### 2) Generate tests (current state)
 
-There is a generator script: `npm run generate-tests <gds-component> --category <interaction|accessibility|visual>`.
+There is a generator script that can focus generation:
+
+- `npm run generate-tests -- --components gds-button --categories interaction`
+- Multiple targets: `npm run generate-tests -- --components gds-button,gds-input --categories interaction,accessibility`
+
+Scaffold generation:
+
+- Default behavior creates missing scaffolds only (safe).
+- Force scaffold updates (modify existing showcase pages): `--scaffold-mode update`
+- Never touch scaffolds: `--no-scaffolds` (or `--scaffold-mode keep`)
+
+Backwards compatible:
+
+- `npm run generate-tests -- gds-button --category interaction`
 
 Important:
 
 - The generator should fetch live docs from Green MCP via Copilot SDK MCP integration (`mcpServers`).
-- Always run the generated tests locally (`npm run test-local`) and review them before merging.
+- Prefer running generated tests locally and iterating on failures instead of merging blind generation.
+
+Recommended workflow (local):
+
+- Generate: `npm run generate-tests -- --components gds-button --categories interaction`
+- Run: `npm run test-local -- --spec test/specs/components/button.interaction.generated.spec.ts`
+
+Policy:
+
+- Do not bypass failures to make tests pass; fix the underlying issue or report the cause.
+- If the failure appears flaky, rerun a limited number of times before changing logic.
 
 ### 3) Review test changes
 
