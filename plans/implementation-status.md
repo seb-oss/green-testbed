@@ -79,8 +79,20 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 
 **Remaining**
 
-- Decide output format (console report vs markdown report vs PR review comments)
-- Confirmed: advisory-only (must not block CI)
+- Implement a review agent that evaluates spec + scaffold quality and produces an actionable todo list
+- Store results using the hybrid model:
+  - Small per-category quality summary fields in `test/coverage-matrix.json`
+  - Full per-run review report JSON under `logs/review-runs/<run-id>/...`
+- Define and implement the initial static checks:
+  - no bypass patterns
+  - no markdown code fences (```)
+  - per-test `/** Goal: ... */` comments + meaningful assertions
+  - selector quality (prefer stable `#id` fixtures)
+  - navigation uses `testbedUrl('/component/<tag>')`
+- Optionally add dynamic heuristics using orchestrator logs (flake signals)
+- Wire the feedback loop so the orchestrator can consume the todo list and iterate
+
+Confirmed: advisory-only (must not block CI)
 
 ## Docs
 

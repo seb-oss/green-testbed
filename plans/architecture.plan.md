@@ -31,7 +31,7 @@ This repo consists of four cooperating layers:
    - Agents read Green MCP docs and repo state to:
      - keep the matrix in sync
      - generate/update pages and tests
-     - review tests for quality issues
+   - review tests for quality issues and produce actionable todos
 
 ## Data Flow (high level)
 
@@ -41,6 +41,8 @@ This repo consists of four cooperating layers:
 - Agent(s) → propose/update `test/coverage-matrix.json`
 - Agent(s) → generate/maintain `testbed/components/*` and `test/specs/components/*`
 - WDIO → executes tests → diffs/artifacts (visual diffs, logs)
+- Review agent → emits review findings/todos → stored as per-run reports under `logs/`
+- Review agent → updates a small “quality summary” in `test/coverage-matrix.json` (optional fields)
 
 ## Principles
 
