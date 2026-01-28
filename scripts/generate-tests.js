@@ -241,7 +241,8 @@ Follow project conventions:
 - Import from '@wdio/globals'
 - Prefer selectors: stable #ids in the showcase scaffolds when present, otherwise tag name (e.g. gds-button) OR [gds-element='gds-button']
 - Navigate using: \`testbedUrl('/component/${componentName}')\`
-- Output ONLY TypeScript code for the spec file (no markdown fences).
+- Output ONLY TypeScript code for the spec file.
+- NEVER wrap output in markdown fences (no triple backticks like \`\`\`ts ... \`\`\`).
 
 Repo conventions for spec imports:
 - Specs under 'test/specs/components/' import helpers like:
@@ -257,11 +258,14 @@ You MUST call green.get_component_docs with framework 'web-component' before wri
 You MUST call the provided tools to fetch requirements and examples before writing code.`;
 }
 
-function normalizeGeneratedSpecSource({ source, outPathUrl }) {
-  let next = String(source ?? "");
-  const pathname = String(outPathUrl?.pathname ?? "").replaceAll("\\", "/");
+function stripMarkdownCodeFences(text) {
+  // Remove standalone markdown fence lines like ``` or ```ts
+  return String(text ?? "").replaceAll(/^\s*```[a-zA-Z0-9_-]*\s*$/gm, "");
+}
 
-  // Some models sometimes include a short natural-language preamble.
+function normalizeGeneratedTsSource(source) {
+  let next = stripMarkdownCodeFences(source);
+
   // Strip everything before the first line that looks like TS code.
   const lines = next.split(/\r?\n/);
   const firstCodeLineIdx = lines.findIndex((line) =>
@@ -272,6 +276,15 @@ function normalizeGeneratedSpecSource({ source, outPathUrl }) {
   if (firstCodeLineIdx > 0) {
     next = lines.slice(firstCodeLineIdx).join("\n");
   }
+
+  next = stripMarkdownCodeFences(next).trimStart();
+  if (next && !next.endsWith("\n")) next += "\n";
+  return next;
+}
+
+function normalizeGeneratedSpecSource({ source, outPathUrl }) {
+  let next = normalizeGeneratedTsSource(source);
+  const pathname = String(outPathUrl?.pathname ?? "").replaceAll("\\", "/");
 
   // Specs under test/specs/components must import helpers from ../../helpers.
   if (pathname.includes("/test/specs/components/")) {
@@ -509,9 +522,10 @@ async function generateScaffoldAndRegister({
           required: ["componentName", "source"],
         },
         handler: async ({ componentName: c, source }) => {
-          validateShowcaseSource({ componentName: c, source });
+          const normalized = normalizeGeneratedTsSource(source);
+          validateShowcaseSource({ componentName: c, source: normalized });
           const url = expectedShowcaseFileUrl(c);
-          await writeFile(url, source, "utf8");
+          await writeFile(url, normalized, "utf8");
           return { wrote: true, filePath: url.pathname };
         },
       }),

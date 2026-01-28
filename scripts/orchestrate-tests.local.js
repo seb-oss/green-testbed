@@ -4,6 +4,82 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { readMatrix, getMatrixEntry } from "./matrix-utils.js";
 
+const LOG_SEPARATOR = "\n\n----\n\n";
+
+async function tryLoadChalk() {
+  try {
+    const mod = await import("chalk");
+    return mod.default;
+  } catch {
+    return null;
+  }
+}
+
+function createLogger({ chalk }) {
+  const color = {
+    dim: (s) => (chalk ? chalk.gray(s) : s),
+    strong: (s) => (chalk ? chalk.bold(s) : s),
+    orchestrator: (s) => (chalk ? chalk.cyanBright(s) : s),
+    testbed: (s) => (chalk ? chalk.greenBright(s) : s),
+    cmd: (s) => (chalk ? chalk.blueBright(s) : s),
+    stdout: (s) => (chalk ? chalk.gray(s) : s),
+    stderr: (s) => (chalk ? chalk.redBright(s) : s),
+    warn: (s) => (chalk ? chalk.yellowBright(s) : s),
+    agent: (s) => (chalk ? chalk.magentaBright(s) : s),
+    tool: (s) => (chalk ? chalk.yellow(s) : s),
+  };
+
+  const label = (kind) => {
+    const raw = `[${kind}]`;
+    if (kind === "orchestrator") return color.strong(color.orchestrator(raw));
+    if (kind === "testbed") return color.strong(color.testbed(raw));
+    if (kind === "cmd") return color.strong(color.cmd(raw));
+    if (kind === "stdout") return color.stdout(raw);
+    if (kind === "stderr") return color.stderr(raw);
+    if (kind === "warn") return color.warn(raw);
+    if (kind === "agent") return color.agent(raw);
+    if (kind === "tool") return color.tool(raw);
+    return color.strong(raw);
+  };
+
+  const section = (kind, message) => {
+    process.stdout.write(LOG_SEPARATOR);
+    process.stdout.write(`${label(kind)} ${message}\n`);
+  };
+
+  const info = (kind, message) => {
+    process.stdout.write(`${label(kind)} ${message}\n`);
+  };
+
+  const warn = (message) => {
+    process.stdout.write(`${label("warn")} ${message}\n`);
+  };
+
+  const makePrefixedWriter = (write, prefix) => {
+    let atLineStart = true;
+    return (chunk) => {
+      const s = chunk.toString("utf8");
+      for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        if (atLineStart) {
+          write(prefix);
+          atLineStart = false;
+        }
+        write(ch);
+        if (ch === "\n") atLineStart = true;
+      }
+    };
+  };
+
+  return {
+    label,
+    section,
+    info,
+    warn,
+    makePrefixedWriter,
+  };
+}
+
 function nowIso() {
   return new Date().toISOString();
 }
@@ -242,7 +318,16 @@ function validateArgs(args) {
   }
 }
 
-async function runCommand({ cmd, cmdArgs, cwd, env, logPath, echoStdout }) {
+async function runCommand({
+  cmd,
+  cmdArgs,
+  cwd,
+  env,
+  logPath,
+  echoStdout,
+  logger,
+  logLabel,
+}) {
   await mkdir(path.dirname(logPath), { recursive: true });
 
   return await new Promise((resolve) => {
@@ -255,15 +340,36 @@ async function runCommand({ cmd, cmdArgs, cwd, env, logPath, echoStdout }) {
     let out = "";
     let err = "";
 
+    const effectiveLabel = logLabel || cmd;
+
+    const stdoutWriter =
+      logger && echoStdout
+        ? logger.makePrefixedWriter(
+            (s) => process.stdout.write(s),
+            `${logger.label("stdout")} ${logger.label(effectiveLabel)} `,
+          )
+        : null;
+
+    const stderrWriter = logger
+      ? logger.makePrefixedWriter(
+          (s) => process.stderr.write(s),
+          `${logger.label("stderr")} ${logger.label(effectiveLabel)} `,
+        )
+      : null;
+
     child.stdout.on("data", (buf) => {
       const s = buf.toString("utf8");
       out += s;
-      if (echoStdout) process.stdout.write(s);
+      if (echoStdout) {
+        if (stdoutWriter) stdoutWriter(buf);
+        else process.stdout.write(s);
+      }
     });
     child.stderr.on("data", (buf) => {
       const s = buf.toString("utf8");
       err += s;
-      process.stderr.write(s);
+      if (stderrWriter) stderrWriter(buf);
+      else process.stderr.write(s);
     });
 
     child.on("close", async (code) => {
@@ -314,6 +420,11 @@ function basicSanityForTestFile(source) {
   if (forbiddenBypassPatterns(source)) {
     throw new Error(
       "Refusing to write changes that bypass tests (skip/pending)",
+    );
+  }
+  if (/^\s*```/m.test(String(source ?? ""))) {
+    throw new Error(
+      "Refusing to write test file containing markdown code fences (```)",
     );
   }
   if (!/\bexpect\s*\(/.test(source)) {
@@ -372,7 +483,8 @@ async function runFixerAgent({
         required: ["message"],
       },
       handler: async ({ message }) => {
-        process.stdout.write(`\n[agent] ${message}\n`);
+        process.stdout.write(LOG_SEPARATOR);
+        process.stdout.write(`[agent] ${message}\n`);
         return { ok: true };
       },
     }),
@@ -492,7 +604,8 @@ Return output as normal text, but perform edits via write_text and reports via w
       process.stdout.write(event.data.deltaContent);
     }
     if (event.type === "tool.call_start") {
-      process.stdout.write(`\n[tool] ${event.data.toolName}\n`);
+      process.stdout.write(LOG_SEPARATOR);
+      process.stdout.write(`[tool] ${event.data.toolName}\n`);
     }
   });
 
@@ -505,6 +618,9 @@ Return output as normal text, but perform edits via write_text and reports via w
 
 async function main(args) {
   validateArgs(args);
+
+  const chalk = await tryLoadChalk();
+  const logger = createLogger({ chalk });
 
   const effectiveTestbedUrl =
     args.testbedUrl ?? (process.env.TESTBED_URL || null);
@@ -521,7 +637,16 @@ async function main(args) {
     : path.resolve(root, "logs", "orchestrator-runs", run);
   await mkdir(baseReportDir, { recursive: true });
 
+  logger.section(
+    "orchestrator",
+    `Run ${run} (report: ${path.relative(root, baseReportDir)})`,
+  );
+
   const testbedLog = path.join(baseReportDir, "testbed-dev.log.txt");
+  logger.section(
+    "testbed",
+    `Ensuring testbed reachable at ${testbedProbeUrl(effectiveTestbedUrl)}`,
+  );
   const testbed = await ensureTestbedRunning({
     baseUrl: effectiveTestbedUrl,
     root,
@@ -529,6 +654,14 @@ async function main(args) {
     shouldStart: args.startTestbed,
     timeoutMs: args.testbedStartupTimeoutMs,
   });
+  if (testbed.started) {
+    logger.info(
+      "testbed",
+      `Started dev server (log: ${path.relative(root, testbedLog)})`,
+    );
+  } else {
+    logger.info("testbed", "Already running");
+  }
 
   const runReport = {
     workflow: "orchestrate-tests-local",
@@ -560,12 +693,10 @@ async function main(args) {
           // ignore
         }
 
-        process.stdout.write(`\n=== ${targetId} ===\n`);
+        logger.section("orchestrator", `Target ${targetId}`);
 
         // Step: generate
-        process.stdout.write(
-          "[orchestrator] Generating tests (and scaffolds if enabled)\n",
-        );
+        logger.section("cmd", "Generate tests (and scaffolds if enabled)");
         const genLog = path.join(targetDir, "generate.log.txt");
         const genArgs = [
           "scripts/generate-tests.js",
@@ -584,9 +715,14 @@ async function main(args) {
           env: {},
           logPath: genLog,
           echoStdout: false,
+          logger,
+          logLabel: "generator",
         });
 
         if (gen.code !== 0) {
+          logger.warn(
+            `Generator failed; see ${path.relative(root, genLog)} (skipping run/fix)`,
+          );
           runReport.results.push({
             targetId,
             status: "failed",
@@ -613,12 +749,12 @@ async function main(args) {
               WDIO_OCR: "0",
             },
             logPath: testLogBase(n),
-            echoStdout: false,
+            echoStdout: true,
+            logger,
+            logLabel: `wdio#${n}`,
           });
 
-        process.stdout.write(
-          `[orchestrator] Running tests locally: ${specRel}\n`,
-        );
+        logger.section("cmd", `Run tests locally: ${specRel}`);
         let attemptNo = 0;
         let last = await runOnce(attemptNo);
 
@@ -640,8 +776,9 @@ async function main(args) {
           looksLikeFlake(last.stdout + "\n" + last.stderr)
         ) {
           flakeReruns += 1;
-          process.stdout.write(
-            `[orchestrator] Failure looks flaky; rerun ${flakeReruns}/${args.maxFlakeReruns}\n`,
+          logger.section(
+            "orchestrator",
+            `Failure looks flaky; rerun ${flakeReruns}/${args.maxFlakeReruns}`,
           );
           attemptNo += 1;
           last = await runOnce(attemptNo);
@@ -663,8 +800,9 @@ async function main(args) {
         let fixAttempts = 0;
         while (fixAttempts < args.maxFixAttempts && last.code !== 0) {
           fixAttempts += 1;
-          process.stdout.write(
-            `[orchestrator] Starting fix attempt ${fixAttempts}/${args.maxFixAttempts}\n`,
+          logger.section(
+            "orchestrator",
+            `Starting fix attempt ${fixAttempts}/${args.maxFixAttempts}`,
           );
 
           const failureText = (last.stdout + "\n" + last.stderr).slice(0, 8000);
@@ -675,9 +813,7 @@ async function main(args) {
 
           // If this looks like a framework issue, prefer spec-level fixes (imports, syntax).
           if (looksLikeFrameworkIssue(failureText)) {
-            process.stdout.write(
-              "[orchestrator] Detected likely framework/import issue\n",
-            );
+            logger.warn("Detected likely framework/import issue");
           }
 
           await runFixerAgent({
@@ -690,9 +826,7 @@ async function main(args) {
             reportPath,
           });
 
-          process.stdout.write(
-            "\n[orchestrator] Rerunning tests after agent changes\n",
-          );
+          logger.section("orchestrator", "Rerunning tests after agent changes");
           attemptNo += 1;
           last = await runOnce(attemptNo);
         }
@@ -712,8 +846,9 @@ async function main(args) {
         let componentBugChecks = 0;
         while (componentBugChecks < args.maxComponentBugAttempts) {
           componentBugChecks += 1;
-          process.stdout.write(
-            `[orchestrator] Still failing; rerun to rule out flake/component-bug: ${componentBugChecks}/${args.maxComponentBugAttempts}\n`,
+          logger.section(
+            "orchestrator",
+            `Still failing; rerun to rule out flake/component-bug: ${componentBugChecks}/${args.maxComponentBugAttempts}`,
           );
           attemptNo += 1;
           const rerun = await runOnce(attemptNo);
