@@ -9,7 +9,8 @@ Use GitHub Copilot SDK agents (with Green MCP as primary knowledge source) to:
 
 - keep the coverage matrix up to date
 - generate/update component scaffolds and tests
-- review tests for quality issues
+- review the coverage matrix for MCP alignment
+- review tests/scaffolds for quality issues
 
 ## Dependencies
 
@@ -44,7 +45,44 @@ Open questions:
 - MCP integration approach: use Copilot SDK `mcpServers` to connect to Green MCP tools (no bespoke Green MCP client wrapper).
 - Invocation: start manual-first; add scheduling when stable.
 
-### 2) Generator agent (matrix → scaffolds + tests + execution)
+### 2) Matrix review agent (matrix + MCP → feedback → matrix)
+
+Objective:
+
+- Review the **coverage matrix itself** for correctness and usefulness, primarily against Green MCP.
+- Produce structured feedback that can be applied back to the matrix in a bounded, low-churn way.
+
+Primary inputs:
+
+- `test/coverage-matrix.json`
+- Green MCP component docs (API tables: properties/events/slots/methods)
+
+Optional inputs (actionability check; keep as opt-in):
+
+- Existing scaffolds/specs to answer “is this requirement realistically automatable with stable selectors/fixtures?”
+
+Outputs:
+
+- A machine-readable “matrix review feedback” report (JSON) containing:
+  - findings + rationale
+  - suggested matrix patches (minimal changes)
+  - confidence (`high|medium|low`)
+- A concise console summary
+
+Iteration loop (matrix orchestration):
+
+1. Matrix sync generates/updates the matrix (mechanical)
+2. Matrix review agent reviews matrix vs MCP and emits feedback
+3. Matrix sync applies high-confidence feedback (optional flag)
+4. Matrix review agent re-runs (max N iterations)
+5. Stop and surface unresolved items for human decision
+
+Notes:
+
+- This agent should remain **advisory** and conservative in its suggested patches.
+- It must not attempt to enforce “test every API row”; MCP API tables are used as a heuristic signal.
+
+### 3) Generator agent (matrix → scaffolds + tests + execution)
 
 Objective:
 
@@ -99,7 +137,7 @@ Open questions:
 - Canonical component-page URL for tests and generation:
   - `${TESTBED_URL}/green-testbed/component/<name>`
 
-### 3) Test review agent (quality gate)
+### 4) Quality review agent (specs/scaffolds quality gate)
 
 Objective:
 
@@ -112,10 +150,10 @@ Objective:
 Fit in the end-to-end workflow:
 
 1. Matrix sync updates component inventory + current coverage status
-2. Matrix informs what needs new/updated tests generated
+2. Matrix (optionally after matrix-review iteration) informs what needs tests/scaffolds generated
 3. Orchestrator iterates on specs + scaffolds (generate → run → fix → rerun)
-4. Review agent validates test/scaffold quality (advisory)
-5. Review agent outputs an actionable todo list
+4. Quality review agent validates spec/scaffold quality (advisory)
+5. Quality review agent outputs an actionable todo list
 6. Orchestrator can consume that todo list and re-run step (3)
 
 The goal is to automate this loop with minimal human intervention, except when there are real component issues.
@@ -134,6 +172,14 @@ Proposed matrix additions (plan-level; optional fields):
   - `qualityStatus`: `unknown|needs-work|review|approved`
   - `qualityLastReviewed`: ISO date (YYYY-MM-DD)
   - `qualityLastReport`: relative path to latest review report JSON
+
+Additional output stream (optional): matrix improvement feedback
+
+- The quality review agent may also emit **matrix improvement feedback** as a separate JSON artifact.
+- This is distinct from the matrix review agent:
+  - Matrix review agent: evaluates the matrix itself against MCP (mechanical correctness + requirement quality)
+  - Quality review agent: evaluates “what we are actually testing” and suggests improvements holistically
+- This feedback can be an optional input for the matrix sync agent (apply only high-confidence, bounded changes).
 
 Inputs:
 

@@ -71,25 +71,28 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 
 ### C) Test review agent (quality gate)
 
-**Status**: Not implemented
+**Status**: Not implemented (definition split into matrix review + quality review)
 
-**Definition (from requirement)**
+**Definition (updated)**
 
-- An agent that reads tests and reports issues (e.g., always-pass assertions, wrong selectors, testing the wrong thing, missing awaits, flaky waits)
+- Matrix review agent: reviews `test/coverage-matrix.json` against Green MCP and emits structured feedback/patch suggestions.
+- Quality review agent: reviews specs/scaffolds for test quality and emits actionable todos.
 
 **Remaining**
 
-- Implement a review agent that evaluates spec + scaffold quality and produces an actionable todo list
-- Store results using the hybrid model:
+- Implement matrix review agent + iterative matrix loop (generate → review → apply → review, max N)
+- Implement quality review agent that evaluates spec + scaffold quality and produces an actionable todo list
+- Store quality review results using the hybrid model:
   - Small per-category quality summary fields in `test/coverage-matrix.json`
   - Full per-run review report JSON under `logs/review-runs/<run-id>/...`
-- Define and implement the initial static checks:
+- Define and implement the initial quality static checks:
   - no bypass patterns
   - no markdown code fences (```)
   - per-test `/** Goal: ... */` comments + meaningful assertions
   - selector quality (prefer stable `#id` fixtures)
   - navigation uses `testbedUrl('/component/<tag>')`
 - Optionally add dynamic heuristics using orchestrator logs (flake signals)
+- Add optional “matrix improvement feedback” output from quality review and an opt-in flag for matrix sync to consume it
 - Wire the feedback loop so the orchestrator can consume the todo list and iterate
 
 Confirmed: advisory-only (must not block CI)
