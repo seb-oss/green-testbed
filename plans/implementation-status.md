@@ -58,14 +58,16 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 **Implemented**
 
 - A generator script exists: `scripts/generate-tests.js` using `@github/copilot-sdk`
+- The generator supports focusing via `--components` and `--categories` (in addition to the single-target flags).
+- The generator can create scaffolds and register them (default behavior: create missing only).
 
 **Gaps to close**
 
-- Use Green MCP as reference by connecting via Copilot SDK `mcpServers` (no cached/placeholder doc fetch)
-- Create/verify scaffolds (component pages) in addition to tests (if required)
-- Execute tests after generation and report pass/fail
+- Ensure generated tests include a short per-test goal comment (`/** Goal: ... */`) for reviewability.
+- Add a local-only iterative orchestrator (generate → run → analyze → fix → rerun → report) with agent-authored progress commentary.
+- Add safety rules to prevent bypassing/cheating and require honest failure reporting with evidence.
 - Ensure generated spec naming/path matches the matrix `testSpec` convention
-- Support optional verification by running `npm run test-local` (opt-in)
+- Run verification via `npm run test-local` (local-only for now, using `--spec` targeting)
 
 ### C) Test review agent (quality gate)
 

@@ -52,14 +52,47 @@ Objective:
   - component showcase pages (scaffolds)
   - WDIO specs (Interaction / Accessibility / Visual)
 
+Implementation approach:
+
+- Separate concerns:
+  - `scripts/generate-tests.js` remains the single-pass generator (scaffolds + specs).
+  - A new local-only orchestrator script runs the iterative workflow:
+    - generate → run → analyze → fix → rerun → report.
+
 Verification:
 
 - Execute tests after generation and report pass/fail.
-- Test execution must be supported as **optional** (workflow can run with or without it).
+- Test execution is implemented in the local orchestrator (local-only for now).
+- The orchestrator prints agent-authored progress commentary (reasoning) for each step, e.g.
+  - "Now writing tests for button ranks"
+  - "Test X failed because of Y; I will change Z to fix it"
 
 Human-in-loop:
 
 - Generated work should set matrix status to `review` until accepted.
+
+Quality & safety rules:
+
+- Never "cheat" tests to pass (no bypasses like removing assertions, unconditional expects, or hiding failures).
+- If the agent can’t make progress, it must stop and report a reason with evidence, e.g.
+  - component bug
+  - scaffold issue (missing fixture/IDs)
+  - test/framework/config issue
+
+Goal comments:
+
+- Generated tests should include a short `/** Goal: ... */` comment above each test to make intent explicit.
+
+Iteration limits (defaults):
+
+- Max attempts to fix test logic: 3
+- Max reruns to rule out flakiness: 2
+- Max attempts to rule out component bug: 2
+
+Operator controls:
+
+- Support focusing generation scope (e.g. `--components gds-button --categories interaction`).
+- Keep scaffolds default safe: create missing scaffolds only, update existing only when explicitly requested.
 
 Open questions:
 
