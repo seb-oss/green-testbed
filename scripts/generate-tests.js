@@ -243,6 +243,9 @@ function buildAgentPrompt({ componentName, category }) {
   return `You are an expert test engineer for the Green Design System testbed.
 Your task is to generate comprehensive WebDriverIO tests for the ${componentName} component.
 
+You MUST follow the Test Generator Constitution for this repo. It defines hard constraints (especially around shadow DOM usage and avoiding execute()-based interactions).
+You MUST call get_test_constitution before writing any tests.
+
 Follow project conventions:
 - Use WebDriverIO v9 syntax
 - Import from '@wdio/globals'
@@ -263,6 +266,14 @@ You have access to Green MCP tools via the MCP server named 'green'. Use them to
 You MUST call green.get_component_docs with framework 'web-component' before writing tests.
 
 You MUST call the provided tools to fetch requirements and examples before writing code.`;
+}
+
+async function loadTestGeneratorConstitution() {
+  const raw = await readFile(
+    new URL("../docs/test-generator-constitution.md", import.meta.url),
+    "utf8",
+  );
+  return raw;
 }
 
 function stripMarkdownCodeFences(text) {
@@ -315,6 +326,26 @@ function basicSanityForTestFile(source) {
   if (!/\bexpect\s*\(/.test(source)) {
     throw new Error("Refusing to write test file with no expect() assertions");
   }
+
+  // Constitution enforcement (lightweight heuristics).
+  // Use WebDriver interactions; do not simulate keyboard/mouse via dispatchEvent().
+  if (/dispatchEvent\(\s*new\s+KeyboardEvent\b/.test(source)) {
+    throw new Error(
+      "Refusing to write test file that simulates keyboard via dispatchEvent(new KeyboardEvent). Use browser.keys() instead.",
+    );
+  }
+  if (/dispatchEvent\(\s*new\s+MouseEvent\b/.test(source)) {
+    throw new Error(
+      "Refusing to write test file that simulates mouse via dispatchEvent(new MouseEvent). Use element.click() or pointer actions instead.",
+    );
+  }
+
+  // Shadow DOM is allowed only with an explicit opt-in marker.
+  if (source.includes("shadowRoot") && !source.includes("ALLOW_SHADOW_DOM")) {
+    throw new Error(
+      "Refusing to write test file that uses shadowRoot without explicit ALLOW_SHADOW_DOM marker. Prefer host-level assertions/selectors.",
+    );
+  }
 }
 
 async function runFixFromRequest({ fixRequestPath }) {
@@ -358,6 +389,15 @@ async function runFixFromRequest({ fixRequestPath }) {
   };
 
   const tools = [
+    defineTool("get_test_constitution", {
+      description:
+        "Get the Test Generator Constitution (hard constraints for how tests must be written in this repo)",
+      parameters: { type: "object", properties: {} },
+      handler: async () => ({
+        path: "docs/test-generator-constitution.md",
+        content: await loadTestGeneratorConstitution(),
+      }),
+    }),
     defineTool("log_step", {
       description:
         "Write a progress update explaining what you are doing and why",
@@ -447,6 +487,7 @@ Target:
 
 You must:
 1) Diagnose the failure.
+1.5) Call get_test_constitution and follow it.
 2) Read the failing generated spec (and scaffold/registry if needed) using read_text.
 3) Apply exactly ONE safe fix by editing ONLY the generated spec and/or scaffold/registry via write_text.
 4) If you cannot safely fix it without cheating, do NOT change files.
@@ -456,6 +497,10 @@ Hard rules:
 - DO NOT bypass failures (no skips, no removing assertions to make it pass, no always-true expects).
 - Prefer stable #ids in scaffolds; add fixtures rather than weak selectors.
 - Do not print code fences or markdown.
+
+Special constraints:
+- Do NOT replace WDIO interactions (click/keys) with DOM calls inside execute().
+- Avoid using shadow DOM to bypass the public API; only use it as a last resort, and keep assertions host-level.
 
 Context:
 - Failure output (truncated):\n${failureText}
@@ -559,6 +604,15 @@ async function generateTests({ componentName, category, force }) {
   const templates = await loadTemplates();
 
   const tools = [
+    defineTool("get_test_constitution", {
+      description:
+        "Get the Test Generator Constitution (hard constraints for how tests must be written in this repo)",
+      parameters: { type: "object", properties: {} },
+      handler: async () => ({
+        path: "docs/test-generator-constitution.md",
+        content: await loadTestGeneratorConstitution(),
+      }),
+    }),
     defineTool("get_coverage_requirements", {
       description:
         "Get test coverage requirements for a component category from coverage-matrix.json",
@@ -620,6 +674,7 @@ async function generateTests({ componentName, category, force }) {
     const prompt = `Generate ${categoryLabel} tests for ${componentName}.
 
 Context:
+  - Test Generator Constitution: call get_test_constitution and follow it
 - Coverage requirements: call get_coverage_requirements
 - Component docs: call green.get_component_docs
 - Test patterns: call get_test_patterns
