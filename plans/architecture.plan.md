@@ -63,19 +63,28 @@ This repo consists of four cooperating layers:
 sequenceDiagram
    autonumber
 
-   participant MCP as Green MCP
-   participant CORE as @sebgroup/green-core
-   participant MS as Matrix Sync Agent
-   participant MATRIX as test/coverage-matrix.json
-   participant MR as Matrix Review Agent
-   participant GEN as Generator
-   participant SPECS as test/specs/components
-   participant SCAFFOLDS as testbed/components
-   participant ORCH as Orchestrator
-   participant WDIO as WebdriverIO
-   participant QR as Quality Review Agent
-   participant LOGS as logs/
-   actor HUMAN as Human
+   %% Lifelines grouped by role for easier scanning.
+   %% Mermaid lays lifelines out in declaration order (left-to-right).
+   box rgb(232, 255, 238) Resources
+      participant MCP as Green MCP
+      participant CORE as @sebgroup/green-core
+   end
+
+   box rgb(232, 241, 255) Actors
+      actor HUMAN as Human
+      participant MS as Matrix Sync Agent
+      participant MR as Matrix Review Agent
+      participant GEN as Generator
+      participant ORCH as Orchestrator
+      participant QR as Quality Review Agent
+   end
+
+   box rgb(255, 242, 232) Artifacts
+      participant MATRIX as test/coverage-matrix.json
+      participant SPECS as test/specs/components
+      participant SCAFFOLDS as testbed/components
+      participant LOGS as logs/
+   end
 
    rect rgb(238, 246, 255)
       note over MS,MATRIX: Matrix loop
@@ -90,6 +99,10 @@ sequenceDiagram
 
       opt Human review when needed
          HUMAN-->>LOGS: Review matrix-review-report.json
+         HUMAN-->>MS: Approve applying matrix review feedback
+         MS-->>LOGS: Read matrix-review-report.json
+         MS->>MATRIX: Apply approved changes
+         MS->>LOGS: Write updated matrix-sync-report.json
       end
    end
 
@@ -130,6 +143,8 @@ sequenceDiagram
          HUMAN-->>LOGS: Review review-report.json
       end
    end
+
+   participant WDIO as WebdriverIO
 
 ```
 
