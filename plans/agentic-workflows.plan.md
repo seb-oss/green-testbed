@@ -82,40 +82,38 @@ Notes:
 - This agent should remain **advisory** and conservative in its suggested patches.
 - It must not attempt to enforce “test every API row”; MCP API tables are used as a heuristic signal.
 
-### 3) Generator agent (matrix → scaffolds + tests + execution)
+### 3) Test generator agent (matrix + feedback → scaffolds + tests)
 
 Objective:
 
-- Read the matrix entry and produce missing/updated:
+- Own **all repo-writing** for tests and scaffolds.
+- Produce missing/updated:
   - component showcase pages (scaffolds)
   - WDIO specs (Interaction / Accessibility / Visual)
+- Apply **exactly one** fix attempt when given a fix request from the orchestrator.
 
 Implementation approach:
 
-- Separate concerns:
-  - `scripts/generate-tests.js` remains the single-pass generator (scaffolds + specs).
-  - A new local-only orchestrator script runs the iterative workflow:
-    - generate → run → analyze → fix → rerun → report.
+- `scripts/generate-tests.js` remains the single-pass generator (scaffolds + specs).
+- Add a generator “fix mode” entrypoint (same script or a sibling) that:
+  - reads a structured fix request (from an orchestrator run folder)
+  - makes one bounded change (spec and/or scaffold)
+  - writes a structured fix response
 
 Verification:
 
-- Execute tests after generation and report pass/fail.
-- Test execution is implemented in the local orchestrator (local-only for now).
-- The orchestrator prints agent-authored progress commentary (reasoning) for each step, e.g.
-  - "Now writing tests for button ranks"
-  - "Test X failed because of Y; I will change Z to fix it"
+- Test execution is performed by the orchestrator (local-only for now).
+- The generator should rely on orchestrator artifacts (e.g. `run-summary.json`) rather than duplicating command details.
 
 Human-in-loop:
 
 - Generated work should set matrix status to `review` until accepted.
+- Final sign-off for test correctness is owned by review agents.
 
 Quality & safety rules:
 
 - Never "cheat" tests to pass (no bypasses like removing assertions, unconditional expects, or hiding failures).
-- If the agent can’t make progress, it must stop and report a reason with evidence, e.g.
-  - component bug
-  - scaffold issue (missing fixture/IDs)
-  - test/framework/config issue
+- If the generator can’t make progress within a single fix attempt, it must return a structured outcome with evidence (e.g. suspect component bug, environment issue).
 
 Goal comments:
 
@@ -123,21 +121,58 @@ Goal comments:
 
 Iteration limits (defaults):
 
-- Max attempts to fix test logic: 3
-- Max reruns to rule out flakiness: 2
-- Max attempts to rule out component bug: 2
+- The generator performs one fix attempt per request.
+- Attempt budgets are owned by the orchestrator.
 
 Operator controls:
 
 - Support focusing generation scope (e.g. `--components gds-button --categories interaction`).
 - Keep scaffolds default safe: create missing scaffolds only, update existing only when explicitly requested.
+- Use derived locations for now (e.g. `testbed/components/<slug>.ts`).
 
 Open questions:
 
 - Canonical component-page URL for tests and generation:
   - `${TESTBED_URL}/green-testbed/component/<name>`
 
-### 4) Quality review agent (specs/scaffolds quality gate)
+### 4) Test run orchestrator (runs tests → analyzes → requests updates)
+
+Objective:
+
+- Run tests, analyze results, and request updates from the test generator.
+- Be deterministic and auditable: **no direct file edits**.
+
+Implementation approach:
+
+- `scripts/orchestrate-tests.local.js` remains the iterative loop:
+  - generate → run → analyze → request fix → rerun → report.
+
+Artifacts:
+
+- Writes per-run artifacts under `logs/orchestrator-runs/<run-id>/`:
+  - `run-summary.json`
+  - raw command logs
+  - `fix-request.json` (per fix attempt)
+  - `fix-response.json` (from the generator, per fix attempt)
+
+Iteration limits (defaults):
+
+- Max attempts to fix test logic: 3
+- Max reruns to rule out flakiness: 2
+- Max attempts to rule out component bug: 2
+
+Matrix status progression:
+
+- After a clean pass: set category `status` to `review`.
+- After max attempts reached: set category `status` to `blocked`.
+- Review agents may set category `status` to `validated`.
+
+Status update mechanism:
+
+- Introduce a dedicated CLI tool that can only update coverage status fields.
+- Orchestrator is allowed to invoke this tool, but is not allowed to edit the matrix directly.
+
+### 5) Quality review agent (specs/scaffolds quality gate)
 
 Objective:
 
@@ -151,7 +186,7 @@ Fit in the end-to-end workflow:
 
 1. Matrix sync updates component inventory + current coverage status
 2. Matrix (optionally after matrix-review iteration) informs what needs tests/scaffolds generated
-3. Orchestrator iterates on specs + scaffolds (generate → run → fix → rerun)
+3. Orchestrator iterates (generate → run → request fix → rerun)
 4. Quality review agent validates spec/scaffold quality (advisory)
 5. Quality review agent outputs an actionable todo list
 6. Orchestrator can consume that todo list and re-run step (3)
@@ -217,6 +252,11 @@ Open questions:
 - This agent is **advisory only** (must not block CI).
 - Whether to run review only on passing specs (recommended initially) vs also on failing specs.
 - Whether the orchestrator should auto-apply low-risk quality fixes (recommended: start as “todo only”).
+
+Status updates:
+
+- Quality review agent may set category `status` to `validated` when it deems the tests to cover the intended target.
+- This should be done via the same dedicated status-update CLI tool (not by editing the matrix directly).
 
 ## Maintenance automation (CI)
 

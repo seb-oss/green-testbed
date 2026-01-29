@@ -42,7 +42,8 @@ This repo consists of four cooperating layers:
 - Agent(s) → generate/maintain `testbed/components/*` and `test/specs/components/*`
 - WDIO → executes tests → diffs/artifacts (visual diffs, logs)
 - Review agent → emits review findings/todos → stored as per-run reports under `logs/`
-- Review agent → updates a small “quality summary” in `test/coverage-matrix.json` (optional fields)
+- Review agent → may update coverage status to `validated` (via a dedicated status-update CLI)
+- A dedicated status-update CLI updates matrix status to `review|blocked|validated` (no direct matrix edits from the orchestrator)
 
 ## Solution anatomy (diagram)
 
@@ -68,6 +69,7 @@ sequenceDiagram
    box rgb(232, 255, 238) Resources
       participant MCP as Green MCP
       participant CORE as @sebgroup/green-core
+      participant STATUS as Coverage Status CLI
    end
 
    box rgb(232, 241, 255) Actors
@@ -117,9 +119,18 @@ sequenceDiagram
          WDIO-->>ORCH: Results + errors
          ORCH->>LOGS: Write run-summary.json and logs
          opt Fix attempt
-            ORCH->>SPECS: Patch generated specs (guarded)
-            ORCH->>SCAFFOLDS: Patch pages/registry (guarded)
+            ORCH->>LOGS: Write fix-request.json
+            ORCH->>GEN: Request one fix attempt (run-id + pointers)
+            GEN-->>LOGS: Read fix-request.json and run-summary.json
+            GEN->>SPECS: Patch generated specs (guarded)
+            GEN->>SCAFFOLDS: Patch pages/registry (guarded)
+            GEN->>LOGS: Write fix-response.json
          end
+      end
+
+      opt Update coverage status
+         ORCH->>STATUS: Set status to review (pass) or blocked (max attempts)
+         STATUS->>MATRIX: Apply status update
       end
 
       opt Human review when needed
@@ -137,6 +148,11 @@ sequenceDiagram
       opt Feed back into automation
          ORCH-->>LOGS: Consume todo-list.json (optional)
          MS-->>LOGS: Consume matrix-improvement.json (optional)
+      end
+
+      opt Set status to validated
+         QR->>STATUS: Set status to validated
+         STATUS->>MATRIX: Apply status update
       end
 
       opt Human review when needed

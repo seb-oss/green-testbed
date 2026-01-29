@@ -1,6 +1,6 @@
 # Implementation status (living document)
 
-Last updated: 2026-01-26
+Last updated: 2026-01-29
 
 Goal: Track what’s implemented vs what’s left, without duplicating the full plan.
 
@@ -24,6 +24,7 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 - Matrix file exists: `test/coverage-matrix.json`
 - Scripts exist: `npm run validate-matrix`, `npm run coverage-report`
 - Matrix validation checks basic shape + referenced file existence
+- Matrix structure uses categories (`interaction|accessibility|visual`) with the policy: interaction + accessibility required; visual optional
 
 **Remaining**
 
@@ -31,13 +32,12 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 - Add schema validation (plan calls for `test/schemas/coverage-matrix.schema.json`)
 - Add higher-value validations mentioned in the plan (e.g., staleness / category consistency / green-core version alignment)
 - Add audit tooling that compares “matrix requirements” vs “what tests actually cover”
-- Update matrix structure to reflect the new policy: Interaction + Accessibility required; Visual optional
 
 ## Agentic workflow implementation
 
 ### A) Matrix sync agent (keeps matrix in sync)
 
-**Status**: Not implemented
+**Status**: Implemented
 
 **Definition (from requirement)**
 
@@ -49,25 +49,30 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 **Remaining**
 
 - Decide how the workflow is invoked (manual CLI vs CI schedule vs both)
-- Define what “in sync” means (source of truth: Green MCP + repo state)
+- Expand validations for what “in sync” means (source of truth: Green MCP + repo state)
 
 ### B) Scaffolds + tests generator agent (matrix → pages/tests)
 
-**Status**: Partially implemented (scaffold)
+**Status**: Implemented (generator + local orchestrator)
 
 **Implemented**
 
 - A generator script exists: `scripts/generate-tests.js` using `@github/copilot-sdk`
 - The generator supports focusing via `--components` and `--categories` (in addition to the single-target flags).
 - The generator can create scaffolds and register them (default behavior: create missing only).
+- A local iterative orchestrator exists (generate → run → fix → rerun → report).
+- Generated spec output is normalized (no markdown fences, no natural-language preambles).
 
 **Gaps to close**
 
 - Ensure generated tests include a short per-test goal comment (`/** Goal: ... */`) for reviewability.
-- Add a local-only iterative orchestrator (generate → run → analyze → fix → rerun → report) with agent-authored progress commentary.
-- Add safety rules to prevent bypassing/cheating and require honest failure reporting with evidence.
-- Ensure generated spec naming/path matches the matrix `testSpec` convention
-- Run verification via `npm run test-local` (local-only for now, using `--spec` targeting)
+- Refactor responsibilities so the orchestrator never edits repo files:
+  - Orchestrator runs/analyzes and requests fixes.
+  - Generator performs one bounded fix attempt per request.
+- Add a dedicated CLI tool to update coverage status in the matrix (no direct matrix edits by orchestrator):
+  - Set `review` after pass
+  - Set `blocked` after max attempts
+  - Allow review agents to set `validated`
 
 ### C) Test review agent (quality gate)
 
@@ -94,6 +99,13 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 - Optionally add dynamic heuristics using orchestrator logs (flake signals)
 - Add optional “matrix improvement feedback” output from quality review and an opt-in flag for matrix sync to consume it
 - Wire the feedback loop so the orchestrator can consume the todo list and iterate
+
+## Coverage status updates
+
+**Planned**
+
+- Introduce a dedicated status-update CLI that can only modify per-category status fields in `test/coverage-matrix.json`.
+- The orchestrator and review agents use it to set `review|blocked|validated`.
 
 Confirmed: advisory-only (must not block CI)
 
