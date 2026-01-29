@@ -52,7 +52,7 @@ Policy:
 ## Update process
 
 - Manual updates (human): adjust requirements when component APIs change.
-- Agentic updates (preferred): matrix sync agent proposes updates based on Green MCP + repo state.
+- Agentic updates (preferred): Coverage Matrix Maintainer proposes updates based on Green MCP + repo state.
 
 ## Success criteria
 

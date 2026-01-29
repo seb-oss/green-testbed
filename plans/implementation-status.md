@@ -35,7 +35,7 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 
 ## Agentic workflow implementation
 
-### A) Matrix sync agent (keeps matrix in sync)
+### A) Coverage Matrix Maintainer (keeps matrix in sync)
 
 **Status**: Implemented
 
@@ -51,42 +51,42 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
 - Decide how the workflow is invoked (manual CLI vs CI schedule vs both)
 - Expand validations for what “in sync” means (source of truth: Green MCP + repo state)
 
-### B) Scaffolds + tests generator agent (matrix → pages/tests)
+### B) Test Generator (matrix → pages/tests)
 
-**Status**: Implemented (generator + local orchestrator)
+**Status**: Implemented (Test Generator + local Test Run Orchestrator)
 
 **Implemented**
 
-- A generator script exists: `scripts/generate-tests.js` using `@github/copilot-sdk`
-- The generator supports focusing via `--components` and `--categories` (in addition to the single-target flags).
-- The generator can create scaffolds and register them (default behavior: create missing only).
-- A local iterative orchestrator exists (generate → run → fix → rerun → report).
+- A Test Generator script exists: `scripts/generate-tests.js` using `@github/copilot-sdk`
+- The Test Generator supports focusing via `--components` and `--categories` (in addition to the single-target flags).
+- The Test Generator can create scaffolds and register them (default behavior: create missing only).
+- A local iterative Test Run Orchestrator exists (generate → run → fix → rerun → report).
 - Generated spec output is normalized (no markdown fences, no natural-language preambles).
 
 **Gaps to close**
 
 - Ensure generated tests include a short per-test goal comment (`/** Goal: ... */`) for reviewability.
-- Refactor responsibilities so the orchestrator never edits repo files:
-  - Orchestrator runs/analyzes and requests fixes.
-  - Generator performs one bounded fix attempt per request.
+- Refactor responsibilities so the Test Run Orchestrator never edits repo files:
+  - Test Run Orchestrator runs/analyzes and requests fixes.
+  - Test Generator performs one bounded fix attempt per request.
 - Add a dedicated CLI tool to update coverage status in the matrix (no direct matrix edits by orchestrator):
   - Set `review` after pass
   - Set `blocked` after max attempts
   - Allow review agents to set `validated`
 
-### C) Test review agent (quality gate)
+### C) Review agents (quality gate)
 
 **Status**: Not implemented (definition split into matrix review + quality review)
 
 **Definition (updated)**
 
-- Matrix review agent: reviews `test/coverage-matrix.json` against Green MCP and emits structured feedback/patch suggestions.
-- Quality review agent: reviews specs/scaffolds for test quality and emits actionable todos.
+- Coverage Matrix Reviewer: reviews `test/coverage-matrix.json` against Green MCP and emits structured feedback/patch suggestions.
+- Test Quality Reviewer: reviews specs/scaffolds for test quality and emits actionable todos.
 
 **Remaining**
 
-- Implement matrix review agent + iterative matrix loop (generate → review → apply → review, max N)
-- Implement quality review agent that evaluates spec + scaffold quality and produces an actionable todo list
+- Implement Coverage Matrix Reviewer + iterative matrix loop (generate → review → apply → review, max N)
+- Implement Test Quality Reviewer that evaluates spec + scaffold quality and produces an actionable todo list
 - Store quality review results using the hybrid model:
   - Small per-category quality summary fields in `test/coverage-matrix.json`
   - Full per-run review report JSON under `logs/review-runs/<run-id>/...`
@@ -96,16 +96,16 @@ Goal: Track what’s implemented vs what’s left, without duplicating the full 
   - per-test `/** Goal: ... */` comments + meaningful assertions
   - selector quality (prefer stable `#id` fixtures)
   - navigation uses `testbedUrl('/component/<tag>')`
-- Optionally add dynamic heuristics using orchestrator logs (flake signals)
+- Optionally add dynamic heuristics using Test Run Orchestrator logs (flake signals)
 - Add optional “matrix improvement feedback” output from quality review and an opt-in flag for matrix sync to consume it
-- Wire the feedback loop so the orchestrator can consume the todo list and iterate
+- Wire the feedback loop so the Test Run Orchestrator can consume the todo list and iterate
 
 ## Coverage status updates
 
 **Planned**
 
 - Introduce a dedicated status-update CLI that can only modify per-category status fields in `test/coverage-matrix.json`.
-- The orchestrator and review agents use it to set `review|blocked|validated`.
+- The Test Run Orchestrator and review agents use it to set `review|blocked|validated`.
 
 Confirmed: advisory-only (must not block CI)
 
@@ -123,5 +123,5 @@ Confirmed: advisory-only (must not block CI)
 
 - Canonical component-page URL in tests: `${TESTBED_URL}/green-testbed/component/<name>`
 - Inventory authority for matrix sync: Green MCP is authoritative
-- Generator may optionally run `npm run test-local` (opt-in)
+- Test Generator may optionally run `npm run test-local` (opt-in)
 - Review agent is advisory-only

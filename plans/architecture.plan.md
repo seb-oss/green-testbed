@@ -43,7 +43,7 @@ This repo consists of four cooperating layers:
 - WDIO → executes tests → diffs/artifacts (visual diffs, logs)
 - Review agent → emits review findings/todos → stored as per-run reports under `logs/`
 - Review agent → may update coverage status to `validated` (via a dedicated status-update CLI)
-- A dedicated status-update CLI updates matrix status to `review|blocked|validated` (no direct matrix edits from the orchestrator)
+- A dedicated status-update CLI updates matrix status to `review|blocked|validated` (no direct matrix edits from the Test Run Orchestrator)
 
 ## Solution anatomy (diagram)
 
@@ -64,6 +64,8 @@ This repo consists of four cooperating layers:
 sequenceDiagram
    autonumber
 
+   actor HUMAN as Human
+
    %% Lifelines grouped by role for easier scanning.
    %% Mermaid lays lifelines out in declaration order (left-to-right).
    box rgb(232, 255, 238) Resources
@@ -72,13 +74,12 @@ sequenceDiagram
       participant STATUS as Coverage Status CLI
    end
 
-   box rgb(232, 241, 255) Actors
-      actor HUMAN as Human
-      participant MS as Matrix Sync Agent
-      participant MR as Matrix Review Agent
-      participant GEN as Generator
-      participant ORCH as Orchestrator
-      participant QR as Quality Review Agent
+   box rgb(232, 241, 255) Agents
+      participant MS as Coverage Matrix Maintainer
+      participant MR as Coverage Matrix Reviewer
+      participant GEN as Test Generator
+      participant ORCH as Test Run Orchestrator
+      participant QR as Test Quality Reviewer
    end
 
    box rgb(255, 242, 232) Artifacts

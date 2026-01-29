@@ -19,7 +19,7 @@ Use GitHub Copilot SDK agents (with Green MCP as primary knowledge source) to:
 
 ## Workflows
 
-### 1) Matrix sync agent (inventory + repo → matrix)
+### 1) Coverage Matrix Maintainer (inventory + repo → matrix)
 
 Objective:
 
@@ -45,7 +45,7 @@ Open questions:
 - MCP integration approach: use Copilot SDK `mcpServers` to connect to Green MCP tools (no bespoke Green MCP client wrapper).
 - Invocation: start manual-first; add scheduling when stable.
 
-### 2) Matrix review agent (matrix + MCP → feedback → matrix)
+### 2) Coverage Matrix Reviewer (matrix + MCP → feedback → matrix)
 
 Objective:
 
@@ -72,9 +72,9 @@ Outputs:
 Iteration loop (matrix orchestration):
 
 1. Matrix sync generates/updates the matrix (mechanical)
-2. Matrix review agent reviews matrix vs MCP and emits feedback
-3. Matrix sync applies high-confidence feedback (optional flag)
-4. Matrix review agent re-runs (max N iterations)
+2. Coverage Matrix Reviewer reviews matrix vs MCP and emits feedback
+3. Coverage Matrix Maintainer applies high-confidence feedback (optional flag)
+4. Coverage Matrix Reviewer re-runs (max N iterations)
 5. Stop and surface unresolved items for human decision
 
 Notes:
@@ -82,7 +82,7 @@ Notes:
 - This agent should remain **advisory** and conservative in its suggested patches.
 - It must not attempt to enforce “test every API row”; MCP API tables are used as a heuristic signal.
 
-### 3) Test generator agent (matrix + feedback → scaffolds + tests)
+### 3) Test Generator (matrix + feedback → scaffolds + tests)
 
 Objective:
 
@@ -90,20 +90,20 @@ Objective:
 - Produce missing/updated:
   - component showcase pages (scaffolds)
   - WDIO specs (Interaction / Accessibility / Visual)
-- Apply **exactly one** fix attempt when given a fix request from the orchestrator.
+- Apply **exactly one** fix attempt when given a fix request from the Test Run Orchestrator.
 
 Implementation approach:
 
 - `scripts/generate-tests.js` remains the single-pass generator (scaffolds + specs).
 - Add a generator “fix mode” entrypoint (same script or a sibling) that:
-  - reads a structured fix request (from an orchestrator run folder)
+  - reads a structured fix request (from a Test Run Orchestrator run folder)
   - makes one bounded change (spec and/or scaffold)
   - writes a structured fix response
 
 Verification:
 
-- Test execution is performed by the orchestrator (local-only for now).
-- The generator should rely on orchestrator artifacts (e.g. `run-summary.json`) rather than duplicating command details.
+- Test execution is performed by the Test Run Orchestrator (local-only for now).
+- The generator should rely on Test Run Orchestrator artifacts (e.g. `run-summary.json`) rather than duplicating command details.
 
 Human-in-loop:
 
@@ -122,7 +122,7 @@ Goal comments:
 Iteration limits (defaults):
 
 - The generator performs one fix attempt per request.
-- Attempt budgets are owned by the orchestrator.
+- Attempt budgets are owned by the Test Run Orchestrator.
 
 Operator controls:
 
@@ -135,7 +135,7 @@ Open questions:
 - Canonical component-page URL for tests and generation:
   - `${TESTBED_URL}/green-testbed/component/<name>`
 
-### 4) Test run orchestrator (runs tests → analyzes → requests updates)
+### 4) Test Run Orchestrator (runs tests → analyzes → requests updates)
 
 Objective:
 
@@ -170,9 +170,9 @@ Matrix status progression:
 Status update mechanism:
 
 - Introduce a dedicated CLI tool that can only update coverage status fields.
-- Orchestrator is allowed to invoke this tool, but is not allowed to edit the matrix directly.
+- Test Run Orchestrator is allowed to invoke this tool, but is not allowed to edit the matrix directly.
 
-### 5) Quality review agent (specs/scaffolds quality gate)
+### 5) Test Quality Reviewer (specs/scaffolds quality gate)
 
 Objective:
 
@@ -186,10 +186,10 @@ Fit in the end-to-end workflow:
 
 1. Matrix sync updates component inventory + current coverage status
 2. Matrix (optionally after matrix-review iteration) informs what needs tests/scaffolds generated
-3. Orchestrator iterates (generate → run → request fix → rerun)
-4. Quality review agent validates spec/scaffold quality (advisory)
-5. Quality review agent outputs an actionable todo list
-6. Orchestrator can consume that todo list and re-run step (3)
+3. Test Run Orchestrator iterates (generate → run → request fix → rerun)
+4. Test Quality Reviewer validates spec/scaffold quality (advisory)
+5. Test Quality Reviewer outputs an actionable todo list
+6. Test Run Orchestrator can consume that todo list and re-run step (3)
 
 The goal is to automate this loop with minimal human intervention, except when there are real component issues.
 
@@ -210,17 +210,17 @@ Proposed matrix additions (plan-level; optional fields):
 
 Additional output stream (optional): matrix improvement feedback
 
-- The quality review agent may also emit **matrix improvement feedback** as a separate JSON artifact.
-- This is distinct from the matrix review agent:
-  - Matrix review agent: evaluates the matrix itself against MCP (mechanical correctness + requirement quality)
-  - Quality review agent: evaluates “what we are actually testing” and suggests improvements holistically
-- This feedback can be an optional input for the matrix sync agent (apply only high-confidence, bounded changes).
+- The Test Quality Reviewer may also emit **matrix improvement feedback** as a separate JSON artifact.
+- This is distinct from the Coverage Matrix Reviewer:
+  - Coverage Matrix Reviewer: evaluates the matrix itself against MCP (mechanical correctness + requirement quality)
+  - Test Quality Reviewer: evaluates “what we are actually testing” and suggests improvements holistically
+- This feedback can be an optional input for the Coverage Matrix Maintainer (apply only high-confidence, bounded changes).
 
 Inputs:
 
 - The spec under review (initially the generated spec paths like `test/specs/components/<slug>.<category>.generated.spec.ts`)
 - The related scaffold (e.g. `testbed/components/<slug>.ts`) and registry entry when relevant
-- Optional: latest orchestrator logs and run summary (e.g. `logs/orchestrator-runs/<run>/...`) to detect flakiness patterns
+- Optional: latest Test Run Orchestrator logs and run summary (e.g. `logs/orchestrator-runs/<run>/...`) to detect flakiness patterns
 
 Checks (what the review agent should validate):
 
@@ -239,7 +239,7 @@ Output:
 
 - A structured, machine-readable review report (JSON) containing:
   - findings with severity, evidence (snippets/paths), and suggested actions
-  - a generated “todo list” section suitable for feeding back into the orchestrator
+  - a generated “todo list” section suitable for feeding back into the Test Run Orchestrator
 - A concise console summary for humans
 
 Output location (proposed):
@@ -251,11 +251,11 @@ Open questions:
 
 - This agent is **advisory only** (must not block CI).
 - Whether to run review only on passing specs (recommended initially) vs also on failing specs.
-- Whether the orchestrator should auto-apply low-risk quality fixes (recommended: start as “todo only”).
+- Whether the Test Run Orchestrator should auto-apply low-risk quality fixes (recommended: start as “todo only”).
 
 Status updates:
 
-- Quality review agent may set category `status` to `validated` when it deems the tests to cover the intended target.
+- Test Quality Reviewer may set category `status` to `validated` when it deems the tests to cover the intended target.
 - This should be done via the same dedicated status-update CLI tool (not by editing the matrix directly).
 
 ## Maintenance automation (CI)
