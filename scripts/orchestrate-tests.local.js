@@ -1,4 +1,3 @@
-import { CopilotClient, defineTool } from "@github/copilot-sdk";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
@@ -404,218 +403,6 @@ function looksLikeFrameworkIssue(output) {
   );
 }
 
-function forbiddenBypassPatterns(source) {
-  const patterns = [
-    /\bdescribe\.skip\b/,
-    /\bit\.skip\b/,
-    /\bxdescribe\b/,
-    /\bxit\b/,
-    /\bthis\.skip\b/,
-    /\bpending\(/,
-  ];
-  return patterns.find((p) => p.test(source));
-}
-
-function basicSanityForTestFile(source) {
-  if (forbiddenBypassPatterns(source)) {
-    throw new Error(
-      "Refusing to write changes that bypass tests (skip/pending)",
-    );
-  }
-  if (/^\s*```/m.test(String(source ?? ""))) {
-    throw new Error(
-      "Refusing to write test file containing markdown code fences (```)",
-    );
-  }
-  if (!/\bexpect\s*\(/.test(source)) {
-    throw new Error("Refusing to write test file with no expect() assertions");
-  }
-}
-
-async function loadGreenMcpServerConfig() {
-  const raw = await readFile(
-    new URL("../.vscode/mcp.json", import.meta.url),
-    "utf8",
-  );
-  const cfg = JSON.parse(raw);
-  const servers = cfg?.servers;
-  if (!servers || typeof servers !== "object") {
-    throw new Error(".vscode/mcp.json missing 'servers'");
-  }
-
-  const firstKey = Object.keys(servers)[0];
-  const server = servers[firstKey];
-  if (!server) throw new Error(".vscode/mcp.json has no servers");
-  if (server.type !== "stdio") {
-    throw new Error(
-      `Unsupported MCP server type in .vscode/mcp.json: ${String(server.type)}`,
-    );
-  }
-  if (!server.command) throw new Error("MCP server missing command");
-
-  return {
-    tools: ["*"],
-    type: "stdio",
-    command: server.command,
-    args: Array.isArray(server.args) ? server.args : [],
-  };
-}
-
-async function runFixerAgent({
-  componentName,
-  category,
-  attempt,
-  failureText,
-  specPath,
-  scaffoldPath,
-  reportPath,
-}) {
-  const client = new CopilotClient();
-  const greenMcp = await loadGreenMcpServerConfig();
-
-  const tools = [
-    defineTool("log_step", {
-      description:
-        "Write a progress update explaining what you are doing and why",
-      parameters: {
-        type: "object",
-        properties: { message: { type: "string" } },
-        required: ["message"],
-      },
-      handler: async ({ message }) => {
-        process.stdout.write(LOG_SEPARATOR);
-        process.stdout.write(`[agent] ${message}\n`);
-        return { ok: true };
-      },
-    }),
-    defineTool("read_text", {
-      description: "Read a UTF-8 text file from the repo",
-      parameters: {
-        type: "object",
-        properties: { filePath: { type: "string" } },
-        required: ["filePath"],
-      },
-      handler: async ({ filePath }) => {
-        const allowedRoots = [
-          path.join(process.cwd(), "test"),
-          path.join(process.cwd(), "testbed"),
-          path.join(process.cwd(), "scripts"),
-        ];
-        const abs = path.resolve(process.cwd(), filePath);
-        if (
-          !allowedRoots.some((r) => abs.startsWith(r + path.sep) || abs === r)
-        ) {
-          throw new Error(
-            `Refusing to read outside allowed roots: ${filePath}`,
-          );
-        }
-        return await readFile(abs, "utf8");
-      },
-    }),
-    defineTool("write_text", {
-      description:
-        "Write a UTF-8 text file. Only generated specs and testbed scaffolds are allowed.",
-      parameters: {
-        type: "object",
-        properties: {
-          filePath: { type: "string" },
-          content: { type: "string" },
-        },
-        required: ["filePath", "content"],
-      },
-      handler: async ({ filePath, content }) => {
-        const abs = path.resolve(process.cwd(), filePath);
-
-        const isGeneratedSpec =
-          abs.includes(path.join("test", "specs", "components")) &&
-          abs.endsWith(".generated.spec.ts");
-        const isScaffold = abs.includes(path.join("testbed", "components"));
-        const isRegistry = abs.endsWith(
-          path.join("testbed", "components", "registry.ts"),
-        );
-
-        if (!isGeneratedSpec && !isScaffold && !isRegistry) {
-          throw new Error(
-            `Refusing to write '${filePath}'. Only generated specs and scaffolds are allowed.`,
-          );
-        }
-
-        if (isGeneratedSpec) basicSanityForTestFile(content);
-
-        await mkdir(path.dirname(abs), { recursive: true });
-        await writeFile(abs, content, "utf8");
-        return { wrote: true };
-      },
-    }),
-    defineTool("write_report", {
-      description: "Write a JSON report artifact for this attempt",
-      parameters: {
-        type: "object",
-        properties: { report: { type: "object" } },
-        required: ["report"],
-      },
-      handler: async ({ report }) => {
-        await mkdir(path.dirname(reportPath), { recursive: true });
-        await writeFile(
-          reportPath,
-          JSON.stringify(report, null, 2) + "\n",
-          "utf8",
-        );
-        return { wrote: true, reportPath };
-      },
-    }),
-  ];
-
-  const prompt = `You are an iterative test-fixing agent for a Green Design System WDIO testbed.
-
-Target:
-- component: ${componentName}
-- category: ${category}
-- attempt: ${attempt}
-
-You must:
-1) Call log_step describing your diagnosis of the failure.
-2) Read the failing generated spec (and scaffold if provided) using read_text.
-3) Decide the root cause category (test bug vs scaffold bug vs framework/config issue vs likely component bug).
-4) If you can fix it safely, edit ONLY the generated spec and/or scaffold/registry by calling write_text.
-5) Call log_step explaining what you changed and why.
-6) If you believe it cannot be fixed without cheating, call log_step explaining why and write_report with a structured reason and evidence.
-
-Hard rules:
-- DO NOT bypass failures (no skips, no deleting assertions to make it pass, no always-true expects).
-- Do not output code fences or markdown.
-- Prefer stable #ids in scaffolds; if missing and scaffold updates are allowed, add fixtures rather than weak selectors.
-
-Context:
-- Failure output (truncated):\n${failureText}
-- Generated spec path: ${specPath}
-- Scaffold path (may be empty): ${scaffoldPath || "(none)"}
-
-Return output as normal text, but perform edits via write_text and reports via write_report.`;
-
-  const session = await client.createSession({
-    streaming: true,
-    tools,
-    mcpServers: { green: greenMcp },
-  });
-
-  session.on((event) => {
-    if (event.type === "assistant.message_delta") {
-      process.stdout.write(event.data.deltaContent);
-    }
-    if (event.type === "tool.call_start") {
-      process.stdout.write(LOG_SEPARATOR);
-      process.stdout.write(`[tool] ${event.data.toolName}\n`);
-    }
-  });
-
-  try {
-    await session.sendAndWait({ prompt }, 180_000);
-  } finally {
-    await client.stop();
-  }
-}
-
 async function main(args) {
   validateArgs(args);
 
@@ -806,9 +593,13 @@ async function main(args) {
           );
 
           const failureText = (last.stdout + "\n" + last.stderr).slice(0, 8000);
-          const reportPath = path.join(
+          const fixRequestPath = path.join(
             targetDir,
-            `agent.attempt-${fixAttempts}.report.json`,
+            `fix-request.attempt-${fixAttempts}.json`,
+          );
+          const fixResponsePath = path.join(
+            targetDir,
+            `fix-response.attempt-${fixAttempts}.json`,
           );
 
           // If this looks like a framework issue, prefer spec-level fixes (imports, syntax).
@@ -816,15 +607,51 @@ async function main(args) {
             logger.warn("Detected likely framework/import issue");
           }
 
-          await runFixerAgent({
-            componentName,
-            category,
-            attempt: fixAttempts,
-            failureText,
-            specPath: specRel,
-            scaffoldPath: scaffoldRel,
-            reportPath,
+          await writeFile(
+            fixRequestPath,
+            JSON.stringify(
+              {
+                workflow: "orchestrate-tests-local",
+                componentName,
+                category,
+                attempt: fixAttempts,
+                failureText,
+                specPath: specRel,
+                scaffoldPath: scaffoldRel,
+                responsePath: path.relative(root, fixResponsePath),
+              },
+              null,
+              2,
+            ) + "\n",
+            "utf8",
+          );
+
+          logger.section("cmd", "Request fix from Test Generator (fix mode)");
+          const fixLog = path.join(
+            targetDir,
+            `fix.attempt-${fixAttempts}.log.txt`,
+          );
+          const fix = await runCommand({
+            cmd: "node",
+            cmdArgs: [
+              "scripts/generate-tests.js",
+              "--fix-request",
+              path.relative(root, fixRequestPath),
+            ],
+            cwd: root,
+            env: {},
+            logPath: fixLog,
+            echoStdout: true,
+            logger,
+            logLabel: `fixer#${fixAttempts}`,
           });
+
+          if (fix.code !== 0) {
+            logger.warn(
+              `Fix attempt failed; see ${path.relative(root, fixLog)} (stopping fix loop)`,
+            );
+            break;
+          }
 
           logger.section("orchestrator", "Rerunning tests after agent changes");
           attemptNo += 1;

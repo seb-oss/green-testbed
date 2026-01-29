@@ -1,5 +1,6 @@
 import { CopilotClient, defineTool } from "@github/copilot-sdk";
 import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
 import { readMatrix, getMatrixEntry, writeMatrix } from "./matrix-utils.js";
 
 async function loadGreenMcpServerConfig() {
@@ -49,6 +50,8 @@ function parseArgs(argv) {
     forceExit: true,
 
     force: false,
+
+    fixRequestPath: null,
   };
 
   const positional = argv.filter((a) => !a.startsWith("--"));
@@ -87,6 +90,10 @@ function parseArgs(argv) {
     if (a === "--scaffold-mode" && argv[i + 1]) args.scaffoldMode = argv[++i];
     if (a === "--force-exit") args.forceExit = true;
     if (a === "--no-force-exit") args.forceExit = false;
+
+    if (a === "--fix-request" && argv[i + 1]) {
+      args.fixRequestPath = String(argv[++i]);
+    }
   }
 
   // Normalize: if only singular flags were provided, populate plural arrays.
@@ -301,6 +308,194 @@ function normalizeGeneratedSpecSource({ source, outPathUrl }) {
   return next;
 }
 
+function basicSanityForTestFile(source) {
+  if (!/\bdescribe\s*\(/.test(source)) {
+    throw new Error("Refusing to write test file with no describe() block");
+  }
+  if (!/\bexpect\s*\(/.test(source)) {
+    throw new Error("Refusing to write test file with no expect() assertions");
+  }
+}
+
+async function runFixFromRequest({ fixRequestPath }) {
+  if (!fixRequestPath) throw new Error("Missing --fix-request");
+  const root = process.cwd();
+  const absReq = path.resolve(root, fixRequestPath);
+
+  const raw = await readFile(absReq, "utf8");
+  const req = JSON.parse(raw);
+
+  const componentName = String(req?.componentName ?? "");
+  const category = String(req?.category ?? "");
+  const attempt = Number(req?.attempt ?? 0);
+  const failureText = String(req?.failureText ?? "");
+  const specPath = String(req?.specPath ?? "");
+  const scaffoldPath = req?.scaffoldPath ? String(req.scaffoldPath) : "";
+  const responsePath = req?.responsePath ? String(req.responsePath) : "";
+
+  if (!componentName.startsWith("gds-")) {
+    throw new Error(`Invalid fix request componentName: ${componentName}`);
+  }
+  if (!["interaction", "accessibility", "visual"].includes(category)) {
+    throw new Error(`Invalid fix request category: ${category}`);
+  }
+  if (!specPath) throw new Error("Fix request missing specPath");
+
+  const client = new CopilotClient();
+  let wroteResponse = false;
+
+  const allowedRoots = [
+    path.join(root, "test"),
+    path.join(root, "testbed"),
+    path.join(root, "scripts"),
+  ];
+
+  const writeFixResponse = async (payload) => {
+    if (!responsePath) return;
+    const abs = path.resolve(root, responsePath);
+    await writeFile(abs, JSON.stringify(payload, null, 2) + "\n", "utf8");
+    wroteResponse = true;
+  };
+
+  const tools = [
+    defineTool("log_step", {
+      description:
+        "Write a progress update explaining what you are doing and why",
+      parameters: {
+        type: "object",
+        properties: { message: { type: "string" } },
+        required: ["message"],
+      },
+      handler: async ({ message }) => {
+        process.stdout.write(`\n[fix] ${message}\n`);
+        return { ok: true };
+      },
+    }),
+    defineTool("read_text", {
+      description: "Read a UTF-8 text file from the repo",
+      parameters: {
+        type: "object",
+        properties: { filePath: { type: "string" } },
+        required: ["filePath"],
+      },
+      handler: async ({ filePath }) => {
+        const abs = path.resolve(root, filePath);
+        if (
+          !allowedRoots.some((r) => abs.startsWith(r + path.sep) || abs === r)
+        ) {
+          throw new Error(
+            `Refusing to read outside allowed roots: ${filePath}`,
+          );
+        }
+        return await readFile(abs, "utf8");
+      },
+    }),
+    defineTool("write_text", {
+      description:
+        "Write a UTF-8 text file. Only generated specs and testbed scaffolds/registry are allowed.",
+      parameters: {
+        type: "object",
+        properties: {
+          filePath: { type: "string" },
+          content: { type: "string" },
+        },
+        required: ["filePath", "content"],
+      },
+      handler: async ({ filePath, content }) => {
+        const abs = path.resolve(root, filePath);
+
+        const isGeneratedSpec =
+          abs.includes(path.join("test", "specs", "components")) &&
+          abs.endsWith(".generated.spec.ts");
+        const isScaffold = abs.includes(path.join("testbed", "components"));
+        const isRegistry = abs.endsWith(
+          path.join("testbed", "components", "registry.ts"),
+        );
+
+        if (!isGeneratedSpec && !isScaffold && !isRegistry) {
+          throw new Error(
+            `Refusing to write '${filePath}'. Only generated specs and scaffolds/registry are allowed.`,
+          );
+        }
+
+        const normalized = normalizeGeneratedTsSource(content);
+        if (isGeneratedSpec) basicSanityForTestFile(normalized);
+        await writeFile(abs, normalized, "utf8");
+        return { wrote: true };
+      },
+    }),
+    defineTool("write_fix_response", {
+      description: "Write a JSON fix-response artifact",
+      parameters: {
+        type: "object",
+        properties: { response: { type: "object" } },
+        required: ["response"],
+      },
+      handler: async ({ response }) => {
+        await writeFixResponse(response);
+        return { wrote: Boolean(responsePath), responsePath };
+      },
+    }),
+  ];
+
+  const prompt = `You are the Test Generator. You are running in FIX MODE.
+
+Target:
+- component: ${componentName}
+- category: ${category}
+- attempt: ${attempt}
+
+You must:
+1) Diagnose the failure.
+2) Read the failing generated spec (and scaffold/registry if needed) using read_text.
+3) Apply exactly ONE safe fix by editing ONLY the generated spec and/or scaffold/registry via write_text.
+4) If you cannot safely fix it without cheating, do NOT change files.
+5) Always write a machine-readable fix response using write_fix_response.
+
+Hard rules:
+- DO NOT bypass failures (no skips, no removing assertions to make it pass, no always-true expects).
+- Prefer stable #ids in scaffolds; add fixtures rather than weak selectors.
+- Do not print code fences or markdown.
+
+Context:
+- Failure output (truncated):\n${failureText}
+- Generated spec path: ${specPath}
+- Scaffold path (may be empty): ${scaffoldPath || "(none)"}
+`;
+
+  try {
+    const greenMcp = await loadGreenMcpServerConfig();
+    const session = await client.createSession({
+      streaming: true,
+      tools,
+      mcpServers: { green: greenMcp },
+    });
+
+    session.on((event) => {
+      if (event.type === "assistant.message_delta") {
+        process.stdout.write(event.data.deltaContent);
+      }
+      if (event.type === "tool.call_start") {
+        process.stdout.write(`\n[tool] ${event.data.toolName}\n`);
+      }
+    });
+
+    await session.sendAndWait({ prompt }, 180_000);
+  } finally {
+    await client.stop();
+  }
+
+  if (responsePath && !wroteResponse) {
+    await writeFixResponse({
+      ok: false,
+      componentName,
+      category,
+      attempt,
+      reason: "no-fix-response-written",
+    });
+  }
+}
+
 async function loadTemplates() {
   const paths = [
     new URL("../test/templates/interactive.template.ts", import.meta.url),
@@ -344,11 +539,21 @@ async function generateTests({ componentName, category, force }) {
     );
   }
 
-  if (entry[categoryKey].status === "complete" && !force) {
-    console.log(
-      `${componentName} ${categoryKey} already complete (use --force to regenerate)`,
-    );
-    return;
+  const outPath = new URL(
+    `../test/specs/components/${componentName.replace(/^gds-/, "")}.${category}.generated.spec.ts`,
+    import.meta.url,
+  );
+
+  // If a spec already exists and the matrix is not in a "pending"-like state, avoid regenerating unless forced.
+  const skipStatuses = ["review", "validated", "blocked"];
+  if (skipStatuses.includes(entry[categoryKey].status) && !force) {
+    const existingSpec = await readTextOrNull(outPath);
+    if (existingSpec) {
+      console.log(
+        `${componentName} ${categoryKey} already ${entry[categoryKey].status} (use --force to regenerate)`,
+      );
+      return;
+    }
   }
 
   const templates = await loadTemplates();
@@ -434,11 +639,6 @@ Output requirements:
   } finally {
     await client.stop();
   }
-
-  const outPath = new URL(
-    `../test/specs/components/${componentName.replace(/^gds-/, "")}.${category}.generated.spec.ts`,
-    import.meta.url,
-  );
 
   await ensureDirExistsFor(outPath);
   const normalized = normalizeGeneratedSpecSource({
@@ -644,6 +844,11 @@ Output:
 }
 
 async function main(args) {
+  if (args.fixRequestPath) {
+    await runFixFromRequest({ fixRequestPath: args.fixRequestPath });
+    return;
+  }
+
   if (args.components.length === 0 || args.categories.length === 0) {
     console.error(
       "Usage: node scripts/generate-tests.js --components <gds-button[,gds-input...]> --categories <interaction[,accessibility|visual...]> [--force]",

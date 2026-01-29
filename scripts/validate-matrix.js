@@ -1,11 +1,6 @@
 import { access, readFile } from "node:fs/promises";
 
-const VALID_STATUSES = new Set([
-  "pending",
-  "in-progress",
-  "review",
-  "complete",
-]);
+const VALID_STATUSES = new Set(["pending", "review", "blocked", "validated"]);
 
 function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;

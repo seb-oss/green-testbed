@@ -2,9 +2,9 @@ import { readFile } from "node:fs/promises";
 
 function countStatuses(components, key) {
   const counts = {
-    complete: 0,
+    validated: 0,
     review: 0,
-    "in-progress": 0,
+    blocked: 0,
     pending: 0,
     unknown: 0,
   };
@@ -23,13 +23,7 @@ function sumCounts(counts) {
 }
 
 function formatCounts(counts) {
-  const orderedKeys = [
-    "complete",
-    "review",
-    "in-progress",
-    "pending",
-    "unknown",
-  ];
+  const orderedKeys = ["validated", "review", "blocked", "pending", "unknown"];
   return orderedKeys.map((k) => `${k}: ${counts[k]}`).join(" | ");
 }
 
