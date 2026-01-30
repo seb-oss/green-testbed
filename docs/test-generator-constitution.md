@@ -23,6 +23,12 @@ Tests must validate **user-observable behavior and public API** of the component
    - Prefer `waitForExist`, `waitForDisplayed`, `waitUntil`.
    - Avoid `pause()` unless there is a documented, deterministic reason.
 
+## GDS Element Name Scoping
+
+All `<gds-*>` elements are rendered with a scoping mechanism which adds a suffix to the element name. In the test, you write `<gds-button>`, but in the DOM you will see `<gds-button-abc123>`. Because of this it is CRUCIAL to NEVER use element names as locating selectors. Always use a deterministic ID to query elements. This applies to sub-elements as well, such as `<gds-option>`.
+
+If you REALLY need to select on element name, there is a generated attribute called `gds-element` that specifies the unscoped name, for example it may look like this in DOM: `<gds-button-abc123 gds-element="gds-button">`.
+
 ## Shadow DOM Policy (Critical)
 
 Shadow DOM access is sometimes necessary, but it can also bypass the public contract.
