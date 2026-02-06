@@ -2,6 +2,12 @@ import { CopilotClient } from "@github/copilot-sdk";
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { readMatrix, writeMatrix } from "./matrix-utils.js";
+import {
+  AGENT_KEYS,
+  buildMatrixSyncInventoryPrompt,
+  getCopilotCliArgs,
+  getAgentModel,
+} from "./agent-config.js";
 
 function nowTime() {
   return new Date().toISOString().slice(11, 19);
@@ -171,14 +177,24 @@ async function fetchComponentInventoryViaCopilotMcp({ maxResults, verbose }) {
   vprintln(verbose, `Green MCP config loaded (${Date.now() - t0}ms)`);
 
   vprintln(verbose, "Starting Copilot client and creating session");
-  const client = new CopilotClient();
+  const copilotCliArgs = getCopilotCliArgs();
+  const client = new CopilotClient(
+    copilotCliArgs ? { cliArgs: copilotCliArgs } : {},
+  );
   try {
     const tSessionStart = Date.now();
+    const model = getAgentModel(AGENT_KEYS.MATRIX_SYNC);
+
+    process.stdout.write(
+      `[agent] Coverage Matrix Maintainer (matrix sync) model: ${model ?? "default"}\n`,
+    );
+
     const session = await client.createSession({
       streaming: !!verbose,
       mcpServers: {
         green: greenMcp,
       },
+      ...(model ? { model } : {}),
     });
     vprintln(verbose, `Session created (${Date.now() - tSessionStart}ms)`);
 
@@ -216,20 +232,7 @@ async function fetchComponentInventoryViaCopilotMcp({ maxResults, verbose }) {
       });
     }
 
-    const prompt = `Use the Green MCP tool green.search_components to list all Green web components.
-
-Requirements:
-- Call green.search_components with:
-  - query: '^gds-'
-  - category: 'component'
-  - useRegex: true
-  - splitTerms: false
-  - maxResults: ${maxResults}
-- Return ONLY valid JSON of the form:
-  {"components": ["gds-button", "gds-input", ...]}
-- Include ONLY tag names that start with 'gds-'.
-- Sort the components alphabetically.
-`;
+    const prompt = buildMatrixSyncInventoryPrompt({ maxResults });
 
     vprintln(verbose, "Requesting component inventory (sendAndWait)");
     const response = await session.sendAndWait({ prompt });
