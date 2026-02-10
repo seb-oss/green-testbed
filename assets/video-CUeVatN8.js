@@ -1,10 +1,9 @@
-import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as Co,j as p,k as C,l as a,m as Z,T as m1,n as G,o as j,p as d,w as I,q as V1,r as wn,A as Q,s as J,u as t1,v as r1,x as L,y as _8,z as ho,B as k9,C as w9,D as uo,F as cr,H as Hn,I as Fr,J as z,K as xn,L as po,M as Zn,N as go,O as Sn,P as $n,G as Gn}from"./minus-small-CaVp2k_K.js";const Cr=(e,t,o)=>(o.configurable=!0,o.enumerable=!0,Reflect.decorate&&typeof t!="object"&&Object.defineProperty(e,t,o),o);function D(e,t){return(o,s,l)=>{const c=h=>h.renderRoot?.querySelector(e)??null;return Cr(o,s,{get(){return c(this)}})}}let Bn;function In(e){return(t,o)=>Cr(t,o,{get(){return(this.renderRoot??(Bn??=document.createDocumentFragment())).querySelectorAll(e)}})}function R4(e){return(t,o)=>Cr(t,o,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(e)??null}})}function x(e,t,o){return e?t(e):o?.(e)}let k1=class extends n{};k1._regularSVG='<path d="M2.75 15.0938L9 20.25L21.25 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';k1._solidSVG='<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7425 2.99442C22.2979 3.40452 22.4156 4.18717 22.0055 4.74251L10.0055 20.9925C9.80427 21.2651 9.501 21.4442 9.16518 21.489C8.82936 21.5338 8.48974 21.4403 8.22411 21.23L2.22411 16.48C1.68284 16.0515 1.59143 15.2654 2.01993 14.7241C2.44844 14.1828 3.2346 14.0914 3.77587 14.5199L8.76235 18.4675L19.9944 3.2574C20.4045 2.70206 21.1872 2.58432 21.7425 2.99442Z" fill="currentColor"/>';k1._name="checkmark";k1._width=24;k1._height=24;k1._viewBox="0 0 24 24";k1=r([i("gds-icon-checkmark")],k1);var m8=w`
+import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as Co,j as p,k as C,l as a,m as Z,T as m1,n as G,o as j,p as d,w as I,q as V1,r as wn,A as Q,s as J,u as t1,v as r1,x as L,y as _8,z as ho,B as k9,C as w9,D as uo,F as cr,H as Hn,I as Fr,J as z,K as xn,L as po,M as Zn,N as go,O as Sn,P as $n,G as Gn}from"./minus-small-dAxMCtk2.js";const Cr=(e,t,o)=>(o.configurable=!0,o.enumerable=!0,Reflect.decorate&&typeof t!="object"&&Object.defineProperty(e,t,o),o);function D(e,t){return(o,s,l)=>{const c=h=>h.renderRoot?.querySelector(e)??null;return Cr(o,s,{get(){return c(this)}})}}let Bn;function In(e){return(t,o)=>Cr(t,o,{get(){return(this.renderRoot??(Bn??=document.createDocumentFragment())).querySelectorAll(e)}})}function R4(e){return(t,o)=>Cr(t,o,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(e)??null}})}function x(e,t,o){return e?t(e):o?.(e)}let k1=class extends n{};k1._regularSVG='<path d="M2.75 15.0938L9 20.25L21.25 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';k1._solidSVG='<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7425 2.99442C22.2979 3.40452 22.4156 4.18717 22.0055 4.74251L10.0055 20.9925C9.80427 21.2651 9.501 21.4442 9.16518 21.489C8.82936 21.5338 8.48974 21.4403 8.22411 21.23L2.22411 16.48C1.68284 16.0515 1.59143 15.2654 2.01993 14.7241C2.44844 14.1828 3.2346 14.0914 3.77587 14.5199L8.76235 18.4675L19.9944 3.2574C20.4045 2.70206 21.1872 2.58432 21.7425 2.99442Z" fill="currentColor"/>';k1._name="checkmark";k1._width=24;k1._height=24;k1._viewBox="0 0 24 24";k1=r([i("gds-icon-checkmark")],k1);var m8=w`
   .rbcb {
     --_toggle-size: var(--gds-sys-space-m);
     --_toggle-radius: var(--gds-sys-space-3xs);
     --_perimeter-radius: var(--gds-sys-space-xs);
     --_toggle-border-width-checked: var(--gds-sys-space-s);
-
     --_perimeter-bg-mix: color-mix(
       in srgb,
       var(--gds-sys-color-l3-neutral-02),
@@ -15,19 +14,18 @@ import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as C
       var(--gds-sys-color-l3-neutral-02),
       var(--gds-sys-color-state-neutral-04)
     );
-
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     width: var(--_toggle-size);
     height: var(--_toggle-size);
-
+    margin-block-start: calc(var(--gds-sys-space-5xs) * 2);
     cursor: pointer;
   }
 
-  :not(.rbcb-wrapper) .rbcb {
-    margin-block-start: calc(var(--gds-sys-space-5xs) * 2);
+  .rbcb-wrapper .rbcb {
+    margin-block-start: 0;
   }
 
   .rbcb--radio {
@@ -5885,7 +5883,7 @@ import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as C
       animation: none;
     }
   }
-`,Vc=[j,m8,yc],Lc=[g1,N1,E2,L4,y1,T4,x6,b9,C1,H1,B1,B2,U1,m2,_1,po,b2,V2,M2,y2,e2],kc={compact:{button:"small",input:"small",dropdown:"small",badge:"small"},comfortable:{button:"small",input:"small",dropdown:"small",badge:"small"},spacious:{button:"medium",input:"large",dropdown:"medium",badge:"default"}};var _6,zr,l9,y,m6,Wi,Z8,Fi,dr,Pi,F4,o8,b6,Ni,qi,Yi,Ui,Xi,Ki,Qi,Ji,en,tn,rn,on,sn,nn,Dr,ln,an,dn,cn,Cn,hn,un,pn,gn,Or,fn,vn,_n,mn,bn,Mn,Rr,Wr,M6,yn,Vn,Ln;let A=class extends G{constructor(){super(...arguments),p(this,y),p(this,_6,{}),p(this,zr,300*1e3),p(this,l9,new Map),this.headlineTag="h2",this.searchLabel=m("Search table"),this.options=[5,10,20,50,100],this.page=1,this.rows=10,this.columns=[],this.density="comfortable",this.selectable=!1,this.responsive=!1,this.plain=!1,this.searchable=!1,this.settings=!1,this.striped=!1,this.nocache=!1,this.variant="secondary",this._isMobile=!1,this._view={page:this.page,rows:this.rows,searchQuery:"",visibleColumns:new Set},this._loaded=!0,this._loading=!1,this._rowsState=[],this._total=0,this._selected=new Set,this._error=null}_handleMobile(e){this._isMobile=e}_onDataChange(){Z(this,_6,{}),C(this,y,F4).call(this)}_onColumnsChange(){Z(this,_6,{}),this._view={...this._view,page:Number(this.page??1),rows:Number(this.rows??10),visibleColumns:new Set(this.columns.filter(e=>e.visible!==!1).map(e=>e.key))}}connectedCallback(){super.connectedCallback(),this.updateComplete.then(()=>{C(this,y,yn).call(this)})}render(){const e={table:!0,plain:this.plain,striped:this.striped,[this.density]:this.density};return u`
+`,Vc=[j,m8,yc],Lc=[g1,N1,E2,L4,y1,T4,x6,b9,C1,H1,B1,B2,U1,m2,_1,po,b2,V2,M2,y2,e2],kc={compact:{button:"small",input:"small",dropdown:"small",badge:"small"},comfortable:{button:"small",input:"small",dropdown:"small",badge:"small"},spacious:{button:"medium",input:"large",dropdown:"medium",badge:"default"}};var _6,zr,l9,y,m6,Wi,Z8,Fi,dr,Pi,F4,o8,b6,Ni,qi,Yi,Ui,Xi,Ki,Qi,Ji,en,tn,rn,on,sn,nn,Dr,ln,an,dn,cn,Cn,hn,un,pn,gn,Or,fn,vn,_n,mn,bn,Mn,Rr,Wr,M6,yn,Vn,Ln;let A=class extends G{constructor(){super(...arguments),p(this,y),p(this,_6,{}),p(this,zr,300*1e3),p(this,l9,new Map),this.headlineTag="h2",this.options=[5,10,20,50,100],this.page=1,this.rows=10,this.columns=[],this.density="comfortable",this.selectable=!1,this.responsive=!1,this.plain=!1,this.searchable=!1,this.settings=!1,this.striped=!1,this.nocache=!1,this.variant="secondary",this._isMobile=!1,this._view={page:this.page,rows:this.rows,searchQuery:"",visibleColumns:new Set},this._loaded=!0,this._loading=!1,this._rowsState=[],this._total=0,this._selected=new Set,this._error=null}_handleMobile(e){this._isMobile=e}_onDataChange(){Z(this,_6,{}),C(this,y,F4).call(this)}_onColumnsChange(){Z(this,_6,{}),this._view={...this._view,page:Number(this.page??1),rows:Number(this.rows??10),visibleColumns:new Set(this.columns.filter(e=>e.visible!==!1).map(e=>e.key))}}connectedCallback(){super.connectedCallback(),this.updateComplete.then(()=>{C(this,y,yn).call(this)})}render(){const e={table:!0,plain:this.plain,striped:this.striped,[this.density]:this.density};return u`
       <div class="${W(e)}">
         ${[C(this,y,pn).call(this),C(this,y,Ui).call(this),x(this._error,()=>C(this,y,Cn).call(this),()=>x(this._rowsState.length===0&&!this._loading,()=>C(this,y,hn).call(this),()=>C(this,y,cn).call(this))),C(this,y,un).call(this)]}
       </div>
@@ -5954,7 +5952,7 @@ import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as C
                 size="${a(this,y,m6).input}"
                 plain
                 clearable
-                label="${this.searchLabel}"
+                label="${this.searchLabel||m("Search table")}"
                 .value=${this._view.searchQuery}
                 @input=${C(this,y,gn)}
                 @gds-input-cleared=${C(this,y,Or)}
