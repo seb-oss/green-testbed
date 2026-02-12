@@ -1,4 +1,4 @@
-import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as Co,j as p,k as C,l as a,m as Z,T as m1,n as G,o as j,p as d,w as I,q as V1,r as wn,A as Q,s as J,u as t1,v as r1,x as L,y as _8,z as ho,B as k9,C as w9,D as uo,F as cr,H as Hn,I as Fr,J as z,K as xn,L as po,M as Zn,N as go,O as Sn,P as $n,G as Gn}from"./minus-small-dAavhvfA.js";const Cr=(e,t,o)=>(o.configurable=!0,o.enumerable=!0,Reflect.decorate&&typeof t!="object"&&Object.defineProperty(e,t,o),o);function D(e,t){return(o,s,l)=>{const c=h=>h.renderRoot?.querySelector(e)??null;return Cr(o,s,{get(){return c(this)}})}}let Bn;function In(e){return(t,o)=>Cr(t,o,{get(){return(this.renderRoot??(Bn??=document.createDocumentFragment())).querySelectorAll(e)}})}function R4(e){return(t,o)=>Cr(t,o,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(e)??null}})}function x(e,t,o){return e?t(e):o?.(e)}let k1=class extends n{};k1._regularSVG='<path d="M2.75 15.0938L9 20.25L21.25 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';k1._solidSVG='<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7425 2.99442C22.2979 3.40452 22.4156 4.18717 22.0055 4.74251L10.0055 20.9925C9.80427 21.2651 9.501 21.4442 9.16518 21.489C8.82936 21.5338 8.48974 21.4403 8.22411 21.23L2.22411 16.48C1.68284 16.0515 1.59143 15.2654 2.01993 14.7241C2.44844 14.1828 3.2346 14.0914 3.77587 14.5199L8.76235 18.4675L19.9944 3.2574C20.4045 2.70206 21.1872 2.58432 21.7425 2.99442Z" fill="currentColor"/>';k1._name="checkmark";k1._width=24;k1._height=24;k1._viewBox="0 0 24 24";k1=r([i("gds-icon-checkmark")],k1);var m8=w`
+import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as Co,j as p,k as C,l as a,m as Z,T as m1,n as G,o as j,p as d,w as I,q as V1,r as wn,A as Q,s as J,u as t1,v as r1,x as L,y as _8,z as ho,B as k9,C as w9,D as uo,F as cr,H as Hn,I as Fr,J as z,K as xn,L as po,M as Zn,N as go,O as Sn,P as $n,G as Gn}from"./minus-small-aHWsoMVG.js";const Cr=(e,t,o)=>(o.configurable=!0,o.enumerable=!0,Reflect.decorate&&typeof t!="object"&&Object.defineProperty(e,t,o),o);function D(e,t){return(o,s,l)=>{const c=h=>h.renderRoot?.querySelector(e)??null;return Cr(o,s,{get(){return c(this)}})}}let Bn;function In(e){return(t,o)=>Cr(t,o,{get(){return(this.renderRoot??(Bn??=document.createDocumentFragment())).querySelectorAll(e)}})}function R4(e){return(t,o)=>Cr(t,o,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(e)??null}})}function x(e,t,o){return e?t(e):o?.(e)}let k1=class extends n{};k1._regularSVG='<path d="M2.75 15.0938L9 20.25L21.25 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';k1._solidSVG='<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7425 2.99442C22.2979 3.40452 22.4156 4.18717 22.0055 4.74251L10.0055 20.9925C9.80427 21.2651 9.501 21.4442 9.16518 21.489C8.82936 21.5338 8.48974 21.4403 8.22411 21.23L2.22411 16.48C1.68284 16.0515 1.59143 15.2654 2.01993 14.7241C2.44844 14.1828 3.2346 14.0914 3.77587 14.5199L8.76235 18.4675L19.9944 3.2574C20.4045 2.70206 21.1872 2.58432 21.7425 2.99442Z" fill="currentColor"/>';k1._name="checkmark";k1._width=24;k1._height=24;k1._viewBox="0 0 24 24";k1=r([i("gds-icon-checkmark")],k1);var m8=w`
   .rbcb {
     --_toggle-size: var(--gds-sys-space-m);
     --_toggle-radius: var(--gds-sys-space-3xs);
@@ -368,10 +368,10 @@ import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as C
       box-sizing: border-box;
       border: none;
       cursor: pointer;
-      min-block-size: var(--_block-size);
+      block-size: var(--_block-size);
       background-color: var(--gds-sys-color-l3-neutral-01);
       color: var(--gds-sys-color-content-neutral-03);
-      border-radius: calc(var(--_block-size) / 1.8);
+      border-radius: var(--gds-sys-radius-max);
       font-family: inherit;
       font: var(--gds-sys-text-detail-book-m);
       gap: var(--gds-sys-space-xs);
@@ -411,6 +411,13 @@ import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as C
           var(--gds-sys-color-l3-neutral-01),
           var(--gds-sys-color-state-neutral-02)
         );
+      }
+
+      &:not(.circle) slot:not([name]) {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
@@ -482,7 +489,6 @@ import{a as n,_ as r,g as i,b as w,e as S6,c as V9,d as L9,E as a9,h as u,f as C
       gap: var(--gds-sys-space-3xs);
       font: var(--gds-sys-text-detail-book-xs);
       padding-inline: var(--gds-sys-space-s);
-      padding-block: 0;
     }
 
     :host([size='small']) .button {
