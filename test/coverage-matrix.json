@@ -1,12 +1,12 @@
 {
   "version": "1",
-  "lastUpdated": "2026-02-09",
+  "lastUpdated": "2026-02-12",
   "greenCoreVersion": "2.26.1",
   "components": {
     "gds-button": {
       "category": "canonical",
       "testbedPage": "testbed/components/button.ts",
-      "testSpec": "test/specs/components/button.spec.ts",
+      "testSpec": "test/specs/components/button.interaction.generated.spec.ts",
       "interaction": {
         "status": "pending",
         "interactions": [],
@@ -19,6 +19,10 @@
       "accessibility": {
         "status": "pending",
         "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
       }
     },
     "gds-dropdown": {
@@ -37,6 +41,10 @@
       "accessibility": {
         "status": "pending",
         "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
       }
     },
     "gds-input": {
@@ -55,6 +63,1220 @@
       "accessibility": {
         "status": "pending",
         "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-alert": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-backdrop": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-badge": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-blur": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-breadcrumb": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-breadcrumbs": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-calendar": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-card": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-card-linked": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-card-pattern-01": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-checkbox": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-checkbox-group": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-coachmark": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-context-menu": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-datepicker": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-details": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-dialog": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-div": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-divider": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-fab": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-filter-chip": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-filter-chips": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-flex": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-form-summary": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-formatted-account": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-formatted-date": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-formatted-number": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-grid": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-grouped-list": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-icon-details": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-img": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-link": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-list-item": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-mask": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-menu-button": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-menu-heading": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-option": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-pagination": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-popover": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-radio": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-radio-group": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-rich-text": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-segment": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-segmented-control": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-select": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-sensitive-account": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-sensitive-date": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-sensitive-number": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-signal": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-spinner": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-table": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-text": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-textarea": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-theme": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-video": {
+      "category": "canonical",
+      "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
       }
     }
   }
