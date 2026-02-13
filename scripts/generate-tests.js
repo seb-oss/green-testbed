@@ -550,6 +550,10 @@ async function generateTests({ componentName, category, force }) {
   const categoryLabel = titleCase(category);
 
   if (!entry) throw new Error(`${componentName} not found in coverage matrix`);
+  if (entry.status === "discontinued") {
+    console.log(`${componentName} is discontinued; skipping test generation.`);
+    return;
+  }
   if (!entry[categoryKey]) {
     throw new Error(
       `${componentName} missing '${categoryKey}' section in matrix`,
@@ -686,6 +690,11 @@ Output requirements:
 
   // mark as review (human-in-the-loop)
   entry[categoryKey].status = "review";
+  if (!entry.testSpec) {
+    entry.testSpec = path
+      .relative(process.cwd(), outPath.pathname)
+      .replaceAll("\\", "/");
+  }
   entry.lastUpdated = new Date().toISOString().slice(0, 10);
   matrix.lastUpdated = entry.lastUpdated;
   await writeMatrix(matrix);
@@ -699,6 +708,21 @@ async function generateScaffoldAndRegister({
   scaffoldMode,
   verbose,
 }) {
+  try {
+    const matrix = await readMatrix();
+    const entry = getMatrixEntry(matrix, componentName);
+    if (entry?.status === "discontinued") {
+      if (verbose)
+        console.log(`${componentName} is discontinued; skipping scaffold.`);
+      return {
+        createdOrUpdated: false,
+        filePath: "",
+        registry: "skipped",
+      };
+    }
+  } catch {
+    // ignore and proceed
+  }
   const fileUrl = expectedShowcaseFileUrl(componentName);
   const existing = await readTextOrNull(fileUrl);
   const title = humanTitle(componentName);
@@ -851,6 +875,20 @@ async function generateScaffoldAndRegister({
     );
   } finally {
     await client.stop();
+  }
+
+  const matrix = await readMatrix();
+  const entry = getMatrixEntry(matrix, componentName);
+  if (entry?.status === "discontinued") {
+    if (verbose)
+      console.log(`${componentName} is discontinued; skipping matrix update.`);
+  } else if (!entry?.testbedPage) {
+    entry.testbedPage = path
+      .relative(process.cwd(), fileUrl.pathname)
+      .replaceAll("\\", "/");
+    entry.lastUpdated = new Date().toISOString().slice(0, 10);
+    matrix.lastUpdated = entry.lastUpdated;
+    await writeMatrix(matrix);
   }
 
   return {

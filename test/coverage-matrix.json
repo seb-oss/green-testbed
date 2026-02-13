@@ -138,9 +138,9 @@
     "gds-button": {
       "category": "canonical",
       "testbedPage": "testbed/components/button.ts",
-      "testSpec": "",
+      "testSpec": "test/specs/components/button.interaction.generated.spec.ts",
       "interaction": {
-        "status": "pending",
+        "status": "review",
         "interactions": [],
         "events": [],
         "states": [],
@@ -155,7 +155,8 @@
       "visual": {
         "status": "pending",
         "snapshots": []
-      }
+      },
+      "lastUpdated": "2026-02-13"
     },
     "gds-calendar": {
       "category": "canonical",

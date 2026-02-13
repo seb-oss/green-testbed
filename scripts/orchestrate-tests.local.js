@@ -470,12 +470,24 @@ async function main(args) {
         const targetDir = path.join(baseReportDir, componentName, category);
         await mkdir(targetDir, { recursive: true });
 
-        const specRel = generatedSpecPath(componentName, category);
         const matrix = await readMatrix();
         let scaffoldRel = null;
+        let specRel = generatedSpecPath(componentName, category);
         try {
           const entry = getMatrixEntry(matrix, componentName);
+          if (entry?.status === "discontinued") {
+            logger.warn(`Skipping discontinued component: ${componentName}`);
+            runReport.results.push({
+              targetId,
+              status: "skipped",
+              reason: "discontinued",
+            });
+            continue;
+          }
           scaffoldRel = entry?.testbedPage ?? null;
+          if (entry?.testSpec) {
+            specRel = entry.testSpec;
+          }
         } catch {
           // ignore
         }
