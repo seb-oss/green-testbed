@@ -1,74 +1,8 @@
 {
   "version": "1",
-  "lastUpdated": "2026-02-12",
+  "lastUpdated": "2026-02-13",
   "greenCoreVersion": "2.26.1",
   "components": {
-    "gds-button": {
-      "category": "canonical",
-      "testbedPage": "testbed/components/button.ts",
-      "testSpec": "test/specs/components/button.interaction.generated.spec.ts",
-      "interaction": {
-        "status": "pending",
-        "interactions": [],
-        "events": [],
-        "states": [],
-        "keyboardNav": [],
-        "validation": [],
-        "edgeCases": []
-      },
-      "accessibility": {
-        "status": "pending",
-        "checks": []
-      },
-      "visual": {
-        "status": "pending",
-        "snapshots": []
-      }
-    },
-    "gds-dropdown": {
-      "category": "canonical",
-      "testbedPage": "testbed/components/dropdown.ts",
-      "testSpec": "test/specs/components/dropdown.spec.ts",
-      "interaction": {
-        "status": "pending",
-        "interactions": [],
-        "events": [],
-        "states": [],
-        "keyboardNav": [],
-        "validation": [],
-        "edgeCases": []
-      },
-      "accessibility": {
-        "status": "pending",
-        "checks": []
-      },
-      "visual": {
-        "status": "pending",
-        "snapshots": []
-      }
-    },
-    "gds-input": {
-      "category": "canonical",
-      "testbedPage": "testbed/components/input.ts",
-      "testSpec": "test/specs/components/input.spec.ts",
-      "interaction": {
-        "status": "pending",
-        "interactions": [],
-        "events": [],
-        "states": [],
-        "keyboardNav": [],
-        "validation": [],
-        "edgeCases": []
-      },
-      "accessibility": {
-        "status": "pending",
-        "checks": []
-      },
-      "visual": {
-        "status": "pending",
-        "snapshots": []
-      }
-    },
     "gds-alert": {
       "category": "canonical",
       "testbedPage": "",
@@ -182,6 +116,28 @@
     "gds-breadcrumbs": {
       "category": "canonical",
       "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-button": {
+      "category": "canonical",
+      "testbedPage": "testbed/components/button.ts",
       "testSpec": "",
       "interaction": {
         "status": "pending",
@@ -487,6 +443,28 @@
         "snapshots": []
       }
     },
+    "gds-dropdown": {
+      "category": "canonical",
+      "testbedPage": "testbed/components/dropdown.ts",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
     "gds-fab": {
       "category": "canonical",
       "testbedPage": "",
@@ -732,6 +710,28 @@
     "gds-img": {
       "category": "canonical",
       "testbedPage": "",
+      "testSpec": "",
+      "interaction": {
+        "status": "pending",
+        "interactions": [],
+        "events": [],
+        "states": [],
+        "keyboardNav": [],
+        "validation": [],
+        "edgeCases": []
+      },
+      "accessibility": {
+        "status": "pending",
+        "checks": []
+      },
+      "visual": {
+        "status": "pending",
+        "snapshots": []
+      }
+    },
+    "gds-input": {
+      "category": "canonical",
+      "testbedPage": "testbed/components/input.ts",
       "testSpec": "",
       "interaction": {
         "status": "pending",

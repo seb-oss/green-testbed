@@ -166,19 +166,54 @@ Output:
 `;
 }
 
-export function buildMatrixSyncInventoryPrompt({ maxResults }) {
-  return `Use the Green MCP tool green.search_components to list all Green web components.
+export function buildMatrixSyncAgentPrompt({ applyMode }) {
+  return `You are a test engineer tasked with maintaining the Coverage Matrix. This JSON document informs the QA team what the current status of the test bed is. The document makes it clear which features have coverage and which do not.
 
-Requirements:
-- Call green.search_components with:
-  - query: '^gds-'
-  - category: 'component'
-  - useRegex: true
-  - splitTerms: false
-  - maxResults: ${maxResults}
-- Return ONLY valid JSON of the form:
-  {"components": ["gds-button", "gds-input", ...]}
-- Include ONLY tag names that start with 'gds-'.
-- Sort the components alphabetically.
+Goal:
+- Use repo evidence (tests + testbed pages) and Green MCP component API docs to update test/coverage-matrix.json.
+
+Required process:
+1) Read test/coverage-matrix.json using read_text.
+2) For each component in the provided inventory, read its testbed page (if present) and its test specs (if present) using read_text.
+3) Call green.get_component_docs with framework 'web-component' for each component you are evaluating. Also set 'includeGuidelines' and 'includeInstructions' to true to get the most context on component features.
+4) Judge whether the matrix reflects real-world coverage and update it.
+
+Rules:
+- Respect the provided schema and allowed statuses (pending, review, blocked, validated).
+- Interaction + Accessibility sections are required for every component.
+- Visual is optional; include only if evidence exists.
+- Prefer stable file references: use testbed/components/<name>.ts and test/specs/components/<name>.*.spec.ts when available.
+- ALL components from the inventory must be present in the matrix, even if they have no coverage (use pending/unknown status and empty evidence in that case).
+
+Output:
+- If applyMode=true: write ONLY via write_matrix (do not output markdown).
+- If applyMode=false: do NOT call write_matrix; output JSON {"proposedMatrix": { ... }}.
+
+applyMode: ${applyMode ? "true" : "false"}
+`;
+}
+
+export function buildMatrixSyncComponentAgentPrompt() {
+  return `You are a test engineer tasked with maintaining the Coverage Matrix for ONE component at a time.
+
+Goal:
+- Given a single component context payload (inventory + repo evidence + current matrix entry), produce an updated matrix entry for ONLY that component.
+
+Required process:
+1) Use the provided context payload as your starting point.
+2) If a testbed page/spec is available, read it using read_text to confirm what is actually implemented.
+3) Call green.get_component_docs with framework 'web-component' for the target component. Also set 'includeGuidelines' and 'includeInstructions' to true.
+4) Update ONLY the single component entry to reflect requirements and repo evidence.
+
+Rules:
+- Do NOT attempt to update other components.
+- Do NOT attempt to write the full matrix.
+- Respect allowed per-category statuses (pending, review, blocked, validated).
+- Interaction + Accessibility sections are required.
+- Visual is required in this workflow (include it even if pending).
+
+Output:
+- Output ONLY valid JSON (no markdown fences, no commentary) in this exact shape:
+  {"componentName": "gds-...", "entry": { ... }}
 `;
 }

@@ -26,6 +26,13 @@ export const COMPONENT_SHOWCASES: ComponentShowcaseEntry[] = [
     elementTag: "gds-input-showcase",
     load: () => import("./input.js"),
   },
+
+  {
+    name: "button",
+    title: "Button",
+    elementTag: "button-showcase",
+    load: () => import("./button.js"),
+  },
 ];
 
 export function getShowcaseEntry(name: string): ComponentShowcaseEntry | null {
