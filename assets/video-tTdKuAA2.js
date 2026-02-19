@@ -1,4 +1,4 @@
-import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as uo,j as p,k as C,l as a,m as Z,T as m1,n as G,o as j,p as d,w as I,q as V1,r as xn,A as Q,s as J,u as t1,v as r1,x as L,y as m8,z as po,B as w9,C as H9,D as go,F as Cr,H as Zn,I as Nr,J as z,K as Sn,L as fo,M as $n,N as vo,O as Gn,P as Bn,G as In}from"./minus-small-BN-SXPes.js";const hr=(e,t,o)=>(o.configurable=!0,o.enumerable=!0,Reflect.decorate&&typeof t!="object"&&Object.defineProperty(e,t,o),o);function D(e,t){return(o,s,l)=>{const c=h=>h.renderRoot?.querySelector(e)??null;return hr(o,s,{get(){return c(this)}})}}let En;function jn(e){return(t,o)=>hr(t,o,{get(){return(this.renderRoot??(En??=document.createDocumentFragment())).querySelectorAll(e)}})}function W4(e){return(t,o)=>hr(t,o,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(e)??null}})}function H(e,t,o){return e?t(e):o?.(e)}let k1=class extends n{};k1._regularSVG='<path d="M2.75 15.0938L9 20.25L21.25 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';k1._solidSVG='<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7425 2.99442C22.2979 3.40452 22.4156 4.18717 22.0055 4.74251L10.0055 20.9925C9.80427 21.2651 9.501 21.4442 9.16518 21.489C8.82936 21.5338 8.48974 21.4403 8.22411 21.23L2.22411 16.48C1.68284 16.0515 1.59143 15.2654 2.01993 14.7241C2.44844 14.1828 3.2346 14.0914 3.77587 14.5199L8.76235 18.4675L19.9944 3.2574C20.4045 2.70206 21.1872 2.58432 21.7425 2.99442Z" fill="currentColor"/>';k1._name="checkmark";k1._width=24;k1._height=24;k1._viewBox="0 0 24 24";k1=r([i("gds-icon-checkmark")],k1);var b8=w`
+import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as uo,j as p,k as C,l as a,m as Z,T as m1,n as G,o as j,p as d,w as I,q as V1,r as xn,A as Q,s as J,u as t1,v as r1,x as L,y as m8,z as po,B as w9,C as H9,D as go,F as Cr,H as Zn,I as Nr,J as z,K as Sn,L as fo,M as $n,N as vo,O as Gn,P as Bn,G as In}from"./minus-small-Gh2u7hpr.js";const hr=(e,t,o)=>(o.configurable=!0,o.enumerable=!0,Reflect.decorate&&typeof t!="object"&&Object.defineProperty(e,t,o),o);function D(e,t){return(o,s,l)=>{const c=h=>h.renderRoot?.querySelector(e)??null;return hr(o,s,{get(){return c(this)}})}}let En;function jn(e){return(t,o)=>hr(t,o,{get(){return(this.renderRoot??(En??=document.createDocumentFragment())).querySelectorAll(e)}})}function W4(e){return(t,o)=>hr(t,o,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(e)??null}})}function H(e,t,o){return e?t(e):o?.(e)}let k1=class extends n{};k1._regularSVG='<path d="M2.75 15.0938L9 20.25L21.25 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';k1._solidSVG='<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7425 2.99442C22.2979 3.40452 22.4156 4.18717 22.0055 4.74251L10.0055 20.9925C9.80427 21.2651 9.501 21.4442 9.16518 21.489C8.82936 21.5338 8.48974 21.4403 8.22411 21.23L2.22411 16.48C1.68284 16.0515 1.59143 15.2654 2.01993 14.7241C2.44844 14.1828 3.2346 14.0914 3.77587 14.5199L8.76235 18.4675L19.9944 3.2574C20.4045 2.70206 21.1872 2.58432 21.7425 2.99442Z" fill="currentColor"/>';k1._name="checkmark";k1._width=24;k1._height=24;k1._viewBox="0 0 24 24";k1=r([i("gds-icon-checkmark")],k1);var b8=w`
   .rbcb {
     --_toggle-size: var(--gds-sys-space-m);
     --_toggle-radius: var(--gds-sys-space-3xs);
@@ -2840,7 +2840,7 @@ import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as u
               >
                 ${this.value.length}</gds-badge
               >`)}
-          ${H(this.clearable&&this.value&&!this.disabled,()=>u`<gds-button
+          ${H(this.clearable&&!this.disabled&&(Array.isArray(this.value)?this.value.length>0:!!this.value),()=>u`<gds-button
                 id="clear-btn"
                 rank="tertiary"
                 size=${this.size==="small"?"xs":"small"}
@@ -6179,7 +6179,7 @@ import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as u
           <gds-text
             tag="${this.headlineTag}"
             font="heading-s"
-            text-wrap="balance"
+            text-wrap="pretty"
             max-width="80ch"
           >
             ${this.headline}
@@ -6187,7 +6187,7 @@ import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as u
           <gds-text
             tag="p"
             font=${this.density==="compact"?"body-regular-s":"body-regular-m"}
-            text-wrap="balance"
+            text-wrap="pretty"
             max-width="80ch"
           >
             ${this.summary}
