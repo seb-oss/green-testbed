@@ -1,4 +1,4 @@
-import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as uo,j as p,k as C,l as a,m as Z,T as m1,n as G,o as j,p as d,w as I,q as V1,r as xn,A as Q,s as J,u as t1,v as r1,x as L,y as m8,z as po,B as w9,C as H9,D as go,F as Cr,H as Zn,I as Nr,J as z,K as Sn,L as fo,M as $n,N as vo,O as Gn,P as Bn,G as In}from"./minus-small-Gh2u7hpr.js";const hr=(e,t,o)=>(o.configurable=!0,o.enumerable=!0,Reflect.decorate&&typeof t!="object"&&Object.defineProperty(e,t,o),o);function D(e,t){return(o,s,l)=>{const c=h=>h.renderRoot?.querySelector(e)??null;return hr(o,s,{get(){return c(this)}})}}let En;function jn(e){return(t,o)=>hr(t,o,{get(){return(this.renderRoot??(En??=document.createDocumentFragment())).querySelectorAll(e)}})}function W4(e){return(t,o)=>hr(t,o,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(e)??null}})}function H(e,t,o){return e?t(e):o?.(e)}let k1=class extends n{};k1._regularSVG='<path d="M2.75 15.0938L9 20.25L21.25 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';k1._solidSVG='<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7425 2.99442C22.2979 3.40452 22.4156 4.18717 22.0055 4.74251L10.0055 20.9925C9.80427 21.2651 9.501 21.4442 9.16518 21.489C8.82936 21.5338 8.48974 21.4403 8.22411 21.23L2.22411 16.48C1.68284 16.0515 1.59143 15.2654 2.01993 14.7241C2.44844 14.1828 3.2346 14.0914 3.77587 14.5199L8.76235 18.4675L19.9944 3.2574C20.4045 2.70206 21.1872 2.58432 21.7425 2.99442Z" fill="currentColor"/>';k1._name="checkmark";k1._width=24;k1._height=24;k1._viewBox="0 0 24 24";k1=r([i("gds-icon-checkmark")],k1);var b8=w`
+import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as uo,j as p,k as C,l as a,m as Z,T as m1,n as G,o as j,p as d,w as I,q as V1,r as xn,A as Q,s as J,u as t1,v as r1,x as L,y as m8,z as po,B as w9,C as H9,D as go,F as Cr,H as Zn,I as Nr,J as z,K as Sn,L as fo,M as $n,N as vo,O as Gn,P as Bn,G as In}from"./minus-small-WkLPDTGR.js";const hr=(e,t,o)=>(o.configurable=!0,o.enumerable=!0,Reflect.decorate&&typeof t!="object"&&Object.defineProperty(e,t,o),o);function D(e,t){return(o,s,l)=>{const c=h=>h.renderRoot?.querySelector(e)??null;return hr(o,s,{get(){return c(this)}})}}let En;function jn(e){return(t,o)=>hr(t,o,{get(){return(this.renderRoot??(En??=document.createDocumentFragment())).querySelectorAll(e)}})}function W4(e){return(t,o)=>hr(t,o,{async get(){return await this.updateComplete,this.renderRoot?.querySelector(e)??null}})}function H(e,t,o){return e?t(e):o?.(e)}let k1=class extends n{};k1._regularSVG='<path d="M2.75 15.0938L9 20.25L21.25 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';k1._solidSVG='<path fill-rule="evenodd" clip-rule="evenodd" d="M21.7425 2.99442C22.2979 3.40452 22.4156 4.18717 22.0055 4.74251L10.0055 20.9925C9.80427 21.2651 9.501 21.4442 9.16518 21.489C8.82936 21.5338 8.48974 21.4403 8.22411 21.23L2.22411 16.48C1.68284 16.0515 1.59143 15.2654 2.01993 14.7241C2.44844 14.1828 3.2346 14.0914 3.77587 14.5199L8.76235 18.4675L19.9944 3.2574C20.4045 2.70206 21.1872 2.58432 21.7425 2.99442Z" fill="currentColor"/>';k1._name="checkmark";k1._width=24;k1._height=24;k1._viewBox="0 0 24 24";k1=r([i("gds-icon-checkmark")],k1);var b8=w`
   .rbcb {
     --_toggle-size: var(--gds-sys-space-m);
     --_toggle-radius: var(--gds-sys-space-3xs);
@@ -4737,10 +4737,12 @@ import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as u
       width: 100%;
       position: relative;
       overflow: hidden;
+      --_gds-segment-scroll-margin-inline: 2.75rem;
     }
 
     :host([size='small']) {
       height: 2.5rem;
+      --_gds-segment-scroll-margin-inline: 2.25rem;
     }
 
     #track {
@@ -4748,6 +4750,7 @@ import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as u
       display: flex;
       flex-grow: 1;
       scroll-snap-type: inline mandatory;
+      scroll-padding-inline: var(--_gds-segment-scroll-margin-inline);
       overscroll-behavior-x: contain;
       scroll-behavior: smooth;
       overflow-x: scroll;
@@ -4815,7 +4818,7 @@ import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as u
       flex-grow: 1;
       flex-shrink: 0;
       z-index: 1;
-      scroll-margin: 0 2.75rem;
+      scroll-margin-inline: var(--_gds-segment-scroll-margin-inline);
       scroll-snap-align: start;
     }
 
@@ -4832,7 +4835,7 @@ import{a as n,_ as r,g as i,b as w,e as G6,c as L9,d as k9,E as d9,h as u,f as u
       z-index: 0;
     }
   }
-`;var hc=Cc,B4,tr,Ii,rr,or,sr,l9,r8,ir,nr;const uc=(e,t)=>{let o;return()=>{clearTimeout(o),o=setTimeout(e,t)}};let R1=class extends r1(J(t1(G))){constructor(){super(...arguments),p(this,tr),this.size="medium",p(this,B4),this._showPrevButton=!1,this._showNextButton=!1,this.intersectionObserver=null,p(this,rr,()=>{const e=this.segments.filter((t,o,s)=>s[o+1]?.isVisible&&!t.isVisible)[0];e&&(this._elTrack.scrollLeft-=e.offsetWidth)}),p(this,or,()=>{const e=this.segments.filter((t,o,s)=>s[o-1]?.isVisible&&!t.isVisible).reverse()[0];e&&(this._elTrack.scrollLeft+=e.offsetWidth)}),p(this,sr,()=>{this.segments.every(e=>!e.isVisible)||(this._showPrevButton=!this.segments[0].isVisible,this._showNextButton=!this.segments[this.segments.length-1].isVisible)}),p(this,l9,uc(a(this,sr),50)),p(this,r8,()=>{const e=this.segments.find(t=>t.selected);if(e){const t=e.offsetWidth,o=e.offsetLeft;this._elIndicator.style.transform=`translateX(${o}px)`,this._elIndicator.style.width=`${t}px`}else this._elIndicator.style.transform="translateX(-100%)",this._elIndicator.style.width="0px"}),p(this,ir,e=>{const t=this.segments.find(o=>o===e.target||o.contains(e.target));t&&(this.segments.forEach(o=>o.selected=!1),t.selected=!0,Z(this,B4,t.value),a(this,r8).call(this),this.dispatchCustomEvent("change",{detail:{segment:t},bubbles:!0,composed:!0}))}),p(this,nr,()=>{a(this,B4)&&this.updateComplete.then(()=>{const e=this.segments.find(t=>t.value===a(this,B4));e&&(this.segments.forEach(t=>t.selected=!1),e.selected=!0,this._elTrack.scrollLeft=e.offsetLeft)})})}get value(){return a(this,B4)}set value(e){Z(this,B4,e),a(this,nr).call(this)}get segments(){return this._elSlot?this._elSlot.assignedElements():[]}connectedCallback(){super.connectedCallback(),m1.instance.apply(this,"gds-segmented-control"),this.updateComplete.then(()=>{this._elTrack.addEventListener("scroll",()=>{a(this,l9).call(this)})})}render(){return u`<button
+`;var hc=Cc,B4,tr,Ii,rr,or,sr,l9,r8,ir,nr;const uc=(e,t)=>{let o;return()=>{clearTimeout(o),o=setTimeout(e,t)}};let R1=class extends r1(J(t1(G))){constructor(){super(...arguments),p(this,tr),this.size="medium",p(this,B4),this._showPrevButton=!1,this._showNextButton=!1,this.intersectionObserver=null,p(this,rr,()=>{const e=this.segments.filter((t,o,s)=>s[o+1]?.isVisible&&!t.isVisible)[0];e&&(this._elTrack.scrollLeft-=e.offsetWidth)}),p(this,or,()=>{const e=this.segments.filter((t,o,s)=>s[o-1]?.isVisible&&!t.isVisible).reverse()[0];e&&(this._elTrack.scrollLeft+=e.offsetWidth)}),p(this,sr,()=>{this.segments.every(e=>!e.isVisible)||(this._showPrevButton=!this.segments[0].isVisible,this._showNextButton=!this.segments[this.segments.length-1].isVisible)}),p(this,l9,uc(a(this,sr),50)),p(this,r8,()=>{const e=this.segments.find(t=>t.selected);if(e){const t=e.offsetWidth,o=e.offsetLeft;this._elIndicator.style.transform=`translateX(${o}px)`,this._elIndicator.style.width=`${t}px`}else this._elIndicator.style.transform="translateX(-100%)",this._elIndicator.style.width="0px"}),p(this,ir,e=>{const t=this.segments.find(o=>o===e.target||o.contains(e.target));t&&(this.segments.forEach(o=>o.selected=!1),t.selected=!0,Z(this,B4,t.value),a(this,r8).call(this),this.dispatchCustomEvent("change",{detail:{segment:t},bubbles:!0,composed:!0}))}),p(this,nr,()=>{a(this,B4)&&this.updateComplete.then(()=>{const e=this.segments.find(t=>t.value===a(this,B4));e&&(this.segments.forEach(t=>t.selected=!1),e.selected=!0,e.scrollIntoView({block:"nearest",inline:"nearest"}))})})}get value(){return a(this,B4)}set value(e){Z(this,B4,e),a(this,nr).call(this)}get segments(){return this._elSlot?this._elSlot.assignedElements():[]}connectedCallback(){super.connectedCallback(),m1.instance.apply(this,"gds-segmented-control"),this.updateComplete.then(()=>{this._elTrack.addEventListener("scroll",()=>{a(this,l9).call(this)})})}render(){return u`<button
         aria-hidden=${!this._showPrevButton}
         ?inert=${!this._showPrevButton}
         id="btn-prev"
